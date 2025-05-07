@@ -2,7 +2,7 @@
 using TMPro;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamageable
 {
     private Rigidbody2D rb;
     [SerializeField] private int maxHealth = 100;
@@ -21,7 +21,7 @@ public class Enemy : MonoBehaviour
         int finalDamage = attackData.damage;
         if (attackData.IsCriticalHit())
         {
-            finalDamage = (int) (finalDamage* attackData.criticalMultiplier);
+            finalDamage = (int) (finalDamage * attackData.criticalMultiplier);
         }
 
         //damage
@@ -53,7 +53,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    // Hiệu ứng Stun - đối thủ không thể di chuyển trong một khoảng thời gian
     private IEnumerator ApplyStun(float duration)
     {
         if (!isStunned)
@@ -69,17 +68,19 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
     // Hiệu ứng Knockback - đẩy đối thủ ra ngoài
     private void ApplyKnockback()
-    {
-        Vector3 knockbackDirection = transform.position - Camera.main.transform.position;
-        rb.velocity = knockbackDirection * 1f + Vector3.up * 0.5f;
+    {    
         Debug.Log("Enemy Knocked Back!");
+        Vector3 knockbackDirection = transform.position - Camera.main.transform.position;
+        rb.velocity = knockbackDirection * 3f + Vector3.up * 10f;
     }
 
     private void Die()
     {
+
         Debug.Log("Enemy died!");
-        Destroy(gameObject);
+        Destroy(gameObject, 1f);
     }
 }

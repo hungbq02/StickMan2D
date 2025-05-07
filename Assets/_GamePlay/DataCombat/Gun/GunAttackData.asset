@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   knockbackForce: 2
-  criticalChance: 0
-  criticalMultiplier: 0
+  criticalChance: 0.05
+  criticalMultiplier: 1.5
   range: 0
   effectDuration: 0
   attackEffect: 0

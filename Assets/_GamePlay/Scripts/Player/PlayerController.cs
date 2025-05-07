@@ -17,14 +17,13 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Vector2 originalOffsetCollider;
 
     [Tooltip("Animation player, Animation combat")]
-
     public AnimationController AnimationController { get; private set; }
 
     [Tooltip("Get/Set WeaponType hiện tại ")]
     public WeaponManager weaponManager { get; private set; }
 
     public int FacingDirection { get; private set; } = 1; // 1 = right, -1 = left
-    public int LastWallJumpDirection { get; set; } = 0; // 0 = none, 1 = right, -1 = left
+    public int LastWallJumpDirection { get; set; } = 0; // 0 = reset, 1 = right, -1 = left
 
     public IAttackHandler meleeHandler;
     public IAttackHandler gunHandler;
@@ -48,7 +47,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Current Attack Data: " + currentWeaponAttackProfile.attackDataList[comboIndex]);
             return currentWeaponAttackProfile.attackDataList[comboIndex];
         }
-        Debug.LogError("AttackDataSO not found for current weapon type: " + weaponManager.CurrentType);
         return null;
     }
     public WeaponAttackDataSO GetCurrentWeaponAttackProfile()

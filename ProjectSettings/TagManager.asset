@@ -14,11 +14,11 @@ TagManager:
   - 
   - Water
   - UI
-  - Ground
-  - Wall
+  - Player
   - Enemy
+  - Ground
   - Ladder
-  - 
+  - Wall
   - 
   - 
   - 

@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00c7268136c3e8340bbf6ed9d6c6b914, type: 3}
   m_Name: SwordAttack2Data
   m_EditorClassIdentifier: 
-  damage: 20
-  effect: 0
-  isCritical: 0
+  damage: 15
   knockbackForce: 2
+  criticalChance: 0.2
+  criticalMultiplier: 2
+  range: 0
+  effectDuration: 0
+  attackEffect: 0

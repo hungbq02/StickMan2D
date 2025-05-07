@@ -56,10 +56,6 @@ public class FallState : State
         player.CheckIfShouldFlip(moveX);
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
 
     public override void FixedUpdate()
     {
@@ -69,5 +65,10 @@ public class FallState : State
         Vector2 velocity = player.Rigidbody.velocity;
         velocity.x = horizontal * player.stats.moveSpeed;
         player.Rigidbody.velocity = velocity;
+    }    
+    public override void Exit()
+    {
+        base.Exit();
     }
+
 }

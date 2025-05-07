@@ -13,6 +13,9 @@ MonoBehaviour:
   m_Name: SwordAttack3Data
   m_EditorClassIdentifier: 
   damage: 20
-  effect: 0
-  isCritical: 0
   knockbackForce: 2
+  criticalChance: 0.5
+  criticalMultiplier: 2
+  range: 0
+  effectDuration: 0
+  attackEffect: 0

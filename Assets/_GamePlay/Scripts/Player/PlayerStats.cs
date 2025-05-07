@@ -46,7 +46,4 @@ public class PlayerStats
     public float attackComboCooldown = 0.4f;
     [Tooltip("sát thương chí mạng (gốc * criticalDamageMultiplier)")]
     public float criticalDamageMultiplier = 2f;
-
-    [Header("Physics")]
-    public float gravityScale = 3f;
 }

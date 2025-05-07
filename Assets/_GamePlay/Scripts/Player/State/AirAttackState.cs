@@ -9,6 +9,7 @@ public class AirAttackState : State
     private Vector2 diveDirection;
 
     //Key: WeaponType, Value: AttackComboIndex
+    // This dictionary maps the weapon type to the corresponding attack index for air attacks.
     private static readonly Dictionary<WeaponType, int> airAttackIndexMap = new Dictionary<WeaponType, int>
 {
     { WeaponType.Fighter, AttackComboIndex.Fighter.AirAttack },
@@ -24,10 +25,11 @@ public class AirAttackState : State
     public override void Enter()
     {
         base.Enter();
+
         if (airAttackIndexMap.TryGetValue(player.weaponManager.CurrentType, out int attackIndex))
         {
             Debug.Log($"AirAttack: {player.weaponManager.CurrentType} - {attackIndex}");
-            player.SetCurrentAttackData(player.GetCurrentAttackData(attackIndex));
+            player.SetCurrentAttackData(player.GetCurrentAttackData(attackIndex)); //Set AttackData cho AirAttack
             //AirAttack Fighter
             isFighterDive = player.weaponManager.CurrentType == WeaponType.Fighter;
             isSwordAirAttack = player.weaponManager.CurrentType == WeaponType.Sword;
@@ -35,7 +37,7 @@ public class AirAttackState : State
             if (isFighterDive)
             {
                 // Đá chéo: hướng 45 độ xuống theo hướng nhân vật
-                diveDirection = new Vector2(player.FacingDirection, -0.3f).normalized;
+                diveDirection = new Vector2(player.FacingDirection, -0.2f).normalized;
                 player.Rigidbody.velocity = diveDirection * player.stats.diveSpeed;
             }
         }
