@@ -39,7 +39,7 @@ public class PlayerAnimationAttack : MonoBehaviour
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(fighterAttackOrigin.position, fighterAttackRange, enemyLayer); //Kiểm tra đối tượng hiện có bên trong
         // Lấy AttackData tương ứng với WeaponType
-        AttackDataSO attackData = player.CurrentAttackData;
+        AttackDataSO attackData = player.weaponAttackManager.CurrentAttackData;
 
         foreach (Collider2D collider in colliders)
         {
@@ -60,7 +60,7 @@ public class PlayerAnimationAttack : MonoBehaviour
     {
         Collider2D[] colliders = Physics2D.OverlapCircleAll(swordAttackOrigin.position, swordAttackRange, enemyLayer); //Kiểm tra va chạm trên đường di chuyển
         // Lấy AttackData tương ứng với WeaponType
-        AttackDataSO attackData = player.CurrentAttackData;
+        AttackDataSO attackData = player.weaponAttackManager.CurrentAttackData;
 
         foreach (Collider2D collider in colliders)
         {
@@ -82,7 +82,7 @@ public class PlayerAnimationAttack : MonoBehaviour
     public void FighterAirAttack()
     {
         // Lấy AttackData tương ứng với WeaponType
-        AttackDataSO attackData = player.CurrentAttackData; 
+        AttackDataSO attackData = player.weaponAttackManager.CurrentAttackData; 
 
         // Thiết lập hướng đá chéo và khoảng cách quét
         Vector2 origin = fighterAirAttackOrigin.position;

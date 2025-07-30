@@ -24,7 +24,7 @@ public class AnimationController : MonoBehaviour
         return hash;
     }
     // Phát animation theo loại vũ khí và combo (cho melee weapon)
-    public void PlayAttackCombo(WeaponType type, int combo)
+    public void PlayAttack(WeaponType type, int combo)
     {
         string anim = $"attack{combo}_{type}";
         animator.Play(GetHash(anim));
@@ -41,7 +41,7 @@ public class AnimationController : MonoBehaviour
         string anim = $"airAttack_{weaponType}";
         animator.Play(GetHash(anim));
     }
-
+    //Play animation 
     public void Play(PlayerStateType stateType)
     {
         string animKey = $"{stateType}_{weaponManager.CurrentType}";

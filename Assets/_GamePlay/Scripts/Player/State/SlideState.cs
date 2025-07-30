@@ -74,5 +74,10 @@ public class SlideState : State
         player.Rigidbody.velocity = new Vector2(0f, player.Rigidbody.velocity.y);
         player.ResetCollider();
     }
+    public override void OnWeaponChanged(AnimationController animationController)
+    {
+        base.OnWeaponChanged(animationController);
+        animationController.Play(PlayerStateType.slide);
+    }
 }
 

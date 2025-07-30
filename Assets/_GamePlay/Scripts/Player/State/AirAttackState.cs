@@ -29,7 +29,8 @@ public class AirAttackState : State
         if (airAttackIndexMap.TryGetValue(player.weaponManager.CurrentType, out int attackIndex))
         {
             Debug.Log($"AirAttack: {player.weaponManager.CurrentType} - {attackIndex}");
-            player.SetCurrentAttackData(player.GetCurrentAttackData(attackIndex)); //Set AttackData cho AirAttack
+            //    player.SetCurrentAttackData(player.GetCurrentAttackData(attackIndex)); //Set AttackData cho AirAttack
+            player.weaponAttackManager.SetCurrentAttackData(player.weaponAttackManager.GetCurrentAttackData(attackIndex)); //Set AttackData cho AirAttack
             //AirAttack Fighter
             isFighterDive = player.weaponManager.CurrentType == WeaponType.Fighter;
             isSwordAirAttack = player.weaponManager.CurrentType == WeaponType.Sword;
@@ -53,7 +54,7 @@ public class AirAttackState : State
     {
         base.Update();
 
-        
+
         if (player.GroundCheck.IsGrounded)
         {
             // Nếu chạm đất thì chuyển về trạng thái Land

@@ -53,4 +53,9 @@ public class WallSlideState : State
             player.SetVelocityY(player.stats.wallSlideSpeed);
         }
     }
+    public override void OnWeaponChanged(AnimationController animationController)
+    {
+        base.OnWeaponChanged(animationController);
+        animationController.Play(PlayerStateType.wallSlide);
+    }
 }

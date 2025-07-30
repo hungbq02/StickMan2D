@@ -61,4 +61,9 @@ public class RunState : State
     {
         base.Exit();
     }
+    public override void OnWeaponChanged(AnimationController animationController)
+    {
+        base.OnWeaponChanged(animationController);
+        animationController.Play(PlayerStateType.run);
+    }
 }

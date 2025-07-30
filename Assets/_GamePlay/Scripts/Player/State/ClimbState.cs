@@ -57,4 +57,10 @@ public class ClimbState : State
         player.AnimationController.SetSpeedAnimation(1f);
         player.Rigidbody.gravityScale = 3f;
     }
+
+    public override void OnWeaponChanged(AnimationController animationController)
+    {
+        base.OnWeaponChanged(animationController);
+        animationController.Play(PlayerStateType.climb);
+    }
 }

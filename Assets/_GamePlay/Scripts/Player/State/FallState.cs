@@ -70,5 +70,10 @@ public class FallState : State
     {
         base.Exit();
     }
+    public override void OnWeaponChanged(AnimationController animationController)
+    {
+        base.OnWeaponChanged(animationController);
+        animationController.Play(PlayerStateType.fall);
+    }
 
 }

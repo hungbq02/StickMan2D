@@ -10,10 +10,4 @@ public class AttackDataSO : ScriptableObject
     public float range; // Khoảng cách tấn công
     public float effectDuration; // Thời gian hiệu ứng (nếu có)
     public AttackEffect attackEffect; // Loại hiệu ứng
-
-    // Hàm tính xác suất chí mạng
-    public bool IsCriticalHit()
-    {
-        return Random.Range(0f, 1f) <= criticalChance;
-    }
 }

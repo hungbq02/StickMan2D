@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputHandler))]
+[RequireComponent(typeof(PlayerStateMachine))]
+[RequireComponent(typeof(WeaponManager))]
+[RequireComponent(typeof(WeaponAttackManager))]
 public class PlayerController : MonoBehaviour
 {
     public Animator animator;
@@ -19,9 +21,6 @@ public class PlayerController : MonoBehaviour
     [Tooltip("Animation player, Animation combat")]
     public AnimationController AnimationController { get; private set; }
 
-    [Tooltip("Get/Set WeaponType hiện tại ")]
-    public WeaponManager weaponManager { get; private set; }
-
     public int FacingDirection { get; private set; } = 1; // 1 = right, -1 = left
     public int LastWallJumpDirection { get; set; } = 0; // 0 = reset, 1 = right, -1 = left
 
@@ -30,38 +29,10 @@ public class PlayerController : MonoBehaviour
 
     public bool canDash { get; set; } = true;
 
-    [Tooltip("Chỉ mình các vũ khí cận chiến (fighter, sword), riêng Gun Data được gắn ở Bullet")]
-    public List<WeaponAttackDataSO> weaponAttackDataList;
-
-    //Get current WeaponAttackDataSO 
-    private WeaponAttackDataSO currentWeaponAttackProfile;
-
-
-    private AttackDataSO currentAttackData;
-    public AttackDataSO CurrentAttackData => currentAttackData;
-
-    public AttackDataSO GetCurrentAttackData(int comboIndex = 0)
-    {
-        if (currentWeaponAttackProfile != null && comboIndex >= 0 && comboIndex < currentWeaponAttackProfile.attackDataList.Count)
-        {
-            Debug.Log("Current Attack Data: " + currentWeaponAttackProfile.attackDataList[comboIndex]);
-            return currentWeaponAttackProfile.attackDataList[comboIndex];
-        }
-        return null;
-    }
-    public WeaponAttackDataSO GetCurrentWeaponAttackProfile()
-    {
-        Debug.Log("Current Weapon Type: " + weaponManager.CurrentType);
-        return weaponAttackDataList.Find(p => p.weaponType == weaponManager.CurrentType);
-    }
-
-    public void SetCurrentAttackData(AttackDataSO data)
-    {
-        currentAttackData = data;
-        Debug.Log("Current Attack Data: " + currentAttackData);
-    }
-
-
+    [Tooltip("Get/Set WeaponType hiện tại ")]
+    public WeaponManager weaponManager { get; private set; }
+    [Tooltip("Get/Set AttackData hiện tại ")]
+    public WeaponAttackManager weaponAttackManager { get; private set; }
 
     void Awake()
     {
@@ -71,10 +42,12 @@ public class PlayerController : MonoBehaviour
         InputHandler = GetComponent<PlayerInputHandler>();
         stateMachine = GetComponent<PlayerStateMachine>();
         weaponManager = GetComponent<WeaponManager>();
+        weaponAttackManager = GetComponent<WeaponAttackManager>();
+
         AnimationController = GetComponentInChildren<AnimationController>();
 
         weaponManager.OnWeaponChanged += HandleWeaponChanged;
-
+        weaponAttackManager.Initialize(weaponManager);
 
         meleeHandler = new MeleeAttackHandler(this, AnimationController);
         gunHandler = new GunAttackHandler(this, AnimationController);
@@ -86,8 +59,6 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         stateMachine.Initialize(new IdleState(stateMachine, this, PlayerStateType.idle));
-        currentWeaponAttackProfile = GetCurrentWeaponAttackProfile();
-        currentAttackData = GetCurrentAttackData();
 
         originalSizeCollider = Collider.size;
         originalOffsetCollider = Collider.offset;
@@ -112,6 +83,7 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.CurrentState?.FixedUpdate();
     }
+
     public void CheckIfShouldFlip(float xInput)
     {
         if (xInput != 0 && Mathf.Sign(xInput) != FacingDirection)
@@ -144,20 +116,9 @@ public class PlayerController : MonoBehaviour
         Collider.size = originalSizeCollider;
         Collider.offset = originalOffsetCollider;
     }
+
     private void HandleWeaponChanged()
     {
-        currentWeaponAttackProfile = GetCurrentWeaponAttackProfile();
-
-        // Lấy state hiện tại
-        var currentState = stateMachine.CurrentState;
-        if (currentState != null)
-        {
-            // Gọi lại animation tương ứng với WeaponType mới
-            AnimationController.Play(currentState.StateType);
-        }
-        // Lấy AttackData tương ứng với WeaponType mới
-        currentAttackData = GetCurrentAttackData();
+        stateMachine.CurrentState?.OnWeaponChanged(AnimationController);
     }
-
-
 }

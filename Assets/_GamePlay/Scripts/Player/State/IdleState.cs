@@ -65,5 +65,11 @@ public class IdleState : State
     {
         base.Exit();
     }
+    public override void OnWeaponChanged(AnimationController animationController)
+    {
+        base.OnWeaponChanged(animationController);
+        animationController.SetSpeedAnimation(1f);
+        animationController.Play(PlayerStateType.idle);
+    }
 
 }

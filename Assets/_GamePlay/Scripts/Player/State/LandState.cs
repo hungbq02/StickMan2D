@@ -47,4 +47,9 @@ public class LandState : State
     {
         base.FixedUpdate();
     }
+    public override void OnWeaponChanged(AnimationController animationController)
+    {
+        base.OnWeaponChanged(animationController);
+        animationController.Play(PlayerStateType.land);
+    }
 }

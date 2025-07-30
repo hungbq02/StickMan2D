@@ -62,4 +62,9 @@ public class JumpState : State
             return;
         }
     }
+    public override void OnWeaponChanged(AnimationController animationController)
+    {
+        base.OnWeaponChanged(animationController);
+        animationController.Play(PlayerStateType.jump);
+    }
 }

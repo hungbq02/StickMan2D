@@ -27,7 +27,7 @@ public class MeleeAttackHandler : IAttackHandler
         isAttacking = true;
 
         UpdateCurrentAttackData();
-        animationController.PlayAttackCombo(player.weaponManager.CurrentType, comboStep);
+        animationController.PlayAttack(player.weaponManager.CurrentType, comboStep);
     }
 
     public void Update()
@@ -42,7 +42,7 @@ public class MeleeAttackHandler : IAttackHandler
             comboStep++;
             comboTimer = maxComboTime;
             UpdateCurrentAttackData();
-            animationController.PlayAttackCombo(player.weaponManager.CurrentType, comboStep);
+            animationController.PlayAttack(player.weaponManager.CurrentType, comboStep);
         }
 
         // when animation done but don't press attack => reset combo
@@ -60,7 +60,8 @@ public class MeleeAttackHandler : IAttackHandler
     }
     private void UpdateCurrentAttackData()
     {
-        player.SetCurrentAttackData(player.GetCurrentAttackData(comboStep - 1)); // comboStep từ 1 => index cần -1
+        var currentAttackData = player.weaponAttackManager.GetCurrentAttackData(comboStep - 1); // comboStep từ 1 => index cần -1
+        player.weaponAttackManager.SetCurrentAttackData(currentAttackData);
     }
 
 

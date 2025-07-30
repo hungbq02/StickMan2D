@@ -19,7 +19,7 @@ public class GunAttackHandler : IAttackHandler
     {
         isShooting = true;
         //The gun has no combo, the default attackData is 0
-        player.SetCurrentAttackData(player.GetCurrentAttackData(0));
+        player.weaponAttackManager.SetCurrentAttackData(player.weaponAttackManager.GetCurrentAttackData(0));
 
         animationController.PlayAttack(player.weaponManager.CurrentType);
     }

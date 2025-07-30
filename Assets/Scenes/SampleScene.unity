@@ -1386,6 +1386,7 @@ GameObject:
   - component: {fileID: 1276027043}
   - component: {fileID: 1276027044}
   - component: {fileID: 1276027045}
+  - component: {fileID: 1276027046}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -1574,10 +1575,6 @@ MonoBehaviour:
     criticalDamageMultiplier: 2
   originalSizeCollider: {x: 0, y: 0}
   originalOffsetCollider: {x: 0, y: 0}
-  weaponAttackDataList:
-  - {fileID: 11400000, guid: e31c1c8e409894449b7665466f6adf8d, type: 2}
-  - {fileID: 11400000, guid: 0033d170705d4554791f696f4a77932b, type: 2}
-  - {fileID: 11400000, guid: 4a85a0b018d6a4c409548cf895269e98, type: 2}
 --- !u!114 &1276027043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1615,6 +1612,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b687ffb7cc9fee94e811397a2b9e4b8f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1276027046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276027034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b42f67d6642d97e4987c504af9ea7ee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponAttackDataList:
+  - {fileID: 11400000, guid: e31c1c8e409894449b7665466f6adf8d, type: 2}
+  - {fileID: 11400000, guid: 0033d170705d4554791f696f4a77932b, type: 2}
+  - {fileID: 11400000, guid: 4a85a0b018d6a4c409548cf895269e98, type: 2}
 --- !u!1 &1345565828
 GameObject:
   m_ObjectHideFlags: 0

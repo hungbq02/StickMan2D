@@ -72,4 +72,10 @@ public class DashState : State
             ghostSpriteSpawner.StopSpawn();
         }
     }
+
+    public override void OnWeaponChanged(AnimationController animationController)
+    {
+        base.OnWeaponChanged(animationController);
+        animationController.Play(PlayerStateType.dash);
+    }
 }
