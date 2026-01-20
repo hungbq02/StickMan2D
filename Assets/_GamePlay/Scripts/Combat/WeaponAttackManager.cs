@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Kore;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(WeaponManager))]
 public class WeaponAttackManager : MonoBehaviour
 {
-    [Tooltip("Chỉ dùng cho vũ khí cận chiến (fighter, sword). Gun được gắn ở Bullet")]
+    [Tooltip("Chỉ dùng cho vũ khí cận chiến (fighter, sword). DataAttack Gun được gắn ở Bullet")]
     [SerializeField] private List<WeaponAttackDataSO> weaponAttackDataList;
 
     private WeaponAttackDataSO currentWeaponAttackProfile;
@@ -16,16 +17,14 @@ public class WeaponAttackManager : MonoBehaviour
     public void Initialize(WeaponManager weaponManager)
     {
         this.weaponManager = weaponManager;
-        weaponManager.OnWeaponChanged += HandleWeaponChanged;
-
+        ObserverService.Subscribe(ObserverEnum.OnChangeWeapon, HandleWeaponChanged);
         currentWeaponAttackProfile = GetCurrentWeaponAttackProfile();
         currentAttackData = GetCurrentAttackData();
     }
 
     private void OnDestroy()
     {
-        if (weaponManager != null)
-            weaponManager.OnWeaponChanged -= HandleWeaponChanged;
+        ObserverService.Unsubscribe(ObserverEnum.OnChangeWeapon, HandleWeaponChanged);
     }
 
     public AttackDataSO GetCurrentAttackData(int comboIndex = 0)

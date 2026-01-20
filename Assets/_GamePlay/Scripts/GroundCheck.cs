@@ -45,9 +45,9 @@ public class GroundCheck : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(ladderCheckPoint.position, checkRadiusLadder);
 
-        if (wallCheckPoint == null) return;
+/*        if (wallCheckPoint == null) return;
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(wallCheckPoint.position, wallCheckPoint.position + Vector3.right * player.FacingDirection * wallCheckDistance);
+        Gizmos.DrawLine(wallCheckPoint.position, wallCheckPoint.position + Vector3.right * player.FacingDirection * wallCheckDistance);*/
 
     }
 }

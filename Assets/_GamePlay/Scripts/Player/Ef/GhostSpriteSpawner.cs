@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Kore.Utils.Core;
+using System.Collections;
 using UnityEngine;
 
 public class GhostSpriteSpawner : MonoBehaviour
@@ -45,11 +46,8 @@ public class GhostSpriteSpawner : MonoBehaviour
 
     private void SpawnGhost()
     {
-        GameObject ghost = PoolManager.Instance.ghostSpritePool.GetObject();
-
-        ghost.transform.position = transform.position;
-        ghost.SetActive(true);
-
+        GameObject ghost = ObjectPool.Spawn(Service.Get<Bootstrap>().ghostSpritePrefab, 
+                                        transform.position, Quaternion.identity);
         SpriteRenderer ghostRenderer = ghost.GetComponent<SpriteRenderer>();
         ghostRenderer.sprite = spriteRenderer.sprite;
 
@@ -62,11 +60,6 @@ public class GhostSpriteSpawner : MonoBehaviour
         StartCoroutine(FadeAndReturnGhost(ghost));
     }
 
-/*    private IEnumerator ReturnGhostToPool(GameObject ghost)
-    {
-        yield return new WaitForSeconds(0.1f);
-        PoolManager.Instance.ghostSpritePool.ReturnObject(ghost);
-    }*/
     private IEnumerator FadeAndReturnGhost(GameObject ghost)
     {
         SpriteRenderer ghostRenderer = ghost.GetComponent<SpriteRenderer>();
@@ -85,7 +78,7 @@ public class GhostSpriteSpawner : MonoBehaviour
         ghostRenderer.color = new Color(originalColor.r, originalColor.g, originalColor.b, 1f); // Reset alpha về 1
 
 
-        PoolManager.Instance.ghostSpritePool.ReturnObject(ghost);
+        ObjectPool.Recycle(ghost);
     }
 
 }

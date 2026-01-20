@@ -1,12 +1,14 @@
-﻿using System.Collections;
+﻿using Kore.Utils.Core;
+using System.Collections;
 using UnityEngine;
 
-public class Enemy : MonoBehaviour, IDamageable
+public class Enemy : MonoBehaviour, IDamageable, IEffectReceiver
 {
     private Rigidbody2D rb;
     [SerializeField] private int maxHealth = 100;
     private int currentHealth;
     private bool isStunned = false;
+    private DamagePopup damagePopup;
 
     private void Awake()
     {
@@ -25,9 +27,10 @@ public class Enemy : MonoBehaviour, IDamageable
 
         //damage
         currentHealth -= finalDamage;
-        DamagePopupManager.Instance.DisplayDamagePopup(finalDamage, transform);
 
-    //    Debug.Log("Enemy Health: " + currentHealth);
+        var damagePopup = ObjectPool.Spawn(Service.Get<Bootstrap>().textDamagePrefab,transform.position, Quaternion.identity);
+        damagePopup.Init(finalDamage);
+
 
         // Áp dụng hiệu ứng (nếu có)
         ApplyEffect(attackData.effectType, attackData.effectDuration);
@@ -37,15 +40,17 @@ public class Enemy : MonoBehaviour, IDamageable
             Die();
         }    
     }
-    private void ApplyEffect(AttackEffect effectType, float effectDuration)
+    public void ApplyEffect(AttackEffect effectType, float duration)
     {
         switch (effectType)
         {
             case AttackEffect.None:
                 break;
+
             case AttackEffect.Stun:
-                StartCoroutine(ApplyStun(effectDuration));
+                StartCoroutine(ApplyStun(duration));
                 break;
+
             case AttackEffect.Knockback:
                 ApplyKnockback();
                 break;
@@ -59,7 +64,6 @@ public class Enemy : MonoBehaviour, IDamageable
             isStunned = true;
             Debug.Log("Enemy Stunned!");
 
-            // Giả sử enemy bị stun trong thời gian duration
             yield return new WaitForSeconds(duration);
 
             isStunned = false;
@@ -67,18 +71,16 @@ public class Enemy : MonoBehaviour, IDamageable
         }
     }
 
-
-    // Hiệu ứng Knockback - đẩy đối thủ ra ngoài
     private void ApplyKnockback()
-    {    
+    {
         Debug.Log("Enemy Knocked Back!");
-        Vector3 knockbackDirection = transform.position - Camera.main.transform.position;
+
+        Vector3 knockbackDirection = (transform.position - Camera.main.transform.position).normalized;
         rb.velocity = knockbackDirection * 3f + Vector3.up * 10f;
     }
 
     private void Die()
     {
-
         Debug.Log("Enemy died!");
         Destroy(gameObject, 1f);
     }

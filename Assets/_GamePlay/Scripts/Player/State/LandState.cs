@@ -3,7 +3,7 @@
 public class LandState : State
 {
     private float landTimer;
-    private float landDuration = 0.005f; 
+    private float landDuration = 0.1f; 
 
     public LandState(PlayerStateMachine stateMachine, PlayerController player,PlayerStateType stateType)
         : base(stateMachine, player, stateType)
@@ -15,7 +15,7 @@ public class LandState : State
         player.ResetWallJumpLock();
         player.canDash = true;
         base.Enter();
-        player.AnimationController.Play(PlayerStateType.jump);
+        player.AnimationController.Play(PlayerStateType.land);
 
         landTimer = 0f;
     }

@@ -15,7 +15,6 @@ public class AttackState : State
 
         attackHandler = GetAttackHandler();
         attackHandler?.Attack();
-
     }
 
     public override void Update()
@@ -28,18 +27,17 @@ public class AttackState : State
         {
             stateMachine.ChangeState(new IdleState(stateMachine, player, PlayerStateType.idle));
         }
-        //Jump
+/*        //Jump
         if (player.InputHandler.JumpPressed)
         {
             stateMachine.ChangeState(new JumpState(stateMachine, player, PlayerStateType.jump));
             return;
-        }
+        }*/
     }
     public override void FixedUpdate()
     {
         base.FixedUpdate();
         player.Rigidbody.velocity = new Vector2(0f, player.Rigidbody.velocity.y); // Dừng di chuyển khi tấn công
-
     }
     //
     private IAttackHandler GetAttackHandler()
@@ -56,6 +54,12 @@ public class AttackState : State
                 return null;
         }
     }
+    public void CancelAttack()
+    {
+        attackHandler?.Cancel();
+        stateMachine.ChangeState(new IdleState(stateMachine, player, PlayerStateType.idle));
+    }
+
 
 
 

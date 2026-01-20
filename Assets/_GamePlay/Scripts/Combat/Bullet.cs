@@ -8,15 +8,6 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float lifeTime = 5f; 
     public AttackDataSO attackData;
     public LayerMask enemyLayer;
-    private PlayerController player;
-    private void Start()
-    {
-        player = FindObjectOfType<PlayerController>();
-    }
-    private void OnEnable()
-    {
-        StartCoroutine(ReturnToPoolAfterTime(lifeTime));
-    }
 
     public void SetDirection(Vector2 dir)
     {
@@ -49,13 +40,7 @@ public class Bullet : MonoBehaviour
             }
 
             // Quay lại pool hoặc hủy đối tượng đạn
-            PoolManager.Instance.bulletPool.ReturnObject(gameObject);
+            ObjectPool.Recycle(this.gameObject);
         }
-    }
-    private IEnumerator ReturnToPoolAfterTime(float time)
-    {
-        yield return new WaitForSeconds(time);
-
-        PoolManager.Instance.bulletPool.ReturnObject(gameObject);
     }
 }

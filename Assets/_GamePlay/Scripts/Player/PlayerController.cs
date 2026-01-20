@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Kore;
+using UnityEngine;
 
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(PlayerStateMachine))]
@@ -46,7 +47,7 @@ public class PlayerController : MonoBehaviour
 
         AnimationController = GetComponentInChildren<AnimationController>();
 
-        weaponManager.OnWeaponChanged += HandleWeaponChanged;
+        ObserverService.Subscribe(ObserverEnum.OnChangeWeapon, HandleWeaponChanged);
         weaponAttackManager.Initialize(weaponManager);
 
         meleeHandler = new MeleeAttackHandler(this, AnimationController);
@@ -54,7 +55,7 @@ public class PlayerController : MonoBehaviour
     }
     private void OnDestroy()
     {
-        weaponManager.OnWeaponChanged -= HandleWeaponChanged;
+        ObserverService.Unsubscribe(ObserverEnum.OnChangeWeapon, HandleWeaponChanged);
     }
     void Start()
     {
@@ -68,7 +69,6 @@ public class PlayerController : MonoBehaviour
     {
         stateMachine.CurrentState?.Update();
         InputHandler.ResetInputs();
-
 
         if (Input.GetKeyDown(KeyCode.F1))
             weaponManager.SetWeaponType(WeaponType.Fighter);
@@ -119,6 +119,10 @@ public class PlayerController : MonoBehaviour
 
     private void HandleWeaponChanged()
     {
+        if (stateMachine.CurrentState is AttackState attackState)
+        {
+            attackState.CancelAttack();
+        }
         stateMachine.CurrentState?.OnWeaponChanged(AnimationController);
     }
 }

@@ -16,7 +16,7 @@ public class DamagePopup : MonoBehaviour
     private float gravity = -15f;
     private float rotateSpeed;
 
-    public void SetUp(int amount)
+    public void Init(int amount)
     {
         textMesh = GetComponent<TextMeshPro>();
         playerTransform = Camera.main.transform;
@@ -60,7 +60,7 @@ public class DamagePopup : MonoBehaviour
             if (textColor.a <= 0f)
             {
                 ResetText();
-                PoolManager.Instance.textDamagePool.ReturnObject(gameObject);
+                ObjectPool.Recycle(this.gameObject);
             }
         }
 
@@ -70,7 +70,6 @@ public class DamagePopup : MonoBehaviour
 
     private void ResetText()
     {
-        gameObject.transform.SetParent(PoolManager.Instance.textDamagePool.transform);
         disappearTimer = disappearDuration;
         moveVector = Vector3.zero;
         textColor.a = 1f;

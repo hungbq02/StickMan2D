@@ -57,6 +57,8 @@ public class MeleeAttackHandler : IAttackHandler
     public void Cancel()
     {
         isAttacking = false;
+        comboStep = 0;
+        comboTimer = 0f;
     }
     private void UpdateCurrentAttackData()
     {

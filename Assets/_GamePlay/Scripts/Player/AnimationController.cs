@@ -36,6 +36,7 @@ public class AnimationController : MonoBehaviour
         string anim = $"attack_{weaponType}";
         animator.Play(GetHash(anim));
     }
+    // Phát animation tấn công trên không 
     public void PlayAirAttack(WeaponType weaponType)
     {
         string anim = $"airAttack_{weaponType}";

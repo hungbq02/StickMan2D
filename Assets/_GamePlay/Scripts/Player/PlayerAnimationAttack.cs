@@ -1,19 +1,20 @@
-﻿using UnityEngine;
+﻿using Kore.Utils.Core;
+using UnityEngine;
 
 public class PlayerAnimationAttack : MonoBehaviour
 {
     private PlayerController player;
     public Transform bulletSpawnPoint;
 
-    [Header("Fighter Attack")]
+    [Header("Fighter Attack (blue)")]
     public Transform fighterAttackOrigin;
     public float fighterAttackRange = 0.4f;
 
-    [Header("Fighter Air Attack")]
+    [Header("Fighter Air Attack (green)")]
     public Transform fighterAirAttackOrigin;
     public float fighterAirAttackRange = 0.3f;
 
-    [Header("Sword Attack")]
+    [Header("Sword Attack (red)")]
     public Transform swordAttackOrigin;
     public float swordAttackRange = 0.5f;
 
@@ -26,14 +27,9 @@ public class PlayerAnimationAttack : MonoBehaviour
     }
     public void Fire()
     {
-        GameObject bullet = PoolManager.Instance.bulletPool.GetObject();
-        Bullet bulletScript = bullet.GetComponent<Bullet>();
-
-        bulletScript.SetDirection(bulletSpawnPoint.right * player.FacingDirection);
-
-        bullet.SetActive(true);
-        bullet.transform.position = bulletSpawnPoint.position;
-        bullet.transform.rotation = bulletSpawnPoint.rotation;
+        Bullet bullet = ObjectPool.Spawn(Service.Get<Bootstrap>().bulletPrefab, 
+                                        bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        bullet.SetDirection(bulletSpawnPoint.right * player.FacingDirection);
     }
     public void FighterAttack()
     {
