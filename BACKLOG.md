@@ -45,7 +45,7 @@
   - Chưa có enemy nào gắn khiên — gắn: child object + `Shield` (tự thêm `Health`), đặt lệch về phía cần chặn. Khiên vỡ không tự hồi khi enemy lấy lại từ pool → xử lý ở EN-03.
 - [x] **CB-05** Hệ effect thống nhất: base `StatusEffect` (nghe `Damageable.OnDamaged`, làm mới thời gian khi trúng lại, luôn dọn trạng thái khi object tắt — trước đây `IsStunned` có thể kẹt `true`). `StunEffect`, `BurnEffect` kế thừa; thêm `FreezeEffect` (khoá vị trí, dừng animator, tô màu băng). Bỏ `AttackEffect.Knockback` (không ai xử lý; knockback luôn theo `knockbackForce`) — `FighterAirAttackData` chuyển về `None`, giá trị enum giữ cố định. Gắn Stun/Burn/Freeze cho 3 enemy trong `SampleScene`.
   - Để sau: `EffectSO` (tham số effect theo asset) khi có nhiều biến thể; burn tick hiện cố định 5 dmg/1s trên component.
-- [ ] **CB-06** `P1` `S` 🖥️ Thống nhất kiểu damage (`int`/`float`). Đổi kiểu field serialize cần kiểm tra lại asset trong Editor.
+- [x] **CB-06** Damage/máu thống nhất `int`: `Health` (`maxHealth`, `Current`, `TakeDamage`, `Heal`, `OnHealthChanged`) và `BurnEffect.damagePerTick` chuyển từ `float` sang `int`. Giá trị serialize cũ (100, 5) đọc lại đúng, không cần sửa scene.
 - [x] **CB-07** Crit roll 1 lần lúc tạo `AttackData` (`isCritical`, `FinalDamage`) — mọi mục tiêu trúng cùng kết quả; sửa lỗi crit chance 0 vẫn có thể crit.
 - [ ] **CB-08** `P2` `S` Faction/team — làm khi enemy bắt đầu tấn công (hiện đã tách bằng layer).
 - [x] **CB-09** `Hitbox` dùng `OverlapCircle`/`CircleCast` với `ContactFilter2D` + List tái sử dụng; gizmo CircleCast vẽ theo hướng mặt.

@@ -5,7 +5,7 @@ using UnityEngine;
 public class BurnEffect : StatusEffect
 {
     [SerializeField] private float tickInterval = 1f;
-    [SerializeField] private float damagePerTick = 5f;
+    [SerializeField] private int damagePerTick = 5;
 
     private Health health;
 

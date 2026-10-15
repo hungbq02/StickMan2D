@@ -1,17 +1,18 @@
 using System;
 using UnityEngine;
 
+// Máu & damage dùng int thống nhất (AttackData.FinalDamage, DamagePopup, BurnEffect)
 public class Health : MonoBehaviour
 {
-    public event Action<float, float> OnHealthChanged; // current, max
+    public event Action<int, int> OnHealthChanged; // current, max
     public event Action OnDeath;
 
-    [SerializeField] private float maxHealth = 100f;
-    private float currentHealth;
+    [SerializeField] private int maxHealth = 100;
+    private int currentHealth;
 
-    public float Current => currentHealth;
-    public float Max => maxHealth;
-    public bool IsAlive => currentHealth > 0f;
+    public int Current => currentHealth;
+    public int Max => maxHealth;
+    public bool IsAlive => currentHealth > 0;
 
     // OnEnable thay vì Awake: object lấy lại từ ObjectPool sẽ được hồi đầy máu
     private void OnEnable()
@@ -19,7 +20,7 @@ public class Health : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(int amount)
     {
         if (!IsAlive || amount <= 0) return;
 
@@ -30,7 +31,7 @@ public class Health : MonoBehaviour
             OnDeath?.Invoke();
     }
 
-    public void Heal(float amount)
+    public void Heal(int amount)
     {
         if (!IsAlive || amount <= 0) return;
 
