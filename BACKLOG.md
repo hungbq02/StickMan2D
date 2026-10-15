@@ -1,7 +1,7 @@
 # StickFigure — Backlog kỹ thuật
 
 > Mục tiêu: dọn nợ kỹ thuật hiện tại và dựng nền để scale (nhiều vũ khí, nhiều loại enemy, nhiều level) mà không phải viết lại.
-> Cập nhật lần cuối: 2026-10-15
+> Cập nhật lần cuối: 2026-10-15 (sau CB-08)
 
 **Ký hiệu**
 - Ưu tiên: `P0` làm ngay · `P1` trước khi thêm content mới · `P2` khi scale · `P3` nice-to-have
@@ -9,6 +9,22 @@
 - 🖥️ = cần mở Unity Editor (prefab, animation clip, Inspector, Play mode)
 - `→ X` = phụ thuộc task X
 - 🟡 = đã làm một phần (phần còn lại ghi ngay dưới)
+
+
+## 📊 Tiến độ
+
+**32 xong · 3 làm một phần · 18 còn lại** (tổng 53)
+
+| Phase | Xong | Một phần 🟡 | Còn lại |
+|---|---|---|---|
+| Sửa lỗi gấp  | 6 | 07 | — |
+| 1. State machine  | 6 | — | 06 |
+| 2. Combat ✅ | 10 | — | — |
+| 3. Decoupling  | 3 | 05 | 02, 03 |
+| 4. Animation  | 3 | — | 04 |
+| 5. Enemy  | 0 | 05 | 01, 02, 03, 04 |
+| 6. Game structure  | 0 | — | 01, 02, 03, 04, 05, 06 |
+| 7. Tổ chức project  | 4 | — | 05, 06, 07, 08 |
 
 ---
 
@@ -36,7 +52,7 @@
 - [ ] **SM-06** `P2` `M` Tách state machine thành generic `StateMachine<TOwner>` để enemy dùng lại. `→ EN-01`
 - [x] **SM-07** Input buffer 0.1s (`PlayerInputHandler.inputBufferTime`, nút được `Consume` khi dùng) + coyote time (`PlayerStats.coyoteTime`).
 
-## Phase 2 — Combat pipeline (P1)
+## Phase 2 — Combat pipeline (P1) ✅
 
 - [x] **CB-01** Bỏ `CurrentAttackData` mutable dùng chung. Tham số `int` của animation event = bước đòn của clip (`0` = trên không, `1..3` = combo); vũ khí suy ra từ tên hàm event (`FighterAttack`/`SwordAttack`). `WeaponAttackManager` chỉ còn `GetAttackData(weapon, step)` (stateless) → đổi vũ khí / combo nhanh giữa chừng không đọc nhầm data. Đã gán `intParameter` cho 10 clip (gồm 2 clip Gun, chuẩn bị cho CB-03).
 - [x] **CB-02** `WeaponAttackDataSO`: `attackDataList` → `comboSteps` + field riêng `airAttack` (đã migrate 3 asset). Xoá `AttackComboIndex`; `MeleeAttackHandler` lấy số đòn combo từ `comboSteps.Count` thay vì hằng `3`.
@@ -131,9 +147,10 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 ## Thứ tự đề xuất (phần còn lại)
 
 ```
-FIX-07 (play-test thủ công)
-  → CB-01 → CB-02 → CB-03 → CB-04 → CB-05 → SM-05 → CB-10
-  → DC-02, DC-03
-  → OR-05 → OR-06
-  → EN-04 → EN-01..03 → Phase 6
+FIX-07 (play-test thủ công — gồm các thay đổi combat mới)
+  → DC-02 → DC-03 → DC-05 (Phase 3)
+  → SM-06 → EN-03 → EN-01, EN-02 → EN-04 (Phase 1 + 5)
+  → OR-07 → OR-05 → OR-06
+  → Phase 6 (GS-01..06)
+  → AN-04, OR-08 (P3)
 ```
