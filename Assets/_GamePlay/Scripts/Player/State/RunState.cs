@@ -1,69 +1,43 @@
 using UnityEngine;
 
-public class RunState : State
+public class RunState : GroundedState
 {
-    float moveInput;
-    public RunState(PlayerStateMachine stateMachine, PlayerController player, PlayerStateType stateType) : base(stateMachine, player, stateType)
-    {
+    private float moveInput;
 
+    public override PlayerStateType StateType => PlayerStateType.run;
+
+    public RunState(PlayerStateMachine stateMachine, PlayerController player) : base(stateMachine, player)
+    {
     }
 
     public override void Enter()
     {
         base.Enter();
-        player.ResetWallJumpLock();
-
-        player.AnimationController.Play(PlayerStateType.run);
+        moveInput = player.InputHandler.MoveInput.x;
+        player.AnimationController.Play(StateType);
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        player.Rigidbody.velocity = new Vector2(moveInput * player.stats.moveSpeed, player.Rigidbody.velocity.y);
+        player.SetVelocityX(moveInput * player.stats.moveSpeed);
     }
 
     public override void Update()
     {
-        base.Update();
-        //fall
-        if (player.Rigidbody.velocity.y < 0)
-            stateMachine.ChangeState(new FallState(stateMachine, player, PlayerStateType.fall));
-
         moveInput = player.InputHandler.MoveInput.x;
-
 
         // Flip sprite
         player.CheckIfShouldFlip(moveInput);
 
+        base.Update();
+        if (!IsActive) return;
+
         // idle
-        if (Mathf.Abs(moveInput) < 0.01f)
+        if (Mathf.Abs(moveInput) < MoveDeadZone)
         {
-            player.Rigidbody.velocity = new Vector2(0f, player.Rigidbody.velocity.y);
-            stateMachine.ChangeState(new IdleState(stateMachine, player, PlayerStateType.idle));
+            player.SetVelocityX(0f);
+            ChangeState(States.Idle);
         }
-
-        // jump
-        if (player.InputHandler.JumpPressed && player.GroundCheck.IsGrounded)
-            stateMachine.ChangeState(new JumpState(stateMachine, player, PlayerStateType.jump));
-
-        // attack
-        if (player.InputHandler.AttackPressed)
-            stateMachine.ChangeState(new AttackState(stateMachine, player, PlayerStateType.attack));
-        // dash
-        if (player.InputHandler.DashPressed)
-            stateMachine.ChangeState(new DashState(stateMachine, player, PlayerStateType.dash));
-        // slide
-        if (player.InputHandler.SlidePressed && player.GroundCheck.IsGrounded)
-            stateMachine.ChangeState(new SlideState(stateMachine, player, PlayerStateType.slide));
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
-    }
-    public override void OnWeaponChanged(AnimationController animationController)
-    {
-        base.OnWeaponChanged(animationController);
-        animationController.Play(PlayerStateType.run);
     }
 }

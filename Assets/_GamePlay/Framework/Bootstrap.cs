@@ -4,7 +4,6 @@ using UnityEngine;
 using Kore.Utils.Core;
 using UnityEngine.Serialization;
 using System;
-using UnityEngine.WSA;
 
 
 public class Bootstrap : MonoBehaviour
@@ -33,7 +32,6 @@ public class Bootstrap : MonoBehaviour
     // public AnimationCurve 
     
     
-    [HideInInspector] public Language curLanguage;
     
     void Awake()
     {
@@ -50,6 +48,4 @@ public class Bootstrap : MonoBehaviour
     }
 
     
-    public static int levelColorOffset = 0;
-    public Dictionary<int, int> levelColorMap = new Dictionary<int, int>();
 }

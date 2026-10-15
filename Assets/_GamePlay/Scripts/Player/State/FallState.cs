@@ -1,79 +1,38 @@
-﻿using UnityEngine;
-
-public class FallState : State
+﻿public class FallState : AirborneState
 {
-    private float moveX;
+    public override PlayerStateType StateType => PlayerStateType.fall;
 
-    public FallState(PlayerStateMachine stateMachine, PlayerController player, PlayerStateType stateType)
-        : base(stateMachine, player, stateType)
+    public FallState(PlayerStateMachine stateMachine, PlayerController player)
+        : base(stateMachine, player)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        player.AnimationController.Play(PlayerStateType.fall);
+        player.AnimationController.Play(StateType);
     }
 
     public override void Update()
     {
         base.Update();
 
-        moveX = player.InputHandler.MoveInput.x;
-
         // Landing
         if (player.GroundCheck.IsGrounded)
         {
-            stateMachine.ChangeState(new LandState(stateMachine, player, PlayerStateType.land));
-        }
-
-        // Dash
-        if (player.InputHandler.DashPressed && player.canDash)
-        {
-            player.canDash = false;
-            stateMachine.ChangeState(new DashState(stateMachine, player, PlayerStateType.dash));
+            ChangeState(States.Land);
             return;
         }
 
-        // AirAttack
-        if (player.InputHandler.AttackPressed)
+        // Coyote time: vừa rời mép (chưa nhảy) vẫn cho nhảy
+        var input = player.InputHandler;
+        if (input.JumpPressed && player.CanGroundJump)
         {
-            stateMachine.ChangeState(new AirAttackState(stateMachine, player, PlayerStateType.airAttack));
+            input.ConsumeJump();
+            ChangeState(States.Jump);
             return;
         }
 
-        // WallSlide
-        if (player.GroundCheck.IsTouchingWall   //Cham tường
-            && moveX == player.FacingDirection  //đang ấn hướng trùng với hướng mặt ( trùng hướng wall)
-            && !player.GroundCheck.IsGrounded    //Không ở dưới đất
-            && moveX != -player.LastWallJumpDirection) //hướng đang ấn không phải là hướng nhảy tường trước đó
-        {
-            stateMachine.ChangeState(new WallSlideState(stateMachine, player, PlayerStateType.wallSlide));
-            return;
-        }
-
-        //Flip
-        player.CheckIfShouldFlip(moveX);
+        TryAirborneTransitions();
     }
-
-
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-
-        float horizontal = player.InputHandler.MoveInput.x;
-        Vector2 velocity = player.Rigidbody.velocity;
-        velocity.x = horizontal * player.stats.moveSpeed;
-        player.Rigidbody.velocity = velocity;
-    }    
-    public override void Exit()
-    {
-        base.Exit();
-    }
-    public override void OnWeaponChanged(AnimationController animationController)
-    {
-        base.OnWeaponChanged(animationController);
-        animationController.Play(PlayerStateType.fall);
-    }
-
 }

@@ -1,13 +1,19 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
     private Vector2 direction;
     [SerializeField] private float speed = 10f;
-    [SerializeField] private float lifeTime = 5f; 
+    [SerializeField] private float lifeTime = 5f;
     public AttackDataSO attackData;
     public LayerMask enemyLayer;
+
+    private float aliveTime;
+
+    private void OnEnable()
+    {
+        aliveTime = 0f;
+    }
 
     public void SetDirection(Vector2 dir)
     {
@@ -17,30 +23,25 @@ public class Bullet : MonoBehaviour
     private void Update()
     {
         transform.Translate(direction * speed * Time.deltaTime);
+
+        // Trả về pool khi bay quá lifeTime mà không trúng gì
+        aliveTime += Time.deltaTime;
+        if (aliveTime >= lifeTime)
+        {
+            ObjectPool.Recycle(gameObject);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (((1 << other.gameObject.layer) & enemyLayer) != 0)
         {
-            Enemy enemy = other.GetComponent<Enemy>();
+            IDamageable enemy = other.GetComponent<IDamageable>();
             if (enemy != null)
             {
-                // Tạo AttackData từ AttackDataSO
-                AttackData attackInfo = new AttackData(
-                    attackData.damage,
-                    attackData.knockbackForce,
-                    attackData.criticalChance,
-                    attackData.criticalMultiplier,
-                    attackData.range,
-                    attackData.effectDuration,
-                    attackData.attackEffect);
-                // Gọi hàm TakeDamage để gây sát thương cho kẻ thù
-                enemy.TakeDamage(attackInfo); // Truyền AttackData vào
+                enemy.TakeDamage(new AttackData(attackData, transform.position));
             }
-
-            // Quay lại pool hoặc hủy đối tượng đạn
-            ObjectPool.Recycle(this.gameObject);
+            ObjectPool.Recycle(gameObject);
         }
     }
 }

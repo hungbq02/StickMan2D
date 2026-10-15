@@ -1,26 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditorInternal;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WallJumpState : State
 {
     private float wallJumpTimer;
     private int jumpDirection;
-    public WallJumpState(PlayerStateMachine stateMachine, PlayerController player, PlayerStateType stateType)
-            : base(stateMachine, player, stateType)
+
+    // Dùng chung animation jump
+    public override PlayerStateType StateType => PlayerStateType.jump;
+
+    public WallJumpState(PlayerStateMachine stateMachine, PlayerController player)
+            : base(stateMachine, player)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
+        player.ConsumeCoyote();
 
-        // Đặt hướng nhảy là ngược lại hướng mặt
+        // Hướng nhảy ngược với hướng mặt (ra khỏi tường)
         jumpDirection = -player.FacingDirection;
         player.LastWallJumpDirection = jumpDirection;
 
-        // Gán vận tốc nhảy
         player.Rigidbody.velocity = new Vector2(jumpDirection * player.stats.wallJumpForceX, player.stats.wallJumpForceY);
 
         if (jumpDirection != player.FacingDirection)
@@ -28,37 +29,20 @@ public class WallJumpState : State
             player.Flip();
         }
 
-        // Gán thời gian tồn tại của WallJumpState
+        // Khoá trong WallJumpState một khoảng để giữ quán tính nhảy
         wallJumpTimer = player.stats.wallJumpDuration;
 
-        player.AnimationController.Play(PlayerStateType.jump);
-
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
+        player.AnimationController.Play(StateType);
     }
 
     public override void Update()
     {
         base.Update();
 
-        // Sau một khoảng thời gian sẽ chuyển sang trạng thái in-air (rơi hoặc di chuyển)
         wallJumpTimer -= Time.deltaTime;
         if (wallJumpTimer <= 0)
         {
-            stateMachine.ChangeState(new FallState(stateMachine, player, PlayerStateType.fall));
+            ChangeState(States.Fall);
         }
-    }
-
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
-    public override void OnWeaponChanged(AnimationController animationController)
-    {
-        base.OnWeaponChanged(animationController);
-        animationController.Play(PlayerStateType.jump);
     }
 }

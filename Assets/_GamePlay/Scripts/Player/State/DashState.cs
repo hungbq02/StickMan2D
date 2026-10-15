@@ -2,15 +2,13 @@
 
 public class DashState : State
 {
-    private GhostSpriteSpawner ghostSpriteSpawner;
-
     private float dashTime;
-
-    private bool isDashOver;
     private Vector2 dashDirection;
 
-    public DashState(PlayerStateMachine stateMachine, PlayerController player, PlayerStateType stateType)
-        : base(stateMachine, player, stateType)
+    public override PlayerStateType StateType => PlayerStateType.dash;
+
+    public DashState(PlayerStateMachine stateMachine, PlayerController player)
+        : base(stateMachine, player)
     {
     }
 
@@ -18,64 +16,39 @@ public class DashState : State
     {
         base.Enter();
 
-        isDashOver = false;
         dashTime = 0f;
+        dashDirection = new Vector2(player.FacingDirection, 0f);
+        player.Collider.enabled = false; // Disable collider during dash
 
-        // get direction player looking at
-        dashDirection = new Vector2(player.FacingDirection, 0f).normalized;
+        player.AnimationController.Play(StateType);
 
-        // animation
-        player.AnimationController.Play(PlayerStateType.dash);
-
-        // spawn ghost
-        ghostSpriteSpawner = player.GetComponentInChildren<GhostSpriteSpawner>();
-        if (ghostSpriteSpawner != null)
-        {
-            // Set the fade duration for the ghost sprite
-            float fadeDuration = player.stats.dashDuration;
-            ghostSpriteSpawner.BeginSpawn(fadeDuration);
-        }
-
+        if (player.GhostSpawner != null)
+            player.GhostSpawner.BeginSpawn(player.stats.dashDuration);
     }
 
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-
-        if (!isDashOver)
-        {
-            player.Rigidbody.velocity = dashDirection * player.stats.dashSpeed;
-        }
+        player.Rigidbody.velocity = dashDirection * player.stats.dashSpeed;
     }
 
     public override void Update()
     {
         base.Update();
-        player.Collider.enabled = false; // Disable collider during dash
         dashTime += Time.deltaTime;
         if (dashTime >= player.stats.dashDuration)
         {
-            isDashOver = true;
-            stateMachine.ChangeState(new FallState(stateMachine, player, PlayerStateType.idle));
+            ChangeState(States.Fall);
         }
     }
 
     public override void Exit()
     {
         base.Exit();
-        player.Rigidbody.velocity = new Vector2(0f, player.Rigidbody.velocity.y);
+        player.SetVelocityX(0f);
         player.Collider.enabled = true; // Re-enable collider after dash
 
-        // exxit dash => stop spawn ghost
-        if (ghostSpriteSpawner != null)
-        {
-            ghostSpriteSpawner.StopSpawn();
-        }
-    }
-
-    public override void OnWeaponChanged(AnimationController animationController)
-    {
-        base.OnWeaponChanged(animationController);
-        animationController.Play(PlayerStateType.dash);
+        if (player.GhostSpawner != null)
+            player.GhostSpawner.StopSpawn();
     }
 }

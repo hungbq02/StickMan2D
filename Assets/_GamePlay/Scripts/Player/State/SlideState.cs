@@ -2,56 +2,33 @@
 
 public class SlideState : State
 {
-    private GhostSpriteSpawner ghostSpriteSpawner;
-
-    float slideTime;
-    private bool isSlideOver;
+    private float slideTime;
     private Vector2 slideDirection;
 
-    Vector2 originalSizeCollider;
-    Vector2 originalOffsetCollider;
+    public override PlayerStateType StateType => PlayerStateType.slide;
 
-    float slideHeightMultiplier;
-
-    public SlideState(PlayerStateMachine stateMachine, PlayerController player, PlayerStateType stateType)
-        : base(stateMachine, player, stateType)
+    public SlideState(PlayerStateMachine stateMachine, PlayerController player)
+        : base(stateMachine, player)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        isSlideOver = false;
         slideTime = 0f;
-        // set collider size
-        originalSizeCollider = player.Collider.size;
-        originalOffsetCollider = player.Collider.offset;
-        slideHeightMultiplier = player.stats.slideHeightMultiplier;
+        player.ShrinkColliderHeight(player.stats.slideHeightMultiplier);
 
-        player.Collider.size = new Vector2(originalSizeCollider.x, originalSizeCollider.y * slideHeightMultiplier);
-        player.Collider.offset = new Vector2(originalOffsetCollider.x, originalOffsetCollider.y - originalSizeCollider.y * (1 - slideHeightMultiplier) / 2f);
+        slideDirection = new Vector2(player.FacingDirection, 0f);
+        player.AnimationController.Play(StateType);
 
-        // get direction player looking at
-        slideDirection = new Vector2(player.FacingDirection, 0f).normalized;
-        // animation
-        player.AnimationController.Play(PlayerStateType.slide);
-
-        // spawn ghost
-        ghostSpriteSpawner = player.GetComponentInChildren<GhostSpriteSpawner>();
-        if (ghostSpriteSpawner != null)
-        {
-            // Set the fade duration for the ghost sprite
-            float fadeDuration = player.stats.slideDuration;
-            ghostSpriteSpawner.BeginSpawn(fadeDuration);
-        }
+        if (player.GhostSpawner != null)
+            player.GhostSpawner.BeginSpawn(player.stats.slideDuration);
     }
+
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        if (!isSlideOver)
-        {
-            player.Rigidbody.velocity = slideDirection * player.stats.slideSpeed;
-        }
+        player.Rigidbody.velocity = slideDirection * player.stats.slideSpeed;
     }
 
     public override void Update()
@@ -60,24 +37,17 @@ public class SlideState : State
         slideTime += Time.deltaTime;
         if (slideTime >= player.stats.slideDuration || !player.GroundCheck.IsGrounded)
         {
-            isSlideOver = true;
-            stateMachine.ChangeState(new FallState(stateMachine, player, PlayerStateType.idle));
+            ChangeState(States.Fall);
         }
     }
+
     public override void Exit()
     {
         base.Exit();
-        if (ghostSpriteSpawner != null)
-        {
-            ghostSpriteSpawner.StopSpawn();
-        }
-        player.Rigidbody.velocity = new Vector2(0f, player.Rigidbody.velocity.y);
+        if (player.GhostSpawner != null)
+            player.GhostSpawner.StopSpawn();
+
+        player.SetVelocityX(0f);
         player.ResetCollider();
     }
-    public override void OnWeaponChanged(AnimationController animationController)
-    {
-        base.OnWeaponChanged(animationController);
-        animationController.Play(PlayerStateType.slide);
-    }
 }
-

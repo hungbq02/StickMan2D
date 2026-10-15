@@ -1,55 +1,37 @@
 ﻿using UnityEngine;
 
-public class LandState : State
+public class LandState : GroundedState
 {
+    private const float LandDuration = 0.1f;
     private float landTimer;
-    private float landDuration = 0.1f; 
 
-    public LandState(PlayerStateMachine stateMachine, PlayerController player,PlayerStateType stateType)
-        : base(stateMachine, player, stateType)
+    public override PlayerStateType StateType => PlayerStateType.land;
+
+    public LandState(PlayerStateMachine stateMachine, PlayerController player)
+        : base(stateMachine, player)
     {
     }
 
     public override void Enter()
     {
-        player.ResetWallJumpLock();
-        player.canDash = true;
         base.Enter();
-        player.AnimationController.Play(PlayerStateType.land);
-
         landTimer = 0f;
+        player.AnimationController.Play(StateType);
     }
 
-    public override void Exit()
-    {
-        base.Exit();
-    }
-
+    // Kế thừa GroundedState nên jump/attack/dash/slide có thể huỷ animation tiếp đất
     public override void Update()
     {
         base.Update();
+        if (!IsActive) return;
+
         landTimer += Time.deltaTime;
-
-        if (landTimer >= landDuration)
+        if (landTimer >= LandDuration)
         {
-            if (Mathf.Abs(player.InputHandler.MoveInput.x) > 0.01f)
-            {
-                stateMachine.ChangeState(new RunState(stateMachine, player, PlayerStateType.run));
-            }
+            if (Mathf.Abs(player.InputHandler.MoveInput.x) > MoveDeadZone)
+                ChangeState(States.Run);
             else
-            {
-                stateMachine.ChangeState(new IdleState(stateMachine, player, PlayerStateType.idle));
-            }
+                ChangeState(States.Idle);
         }
-    }
-
-    public override void FixedUpdate()
-    {
-        base.FixedUpdate();
-    }
-    public override void OnWeaponChanged(AnimationController animationController)
-    {
-        base.OnWeaponChanged(animationController);
-        animationController.Play(PlayerStateType.land);
     }
 }

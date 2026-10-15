@@ -2,5 +2,7 @@ public enum AttackEffect
 {
     None,
     Stun,
-    Knockback
+    Knockback,
+    Burn,
+    Freeze,
 }

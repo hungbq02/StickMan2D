@@ -3,15 +3,18 @@
 public class AttackState : State
 {
     private IAttackHandler attackHandler;
-    public AttackState(PlayerStateMachine stateMachine, PlayerController player, PlayerStateType stateType)
-        : base(stateMachine, player, stateType)
+
+    public override PlayerStateType StateType => PlayerStateType.attack;
+
+    public AttackState(PlayerStateMachine stateMachine, PlayerController player)
+        : base(stateMachine, player)
     {
     }
 
     public override void Enter()
     {
-        player.ResetWallJumpLock();
         base.Enter();
+        player.ResetWallJumpLock();
 
         attackHandler = GetAttackHandler();
         attackHandler?.Attack();
@@ -21,46 +24,38 @@ public class AttackState : State
     {
         base.Update();
 
-        attackHandler.Update();
+        attackHandler?.Update();
 
-        if (attackHandler.IsDone)
+        if (attackHandler == null || attackHandler.IsDone)
         {
-            stateMachine.ChangeState(new IdleState(stateMachine, player, PlayerStateType.idle));
+            ChangeState(States.Idle);
         }
-/*        //Jump
-        if (player.InputHandler.JumpPressed)
-        {
-            stateMachine.ChangeState(new JumpState(stateMachine, player, PlayerStateType.jump));
-            return;
-        }*/
     }
+
     public override void FixedUpdate()
     {
         base.FixedUpdate();
-        player.Rigidbody.velocity = new Vector2(0f, player.Rigidbody.velocity.y); // Dừng di chuyển khi tấn công
+        player.SetVelocityX(0f); // Dừng di chuyển khi tấn công
     }
-    //
+
     private IAttackHandler GetAttackHandler()
     {
-        switch (player.weaponManager.CurrentType)
+        switch (player.WeaponManager.CurrentType)
         {
             case WeaponType.Fighter:
             case WeaponType.Sword:
-                return player.meleeHandler;
+                return player.MeleeHandler;
             case WeaponType.Gun:
-                return player.gunHandler;
+                return player.GunHandler;
             default:
-                Debug.LogWarning("Unsupported weapon type!");
+                Debug.LogWarning($"Unsupported weapon type: {player.WeaponManager.CurrentType}");
                 return null;
         }
     }
+
     public void CancelAttack()
     {
         attackHandler?.Cancel();
-        stateMachine.ChangeState(new IdleState(stateMachine, player, PlayerStateType.idle));
+        ChangeState(States.Idle);
     }
-
-
-
-
 }

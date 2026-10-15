@@ -1,46 +1,48 @@
-﻿using UnityEngine;
-
-public class WallSlideState : State
+﻿public class WallSlideState : State
 {
+    public override PlayerStateType StateType => PlayerStateType.wallSlide;
 
-    public WallSlideState(PlayerStateMachine stateMachine, PlayerController player, PlayerStateType stateType)
-        : base(stateMachine, player, stateType)
+    public WallSlideState(PlayerStateMachine stateMachine, PlayerController player)
+        : base(stateMachine, player)
     {
     }
 
     public override void Enter()
     {
         base.Enter();
-        player.AnimationController.Play(PlayerStateType.wallSlide);
-    }
-
-    public override void Exit()
-    {
-        base.Exit();
+        player.AnimationController.Play(StateType);
     }
 
     public override void Update()
     {
         base.Update();
+        var input = player.InputHandler;
+        var groundCheck = player.GroundCheck;
 
-        if (player.GroundCheck.IsGrounded)
+        if (groundCheck.IsGrounded)
         {
-            stateMachine.ChangeState(new LandState(stateMachine, player, PlayerStateType.land));
+            ChangeState(States.Land);
             return;
         }
 
-        if (!player.GroundCheck.IsTouchingWall 
-            || player.InputHandler.MoveInput.x != player.FacingDirection //hướng đang ấn không trùng với hướng mặt (không trùng hướng wall) => không còn chạm tường
-            || player.InputHandler.MoveInput.x == -player.LastWallJumpDirection) // hướng đang ấn là hướng nhảy tường trước đó (không cho wallSlide)
+        if (!groundCheck.IsTouchingWall)
         {
-            stateMachine.ChangeState(new FallState(stateMachine, player, PlayerStateType.fall));
+            ChangeState(States.Fall);
             return;
         }
 
-        if (player.InputHandler.JumpPressed)
+        // Kiểm tra nhảy trước khi xét buông hướng: bấm hướng ngược + nhảy cùng lúc vẫn ra wall jump
+        if (input.JumpPressed)
         {
-            stateMachine.ChangeState(new WallJumpState(stateMachine, player, PlayerStateType.wallSlide));
+            input.ConsumeJump();
+            ChangeState(States.WallJump);
             return;
+        }
+
+        if (input.MoveInput.x != player.FacingDirection         // không còn ấn về phía tường
+            || input.MoveInput.x == -player.LastWallJumpDirection) // đang ấn về bức tường vừa nhảy ra
+        {
+            ChangeState(States.Fall);
         }
     }
 
@@ -52,10 +54,5 @@ public class WallSlideState : State
         {
             player.SetVelocityY(player.stats.wallSlideSpeed);
         }
-    }
-    public override void OnWeaponChanged(AnimationController animationController)
-    {
-        base.OnWeaponChanged(animationController);
-        animationController.Play(PlayerStateType.wallSlide);
     }
 }

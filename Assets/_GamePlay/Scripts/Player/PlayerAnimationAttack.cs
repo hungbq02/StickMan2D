@@ -1,120 +1,48 @@
-﻿using Kore.Utils.Core;
+using Kore.Utils.Core;
 using UnityEngine;
 
+// Các hàm public được gọi từ Animation Event — không đổi tên.
+// Tham số int của event = bước đòn của clip: 0 = đòn trên không, 1..3 = bước combo (xem WeaponAttackManager).
 public class PlayerAnimationAttack : MonoBehaviour
 {
     private PlayerController player;
     public Transform bulletSpawnPoint;
 
-    [Header("Fighter Attack (blue)")]
-    public Transform fighterAttackOrigin;
-    public float fighterAttackRange = 0.4f;
-
-    [Header("Fighter Air Attack (green)")]
-    public Transform fighterAirAttackOrigin;
-    public float fighterAirAttackRange = 0.3f;
-
-    [Header("Sword Attack (red)")]
-    public Transform swordAttackOrigin;
-    public float swordAttackRange = 0.5f;
-
-    public LayerMask enemyLayer;
-
+    [Header("Hitboxes")]
+    public Hitbox fighterHitbox;
+    public Hitbox fighterAirHitbox;
+    public Hitbox swordHitbox;
 
     private void Awake()
     {
         player = GetComponentInParent<PlayerController>();
     }
+
     public void Fire()
     {
-        Bullet bullet = ObjectPool.Spawn(Service.Get<Bootstrap>().bulletPrefab, 
+        Bullet bullet = ObjectPool.Spawn(Service.Get<Bootstrap>().bulletPrefab,
                                         bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         bullet.SetDirection(bulletSpawnPoint.right * player.FacingDirection);
     }
-    public void FighterAttack()
-    {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(fighterAttackOrigin.position, fighterAttackRange, enemyLayer); //Kiểm tra đối tượng hiện có bên trong
-        // Lấy AttackData tương ứng với WeaponType
-        AttackDataSO attackData = player.weaponAttackManager.CurrentAttackData;
 
-        foreach (Collider2D collider in colliders)
+    public void FighterAttack(int attackStep) => CheckHit(fighterHitbox, WeaponType.Fighter, attackStep);
+
+    public void SwordAttack(int attackStep) => CheckHit(swordHitbox, WeaponType.Sword, attackStep);
+
+    public void FighterAirAttack() => CheckHit(fighterAirHitbox, WeaponType.Fighter, WeaponAttackManager.AirAttackStep);
+
+    private void CheckHit(Hitbox hitbox, WeaponType weaponType, int attackStep)
+    {
+        if (hitbox == null) return;
+
+        AttackDataSO attackDataSO = player.WeaponAttackManager.GetAttackData(weaponType, attackStep);
+        if (attackDataSO == null)
         {
-            IDamageable iDamageable  = collider.GetComponent<IDamageable>();
-
-            AttackData attackInfo = new AttackData(
-                                    attackData.damage,
-                                    attackData.knockbackForce,
-                                    attackData.criticalChance,
-                                    attackData.criticalMultiplier,
-                                    attackData.range,
-                                    attackData.effectDuration,
-                                    attackData.attackEffect);
-            iDamageable?.TakeDamage(attackInfo);
+            Debug.LogWarning($"[PlayerAnimationAttack] Không có AttackData cho {weaponType} step {attackStep}", this);
+            return;
         }
+
+        AttackData attackInfo = new AttackData(attackDataSO, player.transform.position);
+        hitbox.CheckHit(attackInfo, player.FacingDirection);
     }
-    public void SwordAttack()
-    {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(swordAttackOrigin.position, swordAttackRange, enemyLayer); //Kiểm tra va chạm trên đường di chuyển
-        // Lấy AttackData tương ứng với WeaponType
-        AttackDataSO attackData = player.weaponAttackManager.CurrentAttackData;
-
-        foreach (Collider2D collider in colliders)
-        {
-            IDamageable iDamageable = collider.GetComponent<IDamageable>();
-            if (iDamageable != null)
-            {
-                AttackData attackInfo = new AttackData(
-                        attackData.damage,
-                        attackData.knockbackForce,
-                        attackData.criticalChance,
-                        attackData.criticalMultiplier,
-                        attackData.range,
-                        attackData.effectDuration,
-                        attackData.attackEffect);
-                 iDamageable.TakeDamage(attackInfo);
-            }
-        }
-    }
-    public void FighterAirAttack()
-    {
-        // Lấy AttackData tương ứng với WeaponType
-        AttackDataSO attackData = player.weaponAttackManager.CurrentAttackData; 
-
-        // Thiết lập hướng đá chéo và khoảng cách quét
-        Vector2 origin = fighterAirAttackOrigin.position;
-        Vector2 direction = new Vector2(player.FacingDirection, -0.3f).normalized;
-        float distance = 2f; // Có thể chỉnh dài hơn nếu tốc độ dive nhanh
-
-        RaycastHit2D[] hits = Physics2D.CircleCastAll(origin, fighterAirAttackRange, direction, distance, enemyLayer);
-
-        foreach (RaycastHit2D hit in hits)
-        {
-            IDamageable iDamageable = hit.collider.GetComponent<IDamageable>();
-            if (iDamageable != null)
-            {
-                AttackData attackInfo = new AttackData(
-                    attackData.damage,
-                    attackData.knockbackForce,
-                    attackData.criticalChance,
-                    attackData.criticalMultiplier,
-                    attackData.range,
-                    attackData.effectDuration,
-                    attackData.attackEffect);
-                iDamageable.TakeDamage(attackInfo);
-            }
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(swordAttackOrigin.position, swordAttackRange);
-
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(fighterAttackOrigin.position, fighterAttackRange);
-
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(fighterAirAttackOrigin.position, fighterAirAttackRange);
-    }
-
 }

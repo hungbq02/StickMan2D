@@ -1,6 +1,4 @@
-﻿using UnityEngine;
-
-public class GunAttackHandler : IAttackHandler
+﻿public class GunAttackHandler : IAttackHandler
 {
     private readonly PlayerController player;
     private readonly AnimationController animationController;
@@ -14,28 +12,22 @@ public class GunAttackHandler : IAttackHandler
         this.animationController = anim;
     }
 
-
     public void Attack()
     {
         isShooting = true;
-        //The gun has no combo, the default attackData is 0
-        player.weaponAttackManager.SetCurrentAttackData(player.weaponAttackManager.GetCurrentAttackData(0));
-
-        animationController.PlayAttack(player.weaponManager.CurrentType);
+        animationController.PlayAttack(player.WeaponManager.CurrentType);
     }
 
     public void Update()
     {
-        if (!isShooting) return;
-
         if (isShooting && animationController.IsDone())
         {
             isShooting = false;
         }
     }
+
     public void Cancel()
     {
         isShooting = false;
     }
-
 }

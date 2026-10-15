@@ -1,66 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ClimbState : State
 {
-    float verticalInput;
-    float climbSpeed;
-    bool isClimbing;
-    public ClimbState(PlayerStateMachine stateMachine, PlayerController player, PlayerStateType stateType) : base(stateMachine, player, stateType )
+    private float verticalInput;
+    private float originalGravityScale;
+
+    public override PlayerStateType StateType => PlayerStateType.climb;
+
+    public ClimbState(PlayerStateMachine stateMachine, PlayerController player) : base(stateMachine, player)
     {
     }
 
     public override void Enter()
     {
+        base.Enter();
+        verticalInput = player.InputHandler.MoveInput.y;
+
         player.Rigidbody.velocity = Vector2.zero;
+        originalGravityScale = player.Rigidbody.gravityScale;
         player.Rigidbody.gravityScale = 0f;
 
         // Animation climb
-        player.AnimationController.Play(PlayerStateType.climb);
-        climbSpeed = player.stats.climbSpeed;
+        player.AnimationController.Play(StateType);
     }
-
 
     public override void FixedUpdate()
     {
-        verticalInput = player.InputHandler.MoveInput.y;
-        Vector2 climbVelocity = new Vector2(0, climbSpeed * verticalInput);
-        player.Rigidbody.velocity = climbVelocity;
-    }    
-    
+        base.FixedUpdate();
+        player.Rigidbody.velocity = new Vector2(0f, player.stats.climbSpeed * verticalInput);
+    }
+
     public override void Update()
     {
-        float speed = verticalInput >= 0 ? verticalInput : -verticalInput;
-        player.AnimationController.SetSpeedAnimation(speed);
+        base.Update();
+        var input = player.InputHandler;
+        var groundCheck = player.GroundCheck;
 
-        isClimbing = player.GroundCheck.IsTouchingLadder;
+        verticalInput = input.MoveInput.y;
+        player.AnimationController.SetSpeedAnimation(Mathf.Abs(verticalInput));
 
         //jump
-        if (player.InputHandler.JumpPressed)
+        if (input.JumpPressed)
         {
-            player.SetVelocityY(player.stats.jumpForce);
-            stateMachine.ChangeState(new JumpState(stateMachine, player, PlayerStateType.jump));
+            input.ConsumeJump();
+            ChangeState(States.Jump);
             return;
         }
-        if (player.GroundCheck.IsGrounded || !isClimbing)
+        if (groundCheck.IsGrounded || !groundCheck.IsTouchingLadder)
         {
-            stateMachine.ChangeState(new IdleState(stateMachine, player, PlayerStateType.idle));
-            return;
+            ChangeState(States.Idle);
         }
-
-
     }
+
     public override void Exit()
     {
         base.Exit();
         player.AnimationController.SetSpeedAnimation(1f);
-        player.Rigidbody.gravityScale = 3f;
-    }
-
-    public override void OnWeaponChanged(AnimationController animationController)
-    {
-        base.OnWeaponChanged(animationController);
-        animationController.Play(PlayerStateType.climb);
+        player.Rigidbody.gravityScale = originalGravityScale;
     }
 }

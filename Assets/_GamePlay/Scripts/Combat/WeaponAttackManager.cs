@@ -1,56 +1,44 @@
-﻿using Kore;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(WeaponManager))]
+// Tra cứu AttackDataSO theo (vũ khí, bước đòn). Không giữ state "đòn hiện tại":
+// animation event tự truyền bước đòn của clip nên đổi vũ khí / combo giữa chừng không đọc nhầm data.
 public class WeaponAttackManager : MonoBehaviour
 {
+    // Quy ước tham số int của animation event
+    public const int AirAttackStep = 0; // đòn trên không
+    // 1..N = bước combo trên mặt đất (Gun: 1 = bắn thường)
+
+    // Vị trí đòn trên không trong attackDataList (xem AttackComboIndex) — sẽ thay bằng field riêng ở CB-02
+    private static readonly Dictionary<WeaponType, int> airAttackIndexMap = new Dictionary<WeaponType, int>
+    {
+        { WeaponType.Fighter, AttackComboIndex.Fighter.AirAttack },
+        { WeaponType.Sword, AttackComboIndex.Sword.AirAttack },
+        { WeaponType.Gun, AttackComboIndex.Gun.AirShoot },
+    };
+
     [Tooltip("Chỉ dùng cho vũ khí cận chiến (fighter, sword). DataAttack Gun được gắn ở Bullet")]
     [SerializeField] private List<WeaponAttackDataSO> weaponAttackDataList;
 
-    private WeaponAttackDataSO currentWeaponAttackProfile;
-    private AttackDataSO currentAttackData;
-    public AttackDataSO CurrentAttackData => currentAttackData;
-
-    private WeaponManager weaponManager;
-
-    public void Initialize(WeaponManager weaponManager)
+    public AttackDataSO GetAttackData(WeaponType weaponType, int attackStep)
     {
-        this.weaponManager = weaponManager;
-        ObserverService.Subscribe(ObserverEnum.OnChangeWeapon, HandleWeaponChanged);
-        currentWeaponAttackProfile = GetCurrentWeaponAttackProfile();
-        currentAttackData = GetCurrentAttackData();
-    }
+        WeaponAttackDataSO profile = weaponAttackDataList.Find(p => p != null && p.weaponType == weaponType);
+        if (profile == null) return null;
 
-    private void OnDestroy()
-    {
-        ObserverService.Unsubscribe(ObserverEnum.OnChangeWeapon, HandleWeaponChanged);
-    }
-
-    public AttackDataSO GetCurrentAttackData(int comboIndex = 0)
-    {
-        if (currentWeaponAttackProfile != null &&
-            comboIndex >= 0 &&
-            comboIndex < currentWeaponAttackProfile.attackDataList.Count)
+        bool hasAirAttack = airAttackIndexMap.TryGetValue(weaponType, out int airIndex);
+        int index;
+        if (attackStep == AirAttackStep)
         {
-            return currentWeaponAttackProfile.attackDataList[comboIndex];
+            if (!hasAirAttack) return null;
+            index = airIndex;
         }
-        return null;
-    }
+        else
+        {
+            index = attackStep - 1; // comboStep bắt đầu từ 1
+            if (hasAirAttack && index == airIndex) return null; // bước combo không được trỏ vào đòn trên không
+        }
 
-    private WeaponAttackDataSO GetCurrentWeaponAttackProfile()
-    {
-        return weaponAttackDataList.Find(p => p.weaponType == weaponManager.CurrentType);
-    }
-
-    public void SetCurrentAttackData(AttackDataSO data)
-    {
-        currentAttackData = data;
-    }
-
-    private void HandleWeaponChanged()
-    {
-        currentWeaponAttackProfile = GetCurrentWeaponAttackProfile();
-        currentAttackData = GetCurrentAttackData();
+        if (index < 0 || index >= profile.attackDataList.Count) return null;
+        return profile.attackDataList[index];
     }
 }

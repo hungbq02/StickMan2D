@@ -6,6 +6,8 @@ public class PlayerStats
     [Header("Movement")]
     public float moveSpeed = 5f;
     public float jumpForce = 13f;
+    [Tooltip("Thời gian (giây) sau khi rời mép vẫn được phép nhảy")]
+    public float coyoteTime = 0.1f;
     [Tooltip("Tốc độ Kickdown (airAttack Fighter)")]
     public float diveSpeed = 25f;
 
@@ -21,29 +23,24 @@ public class PlayerStats
     public float wallJumpForceY = 14f;
 
     [Header("Dash")]
-    [Tooltip("Tốc độ trượt xuống khi nhân vật bám vào tường")]
+    [Tooltip("Thời gian dash (giây)")]
     public float dashDuration = 0.15f;
-    [Tooltip("Tốc độ trượt xuống khi nhân vật bám vào tường")]
+    [Tooltip("Tốc độ dash")]
     public float dashSpeed = 20f;
 
     [Header("Slide")]
-    [Tooltip("Tốc độ trượt xuống khi nhân vật bám vào tường")]
-    public float slideDuration = 0.2f; // Thời gian trượt
-    [Tooltip("Tốc độ trượt xuống khi nhân vật bám vào tường")]
-    public float slideSpeed = 15f; // Tốc độ trượt
-    [Tooltip("Tốc độ trượt xuống khi nhân vật bám vào tường")]
-    public float slideHeightMultiplier = 0.5f; 
+    [Tooltip("Thời gian trượt (giây)")]
+    public float slideDuration = 0.2f;
+    [Tooltip("Tốc độ trượt")]
+    public float slideSpeed = 15f;
+    [Tooltip("Tỉ lệ chiều cao collider khi trượt (0.5 = còn một nửa)")]
+    public float slideHeightMultiplier = 0.5f;
 
     [Header("Climb")]
     [Tooltip("Tốc độ leo trèo")]
     public float climbSpeed = 5f;
 
-
-
-
     [Header("Combat")]
-    [Tooltip("Thời gian cho phép giữ trạng thái combo (fighter, sword)")]
+    [Tooltip("Thời gian cho phép bấm tiếp combo (fighter, sword)")]
     public float attackComboCooldown = 0.4f;
-    [Tooltip("sát thương chí mạng (gốc * criticalDamageMultiplier)")]
-    public float criticalDamageMultiplier = 2f;
 }

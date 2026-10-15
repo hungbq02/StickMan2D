@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GroundCheck : MonoBehaviour
@@ -21,6 +19,8 @@ public class GroundCheck : MonoBehaviour
     public bool IsGrounded { get; private set; }
     public bool IsTouchingWall { get; private set; }
     public bool IsTouchingLadder { get; private set; }
+    // Thời điểm gần nhất còn chạm đất (dùng cho coyote time)
+    public float LastGroundedTime { get; private set; } = float.NegativeInfinity;
 
     private PlayerController player;
 
@@ -28,26 +28,37 @@ public class GroundCheck : MonoBehaviour
     {
         player = GetComponent<PlayerController>();
     }
+
     void FixedUpdate()
     {
         IsGrounded = Physics2D.OverlapCircle(groundCheckPoint.position, checkRadiusGround, groundLayer);
         IsTouchingWall = Physics2D.Raycast(wallCheckPoint.position, Vector2.right * player.FacingDirection, wallCheckDistance, wallLayer);
         IsTouchingLadder = Physics2D.OverlapCircle(ladderCheckPoint.position, checkRadiusLadder, ladderLayer);
+
+        if (IsGrounded)
+            LastGroundedTime = Time.time;
     }
 
     void OnDrawGizmosSelected()
     {
-        if (groundCheckPoint == null) return;
-        Gizmos.color = Color.green;
-        Gizmos.DrawWireSphere(groundCheckPoint.position, checkRadiusGround);
+        if (groundCheckPoint != null)
+        {
+            Gizmos.color = Color.green;
+            Gizmos.DrawWireSphere(groundCheckPoint.position, checkRadiusGround);
+        }
 
-        if (ladderCheckPoint == null) return;
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireSphere(ladderCheckPoint.position, checkRadiusLadder);
+        if (ladderCheckPoint != null)
+        {
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawWireSphere(ladderCheckPoint.position, checkRadiusLadder);
+        }
 
-/*        if (wallCheckPoint == null) return;
-        Gizmos.color = Color.red;
-        Gizmos.DrawLine(wallCheckPoint.position, wallCheckPoint.position + Vector3.right * player.FacingDirection * wallCheckDistance);*/
-
+        if (wallCheckPoint != null)
+        {
+            // Ngoài Play mode chưa có player => lấy hướng theo transform
+            float facing = player != null ? player.FacingDirection : Mathf.Sign(transform.right.x);
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(wallCheckPoint.position, wallCheckPoint.position + Vector3.right * facing * wallCheckDistance);
+        }
     }
 }
