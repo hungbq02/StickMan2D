@@ -45,6 +45,7 @@
   - Đạn sinh từ code cùng frame `Play` (bỏ event `Fire` ở t=0 — không chắc bắn lại khi phát lại cùng state); animation đòn đánh luôn phát lại từ đầu; `IsDone` không báo xong ở frame vừa `Play`.
   - Bắn trên không giữ tư thế hết clip (0.2s) rồi mới Fall (trước: đổi Fall ngay khi rơi => tư thế bắn chỉ 1 frame; đang bay lên thì kẹt tư thế tới đỉnh).
   - Hướng đạn tính theo world (`Space.World`), bỏ kiểu nhân hướng 2 lần.
+- [x] **FIX-10** Camera không theo kịp khi rơi (dead zone Y 0.75 + trễ 0.12s, player rơi tới ~40 unit/s). `CameraFollow`: rơi càng nhanh càng nhìn trước xuống dưới (tối đa 2u) và trục Y bám nhanh hơn (0.12s → 0.04s); thêm safe frame — player luôn cách mép khung ≥ 20% nửa khung, vượt thì camera bắt kịp ngay. Test rơi 21u: player luôn ở 40–53% chiều cao màn hình.
 - [ ] **FIX-07** 🟡 🖥️ Play-test toàn bộ thay đổi — xem mục **"Cần play-test"** cuối file
   - Đã làm (2026-10-15, qua MCP): Unity sinh `.meta` cho `PlayerStates.cs`, `GroundedState.cs`, `AirborneState.cs`; compile 0 lỗi; `SampleScene` validate sạch (0 missing script); tham chiếu trên Player đầy đủ; vào Play không có exception, `PlayerController` khởi tạo đủ state.
   - Còn lại: bạn tự chơi thử theo bảng "Cần play-test" (MCP không test được cảm giác chơi — Editor không chạy frame khi mất focus). Kiểm tra `attackComboCooldown` (scene 0.4 vs code cũ 0.5).
@@ -157,6 +158,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Enemy AI (`MeleeEnemy` ở x=19) | Không có enemy đánh trả | Tuần tra, đuổi khi thấy player (6u), vung đòn 0.45s (tô đỏ) rồi đánh 10 dmg, cooldown 1.2s — chỉnh trong `MeleeEnemyData` |
 | Camera | Bám cứng tâm player (thấy cả khoảng trống dưới đất) | Mượt 0.12s, vùng chết nhỏ, không nhìn ra ngoài biên level — player đứng đất nằm ở ~1/3 dưới màn hình |
 | Súng | Bắn liên tục: viên thứ 2+ vô hình; đạn hiện lệch phía trước nòng; bắn trên không tư thế chớp 1 frame | Mọi phát đều ra đạn từ đúng đầu nòng cùng frame giật súng; bắn trên không giữ tư thế 0.2s |
+| Camera khi rơi | Tụt lại, player chạy về mép dưới / ra khỏi màn hình | Nhìn trước xuống dưới, bám sát; player luôn trong khung |
 
 ---
 
