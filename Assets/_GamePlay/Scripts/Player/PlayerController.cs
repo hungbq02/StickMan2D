@@ -124,6 +124,13 @@ public class PlayerController : MonoBehaviour
         Rigidbody.velocity = new Vector2(x, Rigidbody.velocity.y);
     }
 
+    // Hãm vận tốc ngang về 0 (gọi trong FixedUpdate) — chỉ khi đứng trên đất
+    public void BrakeOnGround()
+    {
+        if (!GroundCheck.IsGrounded) return;
+        SetVelocityX(Mathf.MoveTowards(Rigidbody.velocity.x, 0f, stats.groundDeceleration * Time.fixedDeltaTime));
+    }
+
     //Reset direction walljump
     public void ResetWallJumpLock()
     {

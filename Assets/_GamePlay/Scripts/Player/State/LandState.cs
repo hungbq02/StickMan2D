@@ -19,6 +19,12 @@ public class LandState : GroundedState
         player.AnimationController.Play(StateType);
     }
 
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        player.BrakeOnGround();
+    }
+
     // Kế thừa GroundedState nên jump/attack/dash/slide có thể huỷ animation tiếp đất
     public override void Update()
     {

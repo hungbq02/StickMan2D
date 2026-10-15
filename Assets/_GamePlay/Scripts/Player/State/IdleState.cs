@@ -26,6 +26,12 @@ public class IdleState : GroundedState
         }
     }
 
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        player.BrakeOnGround(); // vận tốc dư (knockback) không làm nhân vật trượt mãi
+    }
+
     public override void OnWeaponChanged(AnimationController animationController)
     {
         animationController.SetSpeedAnimation(1f);

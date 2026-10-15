@@ -50,4 +50,7 @@ public class PlayerStatsSO : ScriptableObject
     public float hurtDuration = 0.3f;
     [Tooltip("Thời gian bất tử (i-frame) sau khi trúng đòn (giây)")]
     public float invincibilityDuration = 0.8f;
+    [Tooltip("Gia tốc hãm ngang (unit/s²) khi đứng trên đất mà không chạy (Idle, Land, Hurt, Stun) — triệt tiêu knockback. " +
+             "Collider dùng NoFriction nên không hãm thì bị đẩy là trượt mãi")]
+    public float groundDeceleration = 40f;
 }

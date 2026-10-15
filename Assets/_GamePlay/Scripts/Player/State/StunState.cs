@@ -22,6 +22,12 @@ public class StunState : State
             ChangeToDefaultState();
     }
 
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        player.BrakeOnGround();
+    }
+
     public override void OnWeaponChanged(AnimationController animationController)
     {
         animationController.Play(PlayerStateType.hit);

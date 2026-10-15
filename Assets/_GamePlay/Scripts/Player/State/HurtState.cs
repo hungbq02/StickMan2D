@@ -20,6 +20,13 @@ public class HurtState : State
         player.AnimationController.Play(StateType);
     }
 
+    // Knockback đẩy lùi rồi hãm dần trên đất (trên không giữ quán tính)
+    public override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        player.BrakeOnGround();
+    }
+
     public override void Update()
     {
         base.Update();
