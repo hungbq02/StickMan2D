@@ -41,7 +41,8 @@
 - [x] **CB-01** Bỏ `CurrentAttackData` mutable dùng chung. Tham số `int` của animation event = bước đòn của clip (`0` = trên không, `1..3` = combo); vũ khí suy ra từ tên hàm event (`FighterAttack`/`SwordAttack`). `WeaponAttackManager` chỉ còn `GetAttackData(weapon, step)` (stateless) → đổi vũ khí / combo nhanh giữa chừng không đọc nhầm data. Đã gán `intParameter` cho 10 clip (gồm 2 clip Gun, chuẩn bị cho CB-03).
 - [x] **CB-02** `WeaponAttackDataSO`: `attackDataList` → `comboSteps` + field riêng `airAttack` (đã migrate 3 asset). Xoá `AttackComboIndex`; `MeleeAttackHandler` lấy số đòn combo từ `comboSteps.Count` thay vì hằng `3`.
 - [x] **CB-03** Đạn nhận `AttackData` từ người bắn: `Fire(int attackStep)` tra data qua `WeaponAttackManager`, roll crit lúc bắn, `Bullet.Launch(dir, data)`. Bỏ field `attackData` trên prefab `bullet`. Bắn trên không giờ dùng `GunAirAttackData` (trước đây không được dùng). `Bullet` cũng tự recycle sau `lifeTime`.
-- [ ] **CB-04** `P1` `M` 🖥️ Shield chặn damage thật (cần xem layout prefab enemy).
+- [x] **CB-04** Khiên chặn damage thật: `Shield` không còn là `IDamageable` riêng (trước đây hitbox trúng cả khiên lẫn thân => trừ máu cả 2) mà là `IDamageBlocker` đăng ký với `Damageable` của chủ. Đòn từ phía có khiên (hoặc mọi phía nếu `blockAllDirections`) bị khiên hấp thụ trọn — chủ không mất máu / knockback / effect; khiên trừ `FinalDamage`, vỡ thì tắt. `Damageable.OnBlocked` cho VFX/SFX.
+  - Chưa có enemy nào gắn khiên — gắn: child object + `Shield` (tự thêm `Health`), đặt lệch về phía cần chặn. Khiên vỡ không tự hồi khi enemy lấy lại từ pool → xử lý ở EN-03.
 - [ ] **CB-05** 🟡 `P1` `M` Hệ effect thống nhất.
   - Đã làm: `BurnEffect` tự nghe `Damageable.OnDamaged` khi `effectType == Burn` (trước đây không ai gọi); xoá `IEffectReceiver` không dùng.
   - Còn lại: `Freeze` chưa có; `KnockbackEffect` vẫn dựa vào `knockbackForce > 0` thay vì effect; cân nhắc `EffectSO` 🖥️.
