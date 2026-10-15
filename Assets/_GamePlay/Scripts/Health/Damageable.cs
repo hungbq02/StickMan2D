@@ -7,6 +7,9 @@ using UnityEngine;
 [RequireComponent(typeof(Death))]
 public class Damageable : MonoBehaviour, IDamageable
 {
+    [SerializeField] private Team team = Team.Neutral;
+    public Team Team => team;
+
     private Health health;
     private readonly List<IDamageBlocker> blockers = new List<IDamageBlocker>();
 
@@ -42,9 +45,15 @@ public class Damageable : MonoBehaviour, IDamageable
         blockers.Remove(blocker);
     }
 
+    private bool IsSameTeam(Team sourceTeam)
+    {
+        return team != Team.Neutral && sourceTeam == team;
+    }
+
     public void TakeDamage(AttackData attackData)
     {
         if (health == null || !health.IsAlive || IsInvulnerable) return;
+        if (IsSameTeam(attackData.sourceTeam)) return;
 
         // Duyệt ngược: blocker có thể tự gỡ (khiên vỡ => SetActive(false)) ngay trong TryBlock
         for (int i = blockers.Count - 1; i >= 0; i--)

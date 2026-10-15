@@ -47,7 +47,7 @@
   - Để sau: `EffectSO` (tham số effect theo asset) khi có nhiều biến thể; burn tick hiện cố định 5 dmg/1s trên component.
 - [x] **CB-06** Damage/máu thống nhất `int`: `Health` (`maxHealth`, `Current`, `TakeDamage`, `Heal`, `OnHealthChanged`) và `BurnEffect.damagePerTick` chuyển từ `float` sang `int`. Giá trị serialize cũ (100, 5) đọc lại đúng, không cần sửa scene.
 - [x] **CB-07** Crit roll 1 lần lúc tạo `AttackData` (`isCritical`, `FinalDamage`) — mọi mục tiêu trúng cùng kết quả; sửa lỗi crit chance 0 vẫn có thể crit.
-- [ ] **CB-08** `P2` `S` Faction/team — làm khi enemy bắt đầu tấn công (hiện đã tách bằng layer).
+- [x] **CB-08** Faction: enum `Team` (Neutral / Player / Enemy) trên `Damageable`; `AttackData.sourceTeam` do người đánh gán (player: `PlayerAnimationAttack`, đạn mang theo `AttackData`). `Damageable` bỏ qua đòn cùng phe; Neutral nhận/gây damage cho mọi phe. Scene: Player = `Player`, 3 enemy = `Enemy`. Layer vẫn giữ để lọc va chạm.
 - [x] **CB-09** `Hitbox` dùng `OverlapCircle`/`CircleCast` với `ContactFilter2D` + List tái sử dụng; gizmo CircleCast vẽ theo hướng mặt.
 - [x] **CB-10** I-frame: `Damageable.SetInvulnerable(duration)` / `IsInvulnerable` (bỏ qua mọi đòn, reset khi object bật lại từ pool). Player bật `stats.invincibilityDuration` = 0.8s mỗi lần trúng đòn; `InvulnerabilityBlink` nhấp nháy sprite trong lúc bất tử. DoT (Burn) trừ thẳng `Health` nên vẫn tác dụng.
 

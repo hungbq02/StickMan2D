@@ -52,6 +52,7 @@ public class PlayerAnimationAttack : MonoBehaviour
         }
 
         attackInfo = new AttackData(attackDataSO, player.transform.position);
+        attackInfo.sourceTeam = player.Damageable != null ? player.Damageable.Team : Team.Player;
         return true;
     }
 }

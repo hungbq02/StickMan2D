@@ -10,6 +10,8 @@ public struct AttackData
     public AttackEffect effectType;
     public float effectDuration;
     public Vector2 attackerPosition;
+    // Phe người tấn công — Damageable cùng phe bỏ qua đòn (không friendly fire). Mặc định Neutral.
+    public Team sourceTeam;
     // Roll 1 lần lúc tạo đòn đánh (phía người tấn công) => mọi mục tiêu trúng cùng kết quả, UI/VFX biết là crit
     public bool isCritical;
 
@@ -25,6 +27,7 @@ public struct AttackData
         this.effectDuration = effectDuration;
         this.effectType = attackEffect;
         this.attackerPosition = attackerPosition;
+        this.sourceTeam = Team.Neutral;
         this.isCritical = RollCritical(criticalChance);
     }
 
