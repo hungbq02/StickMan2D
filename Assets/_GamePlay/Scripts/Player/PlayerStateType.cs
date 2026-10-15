@@ -13,4 +13,5 @@ public enum PlayerStateType
     climb,
     hit,
     stun, // dùng animation hit
+    death,
 }

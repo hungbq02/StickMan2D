@@ -48,7 +48,7 @@
 - [x] **FIX-10** Camera không theo kịp khi rơi (dead zone Y 0.75 + trễ 0.12s, player rơi tới ~40 unit/s). `CameraFollow`: rơi càng nhanh càng nhìn trước xuống dưới (tối đa 2u) và trục Y bám nhanh hơn (0.12s → 0.04s); thêm safe frame — player luôn cách mép khung ≥ 20% nửa khung, vượt thì camera bắt kịp ngay. Test rơi 21u: player luôn ở 40–53% chiều cao màn hình.
 - [x] **FIX-11** Player trượt dài trên đất khi bị enemy đánh: collider `NoFriction` + Idle / Land / Hurt / Stun không hãm vận tốc ngang => knockback 5 u/s giữ mãi. Thêm `PlayerStatsSO.groundDeceleration` (40 u/s²) + `PlayerController.BrakeOnGround()` cho 4 state trên => bị đẩy lùi ~0.26u rồi dừng.
 - [x] **FIX-12** Rà animation: 47 clip đều đã gắn state. Thống nhất loop — `jump` Sword/Gun, `land`/`fall` Gun, `death` ×3 chuyển sang phát 1 lần (trước: jump Gun/Sword lặp 3 frame khi bay lên => giật); xoá state rỗng `New State`, default = `idle_Fighter`. Cú đá Fighter (`fighterAirHitbox` r=0.5 tại (0.66, −1.11)): phạm vi ôm bàn chân + ống chân ở frame `fighter_air_attack_0062`, damage 1 lần — đã test, giữ nguyên.
-  - Chưa dùng: `walk_*` (không có state đi bộ — chỉ cần nếu muốn đi chậm theo joystick), `death_*` (chờ GS-02 quyết player chết thì hồi sinh / màn thua), `IdleVFX` (demo của asset pack Pixel Art).
+  - Chưa dùng: `walk_*` (không có state đi bộ — chỉ cần nếu muốn đi chậm theo joystick), `death_*` → đã dùng ở GS-02 (DeadState), `IdleVFX` (demo của asset pack Pixel Art).
 - [ ] **FIX-07** 🟡 🖥️ Play-test toàn bộ thay đổi — xem mục **"Cần play-test"** cuối file
   - Đã làm (2026-10-15, qua MCP): Unity sinh `.meta` cho `PlayerStates.cs`, `GroundedState.cs`, `AirborneState.cs`; compile 0 lỗi; `SampleScene` validate sạch (0 missing script); tham chiếu trên Player đầy đủ; vào Play không có exception, `PlayerController` khởi tạo đủ state.
   - Còn lại: bạn tự chơi thử theo bảng "Cần play-test" (MCP không test được cảm giác chơi — Editor không chạy frame khi mất focus). Kiểm tra `attackComboCooldown` (scene 0.4 vs code cũ 0.5).
@@ -114,7 +114,9 @@
 ## Phase 6 — Game structure (P2)
 
 - [ ] **GS-01** `P2` `M` Scene flow: Bootstrap scene → Menu → Level, service lifetime rõ ràng.
-- [ ] **GS-02** `P2` `M` Game flow: level start / win / fail / respawn.
+- [ ] **GS-02** 🟡 `P2` `M` Game flow: level start / win / fail / respawn.
+  - Đã làm (tạm thời): player hết máu → `DeadState` (phát `death_{weapon}`, khoá điều khiển, không nhận thêm damage) → sau `PlayerStatsSO.respawnDelay` (2s) hồi sinh tại điểm xuất phát (`PlayerController.Respawn`: đầy máu, gỡ status effect, xoá input buffer, i-frame). Player không còn bị tắt khi chết; enemy bỏ qua target đã chết. `SetSpawnPoint` sẵn cho checkpoint.
+  - Còn lại: điều kiện thắng màn, giới hạn mạng / màn thua, checkpoint.
 - [x] **GS-03** HUD (prefab `Prefabs/UI/HUD`, theo skill `ui-canvas-layout` cho màn ngang): Canvas Overlay sortingOrder 0, `CanvasScaler` 1920×1080 + `CanvasScalerMatchHelper`, `SafeAreaPanel`; góc trên trái thanh máu (fill chạy mượt, màu đỏ→vàng→xanh theo %, chữ `hiện/tối đa`) + tên vũ khí. `PlayerHUD` nghe `Health.OnHealthChanged` / `WeaponManager.OnWeaponChanged`; `Health.OnEnable` cũng bắn `OnHealthChanged` (respawn / pool).
 - [ ] **GS-04** `P2` `M` Audio service (SFX đánh/trúng/nhảy, BGM).
 - [ ] **GS-05** `P3` `M` Save system (tiến độ level, vũ khí mở khoá).
@@ -163,6 +165,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Súng | Bắn liên tục: viên thứ 2+ vô hình; đạn hiện lệch phía trước nòng; bắn trên không tư thế chớp 1 frame | Mọi phát đều ra đạn từ đúng đầu nòng cùng frame giật súng; bắn trên không giữ tư thế 0.2s |
 | Camera khi rơi | Tụt lại, player chạy về mép dưới / ra khỏi màn hình | Nhìn trước xuống dưới, bám sát; player luôn trong khung |
 | Bị đánh trên đất | Trượt mãi tới khi bấm phím | Lùi ~0.26u rồi dừng — chỉnh `groundDeceleration` / `knockbackForce` |
+| Player hết máu | Object bị tắt, game đứng | Animation chết → 2s sau hồi sinh tại điểm xuất phát (đầy máu, nhấp nháy bất tử 0.8s) — chỉnh `respawnDelay` |
 
 ---
 

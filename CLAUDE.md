@@ -33,6 +33,7 @@ Assets/_GamePlay/
 - `PlayerStateMachine` bọc `StateMachine<State>`: chặn `ChangeState` lồng trong Enter/Exit, cảnh báo (Editor) khi đổi state nhiều lần / frame. **Luôn `return` ngay sau `ChangeState`** trong Update.
 - State cha: `GroundedState` (Idle, Run, Land), `AirborneState` (Jump, Fall) gom transition chung. Thứ tự `if` = độ ưu tiên.
 - Bị đánh: `Damageable.OnDamaged` → `HurtState` (`stats.hurtDuration`) → `StunState` nếu đang choáng → Idle/Fall; bật i-frame `stats.invincibilityDuration`.
+- Hết máu: `Health.OnDeath` → `DeadState` (animation `death_{Weapon}`) → sau `stats.respawnDelay` gọi `PlayerController.Respawn()` (điểm hồi sinh: `SetSpawnPoint`). `Death` của Player để `deactivateOnDeath = false`.
 - Input: `PlayerInputHandler` buffer nút 0.1s — dùng xong phải `Consume*()`. Coyote time qua `player.CanGroundJump`.
 - Chỉ số: asset `Data/PlayerStats` (`PlayerStatsSO`), truy cập `player.stats.X`.
 

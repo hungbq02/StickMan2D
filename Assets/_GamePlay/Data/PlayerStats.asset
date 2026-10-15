@@ -30,3 +30,4 @@ MonoBehaviour:
   hurtDuration: 0.3
   invincibilityDuration: 0.8
   groundDeceleration: 40
+  respawnDelay: 2

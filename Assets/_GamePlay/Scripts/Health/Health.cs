@@ -40,6 +40,13 @@ public class Health : MonoBehaviour
             OnDeath?.Invoke();
     }
 
+    // Hồi sinh với đầy máu (object không bị tắt / bật lại, vd: player respawn)
+    public void Revive()
+    {
+        currentHealth = maxHealth;
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+
     public void Heal(int amount)
     {
         if (!IsAlive || amount <= 0) return;

@@ -19,6 +19,7 @@ public class EnemyController : MonoBehaviour
     private Color[] baseColors;
     private StunEffect stunEffect;
     private FreezeEffect freezeEffect;
+    private Health targetHealth;
 
     public EnemyDataSO Data => data;
     public Rigidbody2D Rigidbody { get; private set; }
@@ -84,6 +85,8 @@ public class EnemyController : MonoBehaviour
             var player = FindObjectOfType<PlayerController>();
             if (player != null) Target = player.transform;
         }
+        if (Target != null && targetHealth == null)
+            targetHealth = Target.GetComponent<Health>();
         machine.Initialize(Patrol);
     }
 
@@ -115,7 +118,8 @@ public class EnemyController : MonoBehaviour
 
     // ---- Target ----
 
-    public bool HasTarget => Target != null && Target.gameObject.activeInHierarchy;
+    // Player đã chết (đang chờ hồi sinh) thì không còn là mục tiêu => enemy quay về tuần tra
+    public bool HasTarget => Target != null && Target.gameObject.activeInHierarchy && (targetHealth == null || targetHealth.IsAlive);
 
     public float TargetDistanceX => HasTarget ? Mathf.Abs(Target.position.x - transform.position.x) : float.PositiveInfinity;
 

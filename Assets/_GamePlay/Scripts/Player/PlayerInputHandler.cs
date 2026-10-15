@@ -54,5 +54,14 @@ public class PlayerInputHandler : MonoBehaviour
     public void ConsumeDash() => dashPressedTime = float.NegativeInfinity;
     public void ConsumeSlide() => slidePressedTime = float.NegativeInfinity;
 
+    // Bỏ mọi nút đang buffer (vd: bấm trong lúc chết không được dùng ngay khi hồi sinh)
+    public void ClearBuffer()
+    {
+        ConsumeJump();
+        ConsumeAttack();
+        ConsumeDash();
+        ConsumeSlide();
+    }
+
     private bool IsBuffered(float pressedTime) => Time.time - pressedTime <= inputBufferTime;
 }

@@ -53,4 +53,8 @@ public class PlayerStatsSO : ScriptableObject
     [Tooltip("Gia tốc hãm ngang (unit/s²) khi đứng trên đất mà không chạy (Idle, Land, Hurt, Stun) — triệt tiêu knockback. " +
              "Collider dùng NoFriction nên không hãm thì bị đẩy là trượt mãi")]
     public float groundDeceleration = 40f;
+
+    [Header("Death")]
+    [Tooltip("Thời gian (giây) từ lúc hết máu tới lúc hồi sinh tại điểm xuất phát")]
+    public float respawnDelay = 2f;
 }

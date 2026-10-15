@@ -36,8 +36,13 @@ public class PlayerController : MonoBehaviour
     public bool CanDash { get; private set; } = true;
 
     public Damageable Damageable { get; private set; }
+    public Health Health { get; private set; }
     private StunEffect stunEffect;
     public bool IsStunned => stunEffect != null && stunEffect.IsStunned;
+    public bool IsDead => Health != null && !Health.IsAlive;
+
+    // Điểm hồi sinh — mặc định vị trí xuất phát; checkpoint (GS-02) gọi SetSpawnPoint
+    private Vector2 spawnPoint;
 
     // Coyote time: cho phép nhảy trong thời gian ngắn sau khi rời mặt đất mà chưa nhảy
     private bool coyoteAvailable;
@@ -62,7 +67,9 @@ public class PlayerController : MonoBehaviour
         GhostSpawner = GetComponentInChildren<GhostSpriteSpawner>();
         AnimationAttack = GetComponentInChildren<PlayerAnimationAttack>();
         Damageable = GetComponent<Damageable>();
+        Health = GetComponent<Health>();
         stunEffect = GetComponent<StunEffect>();
+        spawnPoint = transform.position;
 
         originalSizeCollider = Collider.size;
         originalOffsetCollider = Collider.offset;
@@ -70,6 +77,8 @@ public class PlayerController : MonoBehaviour
         WeaponManager.OnWeaponChanged += HandleWeaponChanged;
         if (Damageable != null)
             Damageable.OnDamaged += HandleDamaged;
+        if (Health != null)
+            Health.OnDeath += HandleDeath;
 
         MeleeHandler = new MeleeAttackHandler(this, AnimationController);
         GunHandler = new GunAttackHandler(this, AnimationController);
@@ -83,6 +92,8 @@ public class PlayerController : MonoBehaviour
             WeaponManager.OnWeaponChanged -= HandleWeaponChanged;
         if (Damageable != null)
             Damageable.OnDamaged -= HandleDamaged;
+        if (Health != null)
+            Health.OnDeath -= HandleDeath;
     }
 
     void Start()
@@ -159,9 +170,32 @@ public class PlayerController : MonoBehaviour
     }
 
     // Trúng đòn => Hurt (rồi Stun nếu đòn có choáng). Đòn bị khiên chặn không tới đây.
-    private void HandleDamaged(int damage, AttackData data)
+    // Health.OnDeath bắn TRƯỚC Damageable.OnDamaged => vào Dead trước, HandleDamaged bỏ qua
+    private void HandleDeath()
     {
         if (!isActiveAndEnabled || stateMachine.CurrentState == null) return;
+        stateMachine.ChangeState(States.Dead);
+    }
+
+    public void SetSpawnPoint(Vector2 position) => spawnPoint = position;
+
+    // Gọi từ DeadState khi hết respawnDelay
+    public void Respawn()
+    {
+        Rigidbody.position = spawnPoint;
+        transform.position = spawnPoint;
+        Rigidbody.velocity = Vector2.zero;
+        ResetCollider();
+        foreach (var effect in GetComponents<StatusEffect>())
+            effect.Stop();
+        InputHandler.ClearBuffer();
+        Health.Revive();
+        Damageable.SetInvulnerable(stats.invincibilityDuration);
+    }
+
+    private void HandleDamaged(int damage, AttackData data)
+    {
+        if (!isActiveAndEnabled || stateMachine.CurrentState == null || IsDead) return;
         Damageable.SetInvulnerable(stats.invincibilityDuration);
         stateMachine.ChangeState(States.Hurt);
     }

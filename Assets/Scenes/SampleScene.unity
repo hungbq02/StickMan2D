@@ -1058,6 +1058,12 @@ MonoBehaviour:
   offset: {x: 0, y: 0, z: 0}
   smoothTime: 0.12
   deadZone: {x: 0.5, y: 0.75}
+  fallSmoothTime: 0.04
+  fallLookAhead: 2
+  fullFallSpeed: 15
+  fallSpeedThreshold: 3
+  lookAheadSmoothTime: 0.2
+  safeMargin: {x: 0.2, y: 0.2}
   useBounds: 1
   bounds:
     serializedVersion: 2
@@ -2225,7 +2231,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef8fa4fa698df84498557bad91ca0e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deactivateOnDeath: 1
+  deactivateOnDeath: 0
   destroyDelay: -1
 --- !u!114 &1276027050
 MonoBehaviour:

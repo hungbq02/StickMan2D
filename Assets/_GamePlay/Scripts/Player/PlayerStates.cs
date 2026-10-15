@@ -15,6 +15,7 @@ public class PlayerStates
     public readonly WallJumpState WallJump;
     public readonly HurtState Hurt;
     public readonly StunState Stun;
+    public readonly DeadState Dead;
 
     public PlayerStates(PlayerStateMachine stateMachine, PlayerController player)
     {
@@ -32,5 +33,6 @@ public class PlayerStates
         WallJump = new WallJumpState(stateMachine, player);
         Hurt = new HurtState(stateMachine, player);
         Stun = new StunState(stateMachine, player);
+        Dead = new DeadState(stateMachine, player);
     }
 }
