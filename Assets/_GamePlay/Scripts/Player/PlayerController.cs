@@ -159,6 +159,7 @@ public class PlayerController : MonoBehaviour
     private void HandleDamaged(int damage, AttackData data)
     {
         if (!isActiveAndEnabled || stateMachine.CurrentState == null) return;
+        Damageable.SetInvulnerable(stats.invincibilityDuration);
         stateMachine.ChangeState(States.Hurt);
     }
 

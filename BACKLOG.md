@@ -49,7 +49,7 @@
 - [x] **CB-07** Crit roll 1 lần lúc tạo `AttackData` (`isCritical`, `FinalDamage`) — mọi mục tiêu trúng cùng kết quả; sửa lỗi crit chance 0 vẫn có thể crit.
 - [ ] **CB-08** `P2` `S` Faction/team — làm khi enemy bắt đầu tấn công (hiện đã tách bằng layer).
 - [x] **CB-09** `Hitbox` dùng `OverlapCircle`/`CircleCast` với `ContactFilter2D` + List tái sử dụng; gizmo CircleCast vẽ theo hướng mặt.
-- [ ] **CB-10** `P2` `S` I-frame sau khi bị đánh (player). `→ SM-05`
+- [x] **CB-10** I-frame: `Damageable.SetInvulnerable(duration)` / `IsInvulnerable` (bỏ qua mọi đòn, reset khi object bật lại từ pool). Player bật `stats.invincibilityDuration` = 0.8s mỗi lần trúng đòn; `InvulnerabilityBlink` nhấp nháy sprite trong lúc bất tử. DoT (Burn) trừ thẳng `Health` nên vẫn tác dụng.
 
 ## Phase 3 — Decoupling & dependency (P1)
 
@@ -124,6 +124,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Bắn súng trên không | Dùng `GunAttackData` (crit 5%) | Dùng `GunAirAttackData` (dmg 10, **crit 0**) — chỉnh asset nếu muốn giống bắn thường |
 | Đòn trên không Fighter | Đặt effect `Knockback` (không có tác dụng) | Effect `None`, knockback vẫn theo `knockbackForce` = 3 — không đổi cảm giác |
 | Player bị trúng đòn | Không phản ứng (không có state) | Mất điều khiển 0.3s + knockback + anim `hit`; đòn choáng giữ tới hết `effectDuration` |
+| I-frame player | Không có | Bất tử 0.8s + nhấp nháy sau mỗi lần trúng — chỉnh `invincibilityDuration` |
 
 ---
 

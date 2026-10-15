@@ -13,9 +13,23 @@ public class Damageable : MonoBehaviour, IDamageable
     public event Action<int, AttackData> OnDamaged;
     public event Action<AttackData> OnBlocked;
 
+    // I-frame: trong thời gian này mọi đòn đánh bị bỏ qua (DoT như Burn trừ thẳng Health nên vẫn tác dụng)
+    private float invulnerableUntil;
+    public bool IsInvulnerable => Time.time < invulnerableUntil;
+
     private void Awake()
     {
         health = GetComponent<Health>();
+    }
+
+    private void OnEnable()
+    {
+        invulnerableUntil = 0f; // object lấy lại từ pool không giữ i-frame cũ
+    }
+
+    public void SetInvulnerable(float duration)
+    {
+        invulnerableUntil = Mathf.Max(invulnerableUntil, Time.time + duration);
     }
 
     public void AddBlocker(IDamageBlocker blocker)
@@ -30,7 +44,7 @@ public class Damageable : MonoBehaviour, IDamageable
 
     public void TakeDamage(AttackData attackData)
     {
-        if (health == null || !health.IsAlive) return;
+        if (health == null || !health.IsAlive || IsInvulnerable) return;
 
         // Duyệt ngược: blocker có thể tự gỡ (khiên vỡ => SetActive(false)) ngay trong TryBlock
         for (int i = blockers.Count - 1; i >= 0; i--)

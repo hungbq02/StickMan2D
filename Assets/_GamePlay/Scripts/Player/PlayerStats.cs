@@ -47,4 +47,6 @@ public class PlayerStats
     [Header("Hurt")]
     [Tooltip("Thời gian mất điều khiển sau khi trúng đòn (giây)")]
     public float hurtDuration = 0.3f;
+    [Tooltip("Thời gian bất tử (i-frame) sau khi trúng đòn (giây)")]
+    public float invincibilityDuration = 0.8f;
 }
