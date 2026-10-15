@@ -102,7 +102,7 @@
 
 - [ ] **GS-01** `P2` `M` Scene flow: Bootstrap scene → Menu → Level, service lifetime rõ ràng.
 - [ ] **GS-02** `P2` `M` Game flow: level start / win / fail / respawn.
-- [ ] **GS-03** `P2` `M` HUD: thanh máu player, vũ khí hiện tại.
+- [x] **GS-03** HUD (prefab `Prefabs/UI/HUD`, theo skill `ui-canvas-layout` cho màn ngang): Canvas Overlay sortingOrder 0, `CanvasScaler` 1920×1080 + `CanvasScalerMatchHelper`, `SafeAreaPanel`; góc trên trái thanh máu (fill chạy mượt, màu đỏ→vàng→xanh theo %, chữ `hiện/tối đa`) + tên vũ khí. `PlayerHUD` nghe `Health.OnHealthChanged` / `WeaponManager.OnWeaponChanged`; `Health.OnEnable` cũng bắn `OnHealthChanged` (respawn / pool).
 - [ ] **GS-04** `P2` `M` Audio service (SFX đánh/trúng/nhảy, BGM).
 - [ ] **GS-05** `P3` `M` Save system (tiến độ level, vũ khí mở khoá).
 - [x] **GS-06** `CameraFollow`: `SmoothDamp` (độc lập FPS, `smoothTime` 0.12s, 0 = bám cứng) thay `Lerp` theo frame; dead zone (0.5 × 0.75); giới hạn trong biên level (`bounds`, tính theo kích thước camera ortho, level nhỏ hơn khung hình thì căn giữa); `SnapToTarget()` cho lúc bắt đầu / respawn. Biên mặc định khớp `SampleScene` (x −7.7…24.5, y −2.7…25.3).

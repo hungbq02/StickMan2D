@@ -18,6 +18,7 @@ public class Health : MonoBehaviour
     private void OnEnable()
     {
         currentHealth = maxHealth;
+        OnHealthChanged?.Invoke(currentHealth, maxHealth); // HUD cập nhật khi respawn / lấy lại từ pool
     }
 
     // Cho data-driven (vd: EnemyDataSO) ghi đè máu tối đa lúc khởi tạo
