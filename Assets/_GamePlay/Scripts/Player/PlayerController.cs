@@ -1,7 +1,4 @@
 ﻿using UnityEngine;
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-using UnityEngine.InputSystem;
-#endif
 
 [RequireComponent(typeof(PlayerInputHandler))]
 [RequireComponent(typeof(PlayerStateMachine))]
@@ -93,10 +90,6 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         stateMachine.CurrentState?.Update();
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-        HandleDebugWeaponSwitch();
-#endif
     }
 
     void FixedUpdate()
@@ -171,20 +164,4 @@ public class PlayerController : MonoBehaviour
         }
         stateMachine.CurrentState?.OnWeaponChanged(AnimationController);
     }
-
-#if UNITY_EDITOR || DEVELOPMENT_BUILD
-    // Cheat đổi vũ khí khi test — không có trong bản release
-    private void HandleDebugWeaponSwitch()
-    {
-        Keyboard keyboard = Keyboard.current;
-        if (keyboard == null) return;
-
-        if (keyboard.f1Key.wasPressedThisFrame)
-            WeaponManager.SetWeaponType(WeaponType.Fighter);
-        else if (keyboard.f2Key.wasPressedThisFrame)
-            WeaponManager.SetWeaponType(WeaponType.Sword);
-        else if (keyboard.f3Key.wasPressedThisFrame)
-            WeaponManager.SetWeaponType(WeaponType.Gun);
-    }
-#endif
 }

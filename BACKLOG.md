@@ -74,9 +74,10 @@
 - [x] **DC-03** `PrefabRegistrySO` (`Assets/_GamePlay/Data/PrefabRegistry.asset`: damagePopup, ghostSprite, bullet). `Bootstrap` chỉ giữ tham chiếu registry và `Service.Set` nó; `DamagePopupSpawner`, `GhostSpriteSpawner`, `PlayerAnimationAttack` dùng `Service.Get<PrefabRegistrySO>()`. Sửa luôn: prefab `Bootstrap` có ref popup hỏng (chỉ chạy được nhờ override trong scene) — override cũ đã gỡ.
 - [x] **DC-04** Dọn `Bootstrap`: bỏ `using UnityEngine.WSA`, `curLanguage`, `levelColorOffset`, `levelColorMap`.
   - Giữ lại `SetResolution(720)` và các `AnimationCurve` (framework `PopupBase` đang dùng `bounceCurve`) — quyết định khi làm GS-01.
-- [ ] **DC-05** 🟡 `P1` `M` Giảm trách nhiệm `PlayerController`.
-  - Đã làm: cheat F1–F3 bọc `UNITY_EDITOR || DEVELOPMENT_BUILD` và dùng Input System; `canDash`/handler chuyển thành property + method (`UseDash`, `ResetDash`, `MeleeHandler`, `GunHandler`); đổi tên `weaponManager` → `WeaponManager`, `weaponAttackManager` → `WeaponAttackManager`; logic thu nhỏ collider gom vào `ShrinkColliderHeight`.
-  - Còn lại: tách `DebugCheatPanel` thành component riêng 🖥️; tách `PlayerMotor` nếu `PlayerController` tiếp tục phình.
+- [x] **DC-05** Giảm trách nhiệm `PlayerController`.
+  - Cheat F1–F3 tách thành component `DebugCheatPanel` (`Scripts/Debug/`, GameObject riêng trong scene; logic bọc `UNITY_EDITOR || DEVELOPMENT_BUILD`, class giữ lại để scene không "missing script" ở release). `PlayerController` không còn phụ thuộc Input System.
+  - Trước đó: `canDash`/handler thành property + method, đổi tên field, gom logic thu collider.
+  - `PlayerMotor`: chưa tách — `PlayerController` hiện ~170 dòng, chỉ tách khi phình tiếp.
 - [x] **DC-06** `GhostSpriteSpawner` cache trong `PlayerController.GhostSpawner`.
 
 ## Phase 4 — Animation (P2)
