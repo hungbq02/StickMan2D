@@ -45,19 +45,17 @@ public class AttackState : State
         player.SetVelocityX(0f); // Dừng di chuyển khi tấn công
     }
 
+    // Chọn handler theo kiểu đánh khai báo trong WeaponDataSO (không hardcode theo WeaponType)
     private IAttackHandler GetAttackHandler()
     {
-        switch (player.WeaponManager.CurrentType)
+        WeaponType weaponType = player.WeaponManager.CurrentType;
+        WeaponDataSO weapon = player.WeaponAttackManager.GetWeaponData(weaponType);
+        if (weapon == null)
         {
-            case WeaponType.Fighter:
-            case WeaponType.Sword:
-                return player.MeleeHandler;
-            case WeaponType.Gun:
-                return player.GunHandler;
-            default:
-                Debug.LogWarning($"Unsupported weapon type: {player.WeaponManager.CurrentType}");
-                return null;
+            Debug.LogWarning($"[AttackState] Không có WeaponDataSO cho {weaponType}");
+            return null;
         }
+        return weapon.attackStyle == AttackStyle.Ranged ? player.GunHandler : player.MeleeHandler;
     }
 
     public void CancelAttack()

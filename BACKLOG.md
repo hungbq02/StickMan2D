@@ -93,7 +93,8 @@
   - Chưa có art: dùng sprite fighter tô hồng; `Dead` state do `Death` xử lý (tắt / về pool). Target tìm bằng `FindObjectOfType<PlayerController>` — đổi sang service khi làm GS-02.
 - [x] **EN-02** `EnemyDataSO` (máu, tốc độ tuần tra/đuổi, tầm phát hiện/bỏ đuổi, chênh độ cao, `AttackDataSO` + tầm/vung/hồi/cooldown, hurt). `Health.SetMaxHealth`. Asset: `Data/Enemy/MeleeEnemyData`, `DataCombat/Enemy/EnemyMeleeAttackData` (10 dmg, knockback 5).
 - [x] **EN-03** `Death`: object spawn từ `ObjectPool` thì `Recycle` về pool (Health / Damageable / StatusEffect tự reset khi Spawn lại); object đặt sẵn trong scene giữ hành vi cũ. `Damageable.OnRespawned` (bắn ở `OnEnable`) → `Shield` đã vỡ tự bật lại đầy máu.
-- [ ] **EN-04** `P2` `M` 🖥️ `WeaponDataSO` gộp (type, attack data, animation set, hitbox, projectile). `→ CB-02, AN-01`
+- [x] **EN-04** `WeaponAttackDataSO` → `WeaponDataSO` (GUID giữ nguyên, asset đổi tên `*WeaponData`): thêm `attackStyle` (Melee / Ranged) + `projectile`. `AttackState` chọn handler theo `attackStyle` thay vì `switch WeaponType`; `Fire` lấy đạn từ `projectile` (fallback registry). `WeaponAttackManager.GetWeaponData(type)`.
+  - Chưa gộp: animation set (→ AN-04), hitbox (là child object trong scene, `PlayerAnimationAttack` giữ ref). Thêm vũ khí mới vẫn cần thêm giá trị `WeaponType` + clip `{state}_{weapon}`.
 - [x] **EN-05** `PlayerStats` → `PlayerStatsSO` (asset `Data/PlayerStats`, giá trị copy nguyên từ scene). `PlayerController.stats` là property trỏ vào asset nên code gọi `player.stats.X` không đổi. Trước đó: sửa tooltip sai, xoá `criticalDamageMultiplier`, combo window đọc từ `attackComboCooldown`.
   - Chỉnh chỉ số player giờ sửa asset `PlayerStats` (thay đổi trong Play mode được giữ lại sau khi thoát Play).
 

@@ -2142,7 +2142,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b42f67d6642d97e4987c504af9ea7ee5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponAttackDataList:
+  weapons:
   - {fileID: 11400000, guid: e31c1c8e409894449b7665466f6adf8d, type: 2}
   - {fileID: 11400000, guid: 0033d170705d4554791f696f4a77932b, type: 2}
   - {fileID: 11400000, guid: 4a85a0b018d6a4c409548cf895269e98, type: 2}

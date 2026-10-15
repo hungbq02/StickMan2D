@@ -22,8 +22,9 @@ public class PlayerAnimationAttack : MonoBehaviour
     {
         if (!TryCreateAttackData(WeaponType.Gun, attackStep, out AttackData attackInfo)) return;
 
-        Bullet bullet = ObjectPool.Spawn(Service.Get<PrefabRegistrySO>().bullet,
-                                        bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+        WeaponDataSO weapon = player.WeaponAttackManager.GetWeaponData(WeaponType.Gun);
+        Bullet prefab = weapon != null && weapon.projectile != null ? weapon.projectile : Service.Get<PrefabRegistrySO>().bullet;
+        Bullet bullet = ObjectPool.Spawn(prefab, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
         bullet.Launch(bulletSpawnPoint.right * player.FacingDirection, attackInfo);
     }
 

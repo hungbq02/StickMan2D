@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cecb1bdfda6d87248b947b58724a2d19, type: 3}
-  m_Name: FighterWeaponAttackData
+  m_Name: GunWeaponData
   m_EditorClassIdentifier: 
-  weaponType: 0
+  weaponType: 2
+  attackStyle: 1
   comboSteps:
-  - {fileID: 11400000, guid: 97a761e91efa0d549aa8bf426e74ddb1, type: 2}
-  - {fileID: 11400000, guid: 96ece648810958a47be6627e3ad801b0, type: 2}
-  - {fileID: 11400000, guid: 23a9532ca05facd4a8eaf297499b7708, type: 2}
-  airAttack: {fileID: 11400000, guid: 2632547274e20a144ba9395655a52037, type: 2}
+  - {fileID: 11400000, guid: 7d16713fee2d91f4f983c963b37a401c, type: 2}
+  airAttack: {fileID: 11400000, guid: bbbc0afc1ab372448bb67414a411d9ef, type: 2}
+  projectile: {fileID: 3068921196285549423, guid: 8a5f62e61636a14439cedb661767821d, type: 3}

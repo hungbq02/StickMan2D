@@ -7,7 +7,7 @@ public class MeleeAttackHandler : IAttackHandler
 
     private float comboTimer;
     private int comboStep = 0;
-    private int comboMaxStep = 0; // số đòn combo của vũ khí lúc bắt đầu đánh (WeaponAttackDataSO.comboSteps)
+    private int comboMaxStep = 0; // số đòn combo của vũ khí lúc bắt đầu đánh (WeaponDataSO.comboSteps)
     private bool isAttacking = false;
 
     public bool IsDone => !isAttacking;
