@@ -20,6 +20,14 @@ public class Health : MonoBehaviour
         currentHealth = maxHealth;
     }
 
+    // Cho data-driven (vd: EnemyDataSO) ghi đè máu tối đa lúc khởi tạo
+    public void SetMaxHealth(int max, bool refill = true)
+    {
+        maxHealth = Mathf.Max(1, max);
+        currentHealth = refill ? maxHealth : Mathf.Min(currentHealth, maxHealth);
+        OnHealthChanged?.Invoke(currentHealth, maxHealth);
+    }
+
     public void TakeDamage(int amount)
     {
         if (!IsAlive || amount <= 0) return;

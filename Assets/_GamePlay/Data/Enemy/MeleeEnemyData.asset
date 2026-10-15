@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24deae85e8a264e499bab666d20a00bb, type: 3}
+  m_Name: MeleeEnemyData
+  m_EditorClassIdentifier: 
+  maxHealth: 50
+  patrolSpeed: 1.5
+  chaseSpeed: 3
+  patrolDistance: 3
+  patrolPause: 0.6
+  detectRange: 6
+  loseRange: 9
+  maxHeightDifference: 1.5
+  attack: {fileID: 11400000, guid: 894d37502c14363489abec9b2e1065a0, type: 2}
+  attackRange: 1.2
+  attackWindup: 0.45
+  attackRecovery: 0.35
+  attackCooldown: 1.2
+  hurtDuration: 0.25

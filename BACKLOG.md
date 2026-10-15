@@ -90,7 +90,7 @@
 ## Phase 5 — Enemy & content scale (P2)
 
 - [ ] **EN-01** `P2` `L` 🖥️ Enemy cơ bản: `EnemyController` + state machine (Patrol / Chase / Attack / Hurt / Dead). `→ SM-06, CB-05`
-- [ ] **EN-02** `P2` `M` 🖥️ `EnemyDataSO` (máu, tốc độ, tầm phát hiện, attack data).
+- [x] **EN-02** `EnemyDataSO` (máu, tốc độ tuần tra/đuổi, tầm phát hiện/bỏ đuổi, chênh độ cao, `AttackDataSO` + tầm/vung/hồi/cooldown, hurt). `Health.SetMaxHealth`. Asset: `Data/Enemy/MeleeEnemyData`, `DataCombat/Enemy/EnemyMeleeAttackData` (10 dmg, knockback 5).
 - [x] **EN-03** `Death`: object spawn từ `ObjectPool` thì `Recycle` về pool (Health / Damageable / StatusEffect tự reset khi Spawn lại); object đặt sẵn trong scene giữ hành vi cũ. `Damageable.OnRespawned` (bắn ở `OnEnable`) → `Shield` đã vỡ tự bật lại đầy máu.
 - [ ] **EN-04** `P2` `M` 🖥️ `WeaponDataSO` gộp (type, attack data, animation set, hitbox, projectile). `→ CB-02, AN-01`
 - [ ] **EN-05** 🟡 `P2` `S` `PlayerStats`.
