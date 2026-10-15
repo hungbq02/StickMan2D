@@ -1103,6 +1103,9 @@ GameObject:
   - component: {fileID: 781897986}
   - component: {fileID: 781897985}
   - component: {fileID: 781897988}
+  - component: {fileID: 781897991}
+  - component: {fileID: 781897990}
+  - component: {fileID: 781897989}
   m_Layer: 7
   m_Name: Enemy (2)
   m_TagString: Untagged
@@ -1302,6 +1305,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deactivateOnDeath: 1
   destroyDelay: -1
+--- !u!114 &781897989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781897979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 434fe98cb815a2944a7fc7afec32fea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freezeTint: {r: 0.55, g: 0.85, b: 1, a: 1}
+--- !u!114 &781897990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781897979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f90562bd7f10594fb0f42abc15bf657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tickInterval: 1
+  damagePerTick: 5
+--- !u!114 &781897991
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781897979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227a327116b3d4345abccce5a697dc4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &806758591
 GameObject:
   m_ObjectHideFlags: 0
@@ -1582,6 +1624,9 @@ GameObject:
   - component: {fileID: 1220038857}
   - component: {fileID: 1220038856}
   - component: {fileID: 1220038859}
+  - component: {fileID: 1220038862}
+  - component: {fileID: 1220038861}
+  - component: {fileID: 1220038860}
   m_Layer: 7
   m_Name: Enemy (1)
   m_TagString: Untagged
@@ -1781,6 +1826,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deactivateOnDeath: 1
   destroyDelay: -1
+--- !u!114 &1220038860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220038850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 434fe98cb815a2944a7fc7afec32fea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freezeTint: {r: 0.55, g: 0.85, b: 1, a: 1}
+--- !u!114 &1220038861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220038850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f90562bd7f10594fb0f42abc15bf657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tickInterval: 1
+  damagePerTick: 5
+--- !u!114 &1220038862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220038850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227a327116b3d4345abccce5a697dc4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1276027034
 GameObject:
   m_ObjectHideFlags: 0
@@ -1933,6 +2017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bfce33ec95ee0b4492abe7297cdfd2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inputBufferTime: 0.1
 --- !u!114 &1276027041
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1976,6 +2061,7 @@ MonoBehaviour:
   stats:
     moveSpeed: 5
     jumpForce: 13
+    coyoteTime: 0.1
     diveSpeed: 25
     wallSlideSpeed: -1
     wallJumpDuration: 0.2
@@ -1988,9 +2074,6 @@ MonoBehaviour:
     slideHeightMultiplier: 0.5
     climbSpeed: 5
     attackComboCooldown: 0.4
-    criticalDamageMultiplier: 2
-  originalSizeCollider: {x: 0, y: 0}
-  originalOffsetCollider: {x: 0, y: 0}
 --- !u!114 &1276027043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2604,6 +2687,9 @@ GameObject:
   - component: {fileID: 2077940843}
   - component: {fileID: 2077940842}
   - component: {fileID: 2077940845}
+  - component: {fileID: 2077940848}
+  - component: {fileID: 2077940847}
+  - component: {fileID: 2077940846}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -2803,6 +2889,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deactivateOnDeath: 1
   destroyDelay: -1
+--- !u!114 &2077940846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077940836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 434fe98cb815a2944a7fc7afec32fea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  freezeTint: {r: 0.55, g: 0.85, b: 1, a: 1}
+--- !u!114 &2077940847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077940836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f90562bd7f10594fb0f42abc15bf657, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tickInterval: 1
+  damagePerTick: 5
+--- !u!114 &2077940848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077940836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227a327116b3d4345abccce5a697dc4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8237757094174983170
 PrefabInstance:
   m_ObjectHideFlags: 0

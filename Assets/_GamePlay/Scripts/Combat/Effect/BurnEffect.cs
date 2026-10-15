@@ -1,53 +1,30 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Damageable))]
-public class BurnEffect : MonoBehaviour
+// Cháy: trừ máu theo tick trong suốt thời gian hiệu ứng (đi thẳng vào Health, không qua blocker/popup)
+public class BurnEffect : StatusEffect
 {
     [SerializeField] private float tickInterval = 1f;
     [SerializeField] private float damagePerTick = 5f;
 
     private Health health;
-    private Damageable damageable;
-    private Coroutine burnCoroutine;
 
-    private void Awake()
+    public override AttackEffect EffectType => AttackEffect.Burn;
+
+    protected override void Awake()
     {
+        base.Awake();
         health = GetComponent<Health>();
-        damageable = GetComponent<Damageable>();
-        damageable.OnDamaged += OnDamaged;
     }
 
-    private void OnDestroy()
-    {
-        damageable.OnDamaged -= OnDamaged;
-    }
-
-    private void OnDamaged(int damage, AttackData data)
-    {
-        if (data.effectType != AttackEffect.Burn) return;
-
-        Apply(data.effectDuration, damagePerTick);
-    }
-
-    public void Apply(float duration, float dmgPerTick)
-    {
-        // Trúng burn mới thì làm mới thời gian cháy
-        if (burnCoroutine != null)
-            StopCoroutine(burnCoroutine);
-
-        burnCoroutine = StartCoroutine(BurnRoutine(duration, dmgPerTick));
-    }
-
-    private IEnumerator BurnRoutine(float duration, float dmg)
+    protected override IEnumerator Tick(float duration)
     {
         float timer = 0f;
         while (timer < duration)
         {
-            health.TakeDamage(dmg);
+            health.TakeDamage(damagePerTick);
             yield return new WaitForSeconds(tickInterval);
             timer += tickInterval;
         }
-        burnCoroutine = null;
     }
 }

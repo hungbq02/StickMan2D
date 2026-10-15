@@ -1,39 +1,7 @@
-using System.Collections;
-using UnityEngine;
-
-[RequireComponent(typeof(Damageable))]
-public class StunEffect : MonoBehaviour
+// Choáng: chỉ bật cờ — AI / state machine của chủ đọc IsStunned để ngừng hành động
+public class StunEffect : StatusEffect
 {
-    private Damageable damageable;
-    private Coroutine stunCoroutine;
+    public override AttackEffect EffectType => AttackEffect.Stun;
 
-    public bool IsStunned { get; private set; }
-
-    private void Awake()
-    {
-        damageable = GetComponent<Damageable>();
-        damageable.OnDamaged += OnDamaged;
-    }
-
-    private void OnDestroy()
-    {
-        damageable.OnDamaged -= OnDamaged;
-    }
-
-    private void OnDamaged(int damage, AttackData data)
-    {
-        if (data.effectType != AttackEffect.Stun) return;
-
-        if (stunCoroutine != null)
-            StopCoroutine(stunCoroutine);
-
-        stunCoroutine = StartCoroutine(StunRoutine(data.effectDuration));
-    }
-
-    private IEnumerator StunRoutine(float duration)
-    {
-        IsStunned = true;
-        yield return new WaitForSeconds(duration);
-        IsStunned = false;
-    }
+    public bool IsStunned => IsActive;
 }

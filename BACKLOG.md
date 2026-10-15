@@ -43,9 +43,8 @@
 - [x] **CB-03** Đạn nhận `AttackData` từ người bắn: `Fire(int attackStep)` tra data qua `WeaponAttackManager`, roll crit lúc bắn, `Bullet.Launch(dir, data)`. Bỏ field `attackData` trên prefab `bullet`. Bắn trên không giờ dùng `GunAirAttackData` (trước đây không được dùng). `Bullet` cũng tự recycle sau `lifeTime`.
 - [x] **CB-04** Khiên chặn damage thật: `Shield` không còn là `IDamageable` riêng (trước đây hitbox trúng cả khiên lẫn thân => trừ máu cả 2) mà là `IDamageBlocker` đăng ký với `Damageable` của chủ. Đòn từ phía có khiên (hoặc mọi phía nếu `blockAllDirections`) bị khiên hấp thụ trọn — chủ không mất máu / knockback / effect; khiên trừ `FinalDamage`, vỡ thì tắt. `Damageable.OnBlocked` cho VFX/SFX.
   - Chưa có enemy nào gắn khiên — gắn: child object + `Shield` (tự thêm `Health`), đặt lệch về phía cần chặn. Khiên vỡ không tự hồi khi enemy lấy lại từ pool → xử lý ở EN-03.
-- [ ] **CB-05** 🟡 `P1` `M` Hệ effect thống nhất.
-  - Đã làm: `BurnEffect` tự nghe `Damageable.OnDamaged` khi `effectType == Burn` (trước đây không ai gọi); xoá `IEffectReceiver` không dùng.
-  - Còn lại: `Freeze` chưa có; `KnockbackEffect` vẫn dựa vào `knockbackForce > 0` thay vì effect; cân nhắc `EffectSO` 🖥️.
+- [x] **CB-05** Hệ effect thống nhất: base `StatusEffect` (nghe `Damageable.OnDamaged`, làm mới thời gian khi trúng lại, luôn dọn trạng thái khi object tắt — trước đây `IsStunned` có thể kẹt `true`). `StunEffect`, `BurnEffect` kế thừa; thêm `FreezeEffect` (khoá vị trí, dừng animator, tô màu băng). Bỏ `AttackEffect.Knockback` (không ai xử lý; knockback luôn theo `knockbackForce`) — `FighterAirAttackData` chuyển về `None`, giá trị enum giữ cố định. Gắn Stun/Burn/Freeze cho 3 enemy trong `SampleScene`.
+  - Để sau: `EffectSO` (tham số effect theo asset) khi có nhiều biến thể; burn tick hiện cố định 5 dmg/1s trên component.
 - [ ] **CB-06** `P1` `S` 🖥️ Thống nhất kiểu damage (`int`/`float`). Đổi kiểu field serialize cần kiểm tra lại asset trong Editor.
 - [x] **CB-07** Crit roll 1 lần lúc tạo `AttackData` (`isCritical`, `FinalDamage`) — mọi mục tiêu trúng cùng kết quả; sửa lỗi crit chance 0 vẫn có thể crit.
 - [ ] **CB-08** `P2` `S` Faction/team — làm khi enemy bắt đầu tấn công (hiện đã tách bằng layer).
@@ -123,6 +122,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Đổi sang đúng vũ khí đang cầm | Huỷ attack + phát lại animation | Không làm gì |
 | Crit | Roll riêng cho từng mục tiêu | Roll 1 lần / đòn |
 | Bắn súng trên không | Dùng `GunAttackData` (crit 5%) | Dùng `GunAirAttackData` (dmg 10, **crit 0**) — chỉnh asset nếu muốn giống bắn thường |
+| Đòn trên không Fighter | Đặt effect `Knockback` (không có tác dụng) | Effect `None`, knockback vẫn theo `knockbackForce` = 3 — không đổi cảm giác |
 
 ---
 
