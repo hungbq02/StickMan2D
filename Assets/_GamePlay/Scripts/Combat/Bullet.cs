@@ -31,7 +31,7 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
-        transform.Translate(direction * speed * Time.deltaTime);
+        transform.Translate(direction * speed * Time.deltaTime, Space.World);
 
         // Trả về pool khi bay quá lifeTime mà không trúng gì
         aliveTime += Time.deltaTime;

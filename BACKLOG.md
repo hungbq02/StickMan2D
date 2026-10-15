@@ -39,6 +39,12 @@
 - [x] **FIX-05** `Health` reset trong `OnEnable` (hỗ trợ ObjectPool)
 - [x] **FIX-06** `ClimbState` khôi phục `gravityScale` gốc thay vì hardcode `3f`
 - [x] **FIX-08** Rung khi di chuyển / rơi: Rigidbody2D của Player + bia tập `interpolation = None` (physics 50Hz) trong khi camera SmoothDamp mỗi frame trong `LateUpdate` => nhân vật giật theo bước physics. Bật `Interpolate` (prefab `MeleeEnemy` đã bật sẵn).
+- [x] **FIX-09** Súng: animation và đạn không khớp.
+  - Prefab `bullet` lưu ở trạng thái **inactive** (từ commit đầu) + nhánh `Instantiate` của `ObjectPool.Spawn` không `SetActive(true)` => chỉ viên lấy từ pool hiện ra, bắn khi viên trước còn bay thì đạn **vô hình, không damage**. Sửa cả prefab và `ObjectPool`.
+  - Điểm sinh đạn lệch đầu nòng (0.16 trước / 0.13 dưới) => đo đầu nòng từ sprite frame bắn: `SpawnPointBullet` (1.31, −0.25) cho `pistol_shot_0064`, thêm `AirSpawnPointBullet` (1.37, −0.38) cho `pistol_air_attack_0062`; đuôi đạn trùng đầu nòng.
+  - Đạn sinh từ code cùng frame `Play` (bỏ event `Fire` ở t=0 — không chắc bắn lại khi phát lại cùng state); animation đòn đánh luôn phát lại từ đầu; `IsDone` không báo xong ở frame vừa `Play`.
+  - Bắn trên không giữ tư thế hết clip (0.2s) rồi mới Fall (trước: đổi Fall ngay khi rơi => tư thế bắn chỉ 1 frame; đang bay lên thì kẹt tư thế tới đỉnh).
+  - Hướng đạn tính theo world (`Space.World`), bỏ kiểu nhân hướng 2 lần.
 - [ ] **FIX-07** 🟡 🖥️ Play-test toàn bộ thay đổi — xem mục **"Cần play-test"** cuối file
   - Đã làm (2026-10-15, qua MCP): Unity sinh `.meta` cho `PlayerStates.cs`, `GroundedState.cs`, `AirborneState.cs`; compile 0 lỗi; `SampleScene` validate sạch (0 missing script); tham chiếu trên Player đầy đủ; vào Play không có exception, `PlayerController` khởi tạo đủ state.
   - Còn lại: bạn tự chơi thử theo bảng "Cần play-test" (MCP không test được cảm giác chơi — Editor không chạy frame khi mất focus). Kiểm tra `attackComboCooldown` (scene 0.4 vs code cũ 0.5).
@@ -150,6 +156,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | I-frame player | Không có | Bất tử 0.8s + nhấp nháy sau mỗi lần trúng — chỉnh `invincibilityDuration` |
 | Enemy AI (`MeleeEnemy` ở x=19) | Không có enemy đánh trả | Tuần tra, đuổi khi thấy player (6u), vung đòn 0.45s (tô đỏ) rồi đánh 10 dmg, cooldown 1.2s — chỉnh trong `MeleeEnemyData` |
 | Camera | Bám cứng tâm player (thấy cả khoảng trống dưới đất) | Mượt 0.12s, vùng chết nhỏ, không nhìn ra ngoài biên level — player đứng đất nằm ở ~1/3 dưới màn hình |
+| Súng | Bắn liên tục: viên thứ 2+ vô hình; đạn hiện lệch phía trước nòng; bắn trên không tư thế chớp 1 frame | Mọi phát đều ra đạn từ đúng đầu nòng cùng frame giật súng; bắn trên không giữ tư thế 0.2s |
 
 ---
 

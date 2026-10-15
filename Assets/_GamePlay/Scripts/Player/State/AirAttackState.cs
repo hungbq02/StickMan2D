@@ -28,6 +28,11 @@ public class AirAttackState : State
         }
 
         player.AnimationController.PlayAirAttack(weapon);
+
+        // Vũ khí bắn xa: đạn ra cùng frame với tư thế bắn (xem PlayerAnimationAttack.FireProjectile)
+        WeaponDataSO weaponData = player.WeaponAttackManager.GetWeaponData(weapon);
+        if (weaponData != null && weaponData.attackStyle == AttackStyle.Ranged)
+            player.AnimationAttack.FireProjectile(WeaponAttackManager.AirAttackStep);
     }
 
     public override void Update()
@@ -41,8 +46,12 @@ public class AirAttackState : State
             ChangeState(States.Land);
             return;
         }
-        //Fall
-        if (player.Rigidbody.velocity.y < 0 && !isFighterDive && !isSwordAirAttack)
+        // Fighter (đá chéo) / Sword giữ đòn tới khi chạm đất
+        if (isFighterDive || isSwordAirAttack) return;
+
+        // Bắn trên không: giữ tư thế bắn hết clip (đạn ra ở frame đầu) rồi mới rơi —
+        // trước đây đổi sang Fall ngay khi vận tốc y < 0 nên tư thế bắn có thể chỉ hiện 1 frame
+        if (player.AnimationController.IsDone())
         {
             ChangeState(States.Fall);
         }

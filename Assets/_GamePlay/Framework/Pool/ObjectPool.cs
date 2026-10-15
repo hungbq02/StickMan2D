@@ -141,6 +141,7 @@ public sealed class ObjectPool : MonoBehaviour
             trans.localPosition = position;
             trans.localRotation = rotation;
             trans.localScale = prefab.transform.localScale;
+            obj.SetActive(true); // như nhánh lấy từ pool — prefab lưu ở trạng thái inactive thì bản Instantiate cũng inactive
             instance.spawnedObjects.Add(obj, prefab);
             return obj;
 		}

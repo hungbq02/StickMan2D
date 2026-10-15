@@ -15,7 +15,9 @@
     public void Attack()
     {
         isShooting = true;
+        // Phát lại clip từ đầu (frame giật súng) và bắn đạn trong cùng frame => hình và đạn luôn khớp
         animationController.PlayAttack(player.WeaponManager.CurrentType);
+        player.AnimationAttack.FireProjectile(1);
     }
 
     public void Update()

@@ -39,7 +39,7 @@ Assets/_GamePlay/
 ### Combat
 - **Đòn đánh = `AttackData` (struct)** tạo từ `AttackDataSO` lúc ra đòn: crit roll 1 lần, `FinalDamage`, `sourceTeam`, `attackerPosition` (hướng knockback).
 - **Melee**: animation event → `PlayerAnimationAttack.FighterAttack(int)` / `SwordAttack(int)` / `FighterAirAttack()` → `WeaponAttackManager.GetAttackData(weapon, step)` → `Hitbox.CheckHit`. Hitbox dedupe theo `IDamageable` (1 đòn trúng 1 mục tiêu 1 lần).
-- **Ranged**: event `Fire(int)` → `Bullet.Launch(dir, attackData)`; prefab đạn = `WeaponDataSO.projectile`.
+- **Ranged**: **không dùng animation event** — `GunAttackHandler.Attack` / `AirAttackState.Enter` gọi `PlayAttack` rồi `PlayerAnimationAttack.FireProjectile(step)` trong cùng frame (event ở đầu clip không chắc bắn lại khi phát lại cùng state). Đạn sinh tại `bulletSpawnPoint` / `airBulletSpawnPoint` = đầu nòng ở frame bắn (đuôi đạn trùng đầu nòng), bay theo world space; prefab đạn = `WeaponDataSO.projectile`.
 - **Nhận damage**: `Damageable.TakeDamage` theo thứ tự: chết / i-frame / cùng team → bỏ qua · `IDamageBlocker` (Shield) chặn → `OnBlocked` · trừ `Health` → `OnDamaged`. Popup, knockback, status effect, Hurt đều **nghe `OnDamaged`**, không gọi trực tiếp.
 - **Status effect**: kế thừa `StatusEffect` (Stun, Burn, Freeze), tự bật theo `AttackData.effectType` + `effectDuration`, tự dọn khi object tắt. Knockback không phải effect — luôn theo `knockbackForce`.
 - Damage & máu dùng **`int`** ở mọi nơi.
@@ -59,6 +59,8 @@ Assets/_GamePlay/
 |---|---|
 | Tên clip / state Animator | `{state}_{Weapon}` (vd `run_Sword`), combo `attack{n}_{Weapon}`, trên không `airAttack_{Weapon}`, súng `attack_Gun`. `AnimationController` log lỗi nếu thiếu state |
 | Tham số `int` của animation event đòn đánh | `0` = đòn trên không, `1..N` = bước combo (khớp `WeaponDataSO.comboSteps`) |
+| Rigidbody2D nhân vật | `Interpolate` (physics 50Hz vs camera mỗi frame — tắt là bị rung) |
+| Animation đòn đánh | `PlayAttack`/`PlayAirAttack` luôn phát lại từ đầu (`Play(hash, 0, 0)`) |
 | Team | `Damageable.team`: Player / Enemy / Neutral. Đòn mang `sourceTeam`; cùng team không trúng nhau |
 | Layer | 6 Player · 7 Enemy · 8 Ground · 9 Ladder · 10 Wall. `Hitbox.targetLayer` lọc va chạm |
 | Cheat | `DebugCheatPanel`: F1 Fighter · F2 Sword · F3 Gun (chỉ Editor / Development Build) |

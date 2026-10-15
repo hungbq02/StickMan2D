@@ -15,6 +15,7 @@ public class AnimationController : MonoBehaviour
     // State vừa Play và animator đã thực sự vào state đó chưa (dùng cho IsDone)
     private int lastPlayedHash;
     private bool lastPlayedStarted;
+    private int lastPlayFrame = -1;
 
     void Awake()
     {
@@ -28,7 +29,7 @@ public class AnimationController : MonoBehaviour
         var key = (combo, type);
         if (!comboHashes.TryGetValue(key, out int hash))
             comboHashes[key] = hash = CreateHash($"attack{combo}_{type}");
-        PlayHash(hash);
+        PlayHash(hash, restart: true);
     }
 
     // Phát animation tấn công cho vũ khí (ranged weapon, vd súng): "attack_{weapon}"
@@ -36,7 +37,7 @@ public class AnimationController : MonoBehaviour
     {
         if (!attackHashes.TryGetValue(weaponType, out int hash))
             attackHashes[weaponType] = hash = CreateHash($"attack_{weaponType}");
-        PlayHash(hash);
+        PlayHash(hash, restart: true);
     }
 
     // Phát animation tấn công trên không: "airAttack_{weapon}"
@@ -44,7 +45,7 @@ public class AnimationController : MonoBehaviour
     {
         if (!airAttackHashes.TryGetValue(weaponType, out int hash))
             airAttackHashes[weaponType] = hash = CreateHash($"airAttack_{weaponType}");
-        PlayHash(hash);
+        PlayHash(hash, restart: true);
     }
 
     // Phát animation theo state và vũ khí hiện tại: "{state}_{weapon}"
@@ -64,6 +65,11 @@ public class AnimationController : MonoBehaviour
     // Animation vừa Play đã kết thúc chưa
     public bool IsDone()
     {
+        // Animator.Play chỉ áp dụng ở lần animator update kế tiếp (sau Update): cùng frame với Play
+        // thì state info vẫn là lần phát trước (kể cả khi phát lại đúng state đó) => chưa xong
+        if (Time.frameCount == lastPlayFrame && !lastPlayedStarted)
+            return false;
+
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
 
         // Animator.Play chỉ áp dụng ở lần update animator kế tiếp: trong lúc chờ,
@@ -83,11 +89,17 @@ public class AnimationController : MonoBehaviour
         return hash;
     }
 
-    private void PlayHash(int hash)
+    // restart = true: luôn phát lại từ đầu, kể cả khi đang ở đúng state đó (đòn đánh / phát bắn liên tiếp)
+    // => animation event (Fire, FighterAttack...) chắc chắn bắn lại mỗi lần
+    private void PlayHash(int hash, bool restart = false)
     {
         lastPlayedHash = hash;
+        lastPlayFrame = Time.frameCount;
         // State không tồn tại thì coi như đã xong, tránh treo state đang chờ IsDone
         lastPlayedStarted = !animator.HasState(0, hash);
-        animator.Play(hash);
+        if (restart)
+            animator.Play(hash, 0, 0f);
+        else
+            animator.Play(hash);
     }
 }

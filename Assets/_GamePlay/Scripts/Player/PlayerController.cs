@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
     // Animation player, Animation combat
     public AnimationController AnimationController { get; private set; }
     public GhostSpriteSpawner GhostSpawner { get; private set; }
+    public PlayerAnimationAttack AnimationAttack { get; private set; }
 
     // Get/Set WeaponType hiện tại
     public WeaponManager WeaponManager { get; private set; }
@@ -59,6 +60,7 @@ public class PlayerController : MonoBehaviour
         WeaponAttackManager = GetComponent<WeaponAttackManager>();
         AnimationController = GetComponentInChildren<AnimationController>();
         GhostSpawner = GetComponentInChildren<GhostSpriteSpawner>();
+        AnimationAttack = GetComponentInChildren<PlayerAnimationAttack>();
         Damageable = GetComponent<Damageable>();
         stunEffect = GetComponent<StunEffect>();
 
