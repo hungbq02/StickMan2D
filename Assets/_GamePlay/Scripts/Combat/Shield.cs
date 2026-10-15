@@ -17,6 +17,22 @@ public class Shield : MonoBehaviour, IDamageBlocker
         shieldHealth = GetComponent<Health>();
         if (owner == null)
             owner = GetComponentInParent<Damageable>();
+        // Đăng ký ở Awake (không gỡ ở OnDisable) => khiên đã vỡ (inactive) vẫn nhận được để hồi lại
+        if (owner != null)
+            owner.OnRespawned += Restore;
+    }
+
+    private void OnDestroy()
+    {
+        if (owner != null)
+            owner.OnRespawned -= Restore;
+    }
+
+    // Chủ được Spawn lại từ pool => khiên bật lại với đầy máu (Health reset trong OnEnable)
+    private void Restore()
+    {
+        if (!gameObject.activeSelf)
+            gameObject.SetActive(true);
     }
 
     private void OnEnable()

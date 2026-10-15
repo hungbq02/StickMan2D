@@ -29,6 +29,13 @@ public class Death : MonoBehaviour
     {
         OnDeath();
 
+        // Object lấy từ ObjectPool => trả về pool (Health/Damageable/effect tự reset khi Spawn lại)
+        if (ObjectPool.IsSpawned(gameObject))
+        {
+            ObjectPool.Recycle(gameObject);
+            return;
+        }
+
         if (deactivateOnDeath)
         {
             gameObject.SetActive(false);

@@ -24,9 +24,13 @@ public class Damageable : MonoBehaviour, IDamageable
         health = GetComponent<Health>();
     }
 
+    // Bắn mỗi lần object được bật lại (vd: Spawn từ ObjectPool) — cho các phần đã tắt (khiên vỡ) tự hồi
+    public event Action OnRespawned;
+
     private void OnEnable()
     {
         invulnerableUntil = 0f; // object lấy lại từ pool không giữ i-frame cũ
+        OnRespawned?.Invoke();
     }
 
     public void SetInvulnerable(float duration)

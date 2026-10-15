@@ -58,7 +58,7 @@
 - [x] **CB-02** `WeaponAttackDataSO`: `attackDataList` → `comboSteps` + field riêng `airAttack` (đã migrate 3 asset). Xoá `AttackComboIndex`; `MeleeAttackHandler` lấy số đòn combo từ `comboSteps.Count` thay vì hằng `3`.
 - [x] **CB-03** Đạn nhận `AttackData` từ người bắn: `Fire(int attackStep)` tra data qua `WeaponAttackManager`, roll crit lúc bắn, `Bullet.Launch(dir, data)`. Bỏ field `attackData` trên prefab `bullet`. Bắn trên không giờ dùng `GunAirAttackData` (trước đây không được dùng). `Bullet` cũng tự recycle sau `lifeTime`.
 - [x] **CB-04** Khiên chặn damage thật: `Shield` không còn là `IDamageable` riêng (trước đây hitbox trúng cả khiên lẫn thân => trừ máu cả 2) mà là `IDamageBlocker` đăng ký với `Damageable` của chủ. Đòn từ phía có khiên (hoặc mọi phía nếu `blockAllDirections`) bị khiên hấp thụ trọn — chủ không mất máu / knockback / effect; khiên trừ `FinalDamage`, vỡ thì tắt. `Damageable.OnBlocked` cho VFX/SFX.
-  - Chưa có enemy nào gắn khiên — gắn: child object + `Shield` (tự thêm `Health`), đặt lệch về phía cần chặn. Khiên vỡ không tự hồi khi enemy lấy lại từ pool → xử lý ở EN-03.
+  - Chưa có enemy nào gắn khiên — gắn: child object + `Shield` (tự thêm `Health`), đặt lệch về phía cần chặn. Khiên vỡ tự hồi khi chủ được Spawn lại từ pool (EN-03).
 - [x] **CB-05** Hệ effect thống nhất: base `StatusEffect` (nghe `Damageable.OnDamaged`, làm mới thời gian khi trúng lại, luôn dọn trạng thái khi object tắt — trước đây `IsStunned` có thể kẹt `true`). `StunEffect`, `BurnEffect` kế thừa; thêm `FreezeEffect` (khoá vị trí, dừng animator, tô màu băng). Bỏ `AttackEffect.Knockback` (không ai xử lý; knockback luôn theo `knockbackForce`) — `FighterAirAttackData` chuyển về `None`, giá trị enum giữ cố định. Gắn Stun/Burn/Freeze cho 3 enemy trong `SampleScene`.
   - Để sau: `EffectSO` (tham số effect theo asset) khi có nhiều biến thể; burn tick hiện cố định 5 dmg/1s trên component.
 - [x] **CB-06** Damage/máu thống nhất `int`: `Health` (`maxHealth`, `Current`, `TakeDamage`, `Heal`, `OnHealthChanged`) và `BurnEffect.damagePerTick` chuyển từ `float` sang `int`. Giá trị serialize cũ (100, 5) đọc lại đúng, không cần sửa scene.
@@ -91,7 +91,7 @@
 
 - [ ] **EN-01** `P2` `L` 🖥️ Enemy cơ bản: `EnemyController` + state machine (Patrol / Chase / Attack / Hurt / Dead). `→ SM-06, CB-05`
 - [ ] **EN-02** `P2` `M` 🖥️ `EnemyDataSO` (máu, tốc độ, tầm phát hiện, attack data).
-- [ ] **EN-03** `P2` `M` `Death` hỗ trợ pool (`Recycle` thay vì `Destroy`) — làm cùng EN-01 khi có spawn enemy.
+- [x] **EN-03** `Death`: object spawn từ `ObjectPool` thì `Recycle` về pool (Health / Damageable / StatusEffect tự reset khi Spawn lại); object đặt sẵn trong scene giữ hành vi cũ. `Damageable.OnRespawned` (bắn ở `OnEnable`) → `Shield` đã vỡ tự bật lại đầy máu.
 - [ ] **EN-04** `P2` `M` 🖥️ `WeaponDataSO` gộp (type, attack data, animation set, hitbox, projectile). `→ CB-02, AN-01`
 - [ ] **EN-05** 🟡 `P2` `S` `PlayerStats`.
   - Đã làm: sửa tooltip copy-paste sai; xoá `criticalDamageMultiplier` (không dùng — hệ số crit nằm ở `AttackDataSO`); combo window đọc từ `attackComboCooldown` thay vì hardcode `0.5f`.
