@@ -38,6 +38,7 @@
 - [x] **FIX-04** `Hitbox` dedupe theo `IDamageable` — 1 đòn chỉ trúng 1 lần / mục tiêu
 - [x] **FIX-05** `Health` reset trong `OnEnable` (hỗ trợ ObjectPool)
 - [x] **FIX-06** `ClimbState` khôi phục `gravityScale` gốc thay vì hardcode `3f`
+- [x] **FIX-08** Rung khi di chuyển / rơi: Rigidbody2D của Player + bia tập `interpolation = None` (physics 50Hz) trong khi camera SmoothDamp mỗi frame trong `LateUpdate` => nhân vật giật theo bước physics. Bật `Interpolate` (prefab `MeleeEnemy` đã bật sẵn).
 - [ ] **FIX-07** 🟡 🖥️ Play-test toàn bộ thay đổi — xem mục **"Cần play-test"** cuối file
   - Đã làm (2026-10-15, qua MCP): Unity sinh `.meta` cho `PlayerStates.cs`, `GroundedState.cs`, `AirborneState.cs`; compile 0 lỗi; `SampleScene` validate sạch (0 missing script); tham chiếu trên Player đầy đủ; vào Play không có exception, `PlayerController` khởi tạo đủ state.
   - Còn lại: bạn tự chơi thử theo bảng "Cần play-test" (MCP không test được cảm giác chơi — Editor không chạy frame khi mất focus). Kiểm tra `attackComboCooldown` (scene 0.4 vs code cũ 0.5).
