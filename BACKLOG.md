@@ -116,7 +116,7 @@
 - [x] **OR-04** Pin `com.coplaydev.unity-mcp` vào commit `85c101f5` (đúng bản đang dùng trong `packages-lock.json`).
 - [ ] **OR-05** `P2` `M` 🖥️ Namespace + asmdef. DOTween/ACTk nằm trong `Plugins` (firstpass) nên cần tạo asmdef cho chúng trong Editor trước. `→ OR-01`
 - [ ] **OR-06** `P2` `M` EditMode test cho logic thuần. `→ OR-05`
-- [ ] **OR-07** `P2` `S` `CLAUDE.md` / README: kiến trúc, quy ước tên clip animation, cách thêm vũ khí / enemy.
+- [x] **OR-07** `CLAUDE.md` ở root: stack, cấu trúc thư mục, kiến trúc (player state machine, combat pipeline, damage, effect, enemy, service/prefab), quy ước (tên clip, tham số animation event, team/layer, cheat), cách thêm combo / vũ khí / enemy / effect, quy trình MCP + commit theo task, skill name map.
 - [ ] **OR-08** `P3` `M` CI build (GameCI).
 
 ---
