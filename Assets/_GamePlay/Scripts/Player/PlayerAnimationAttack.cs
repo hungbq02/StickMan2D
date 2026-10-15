@@ -18,11 +18,13 @@ public class PlayerAnimationAttack : MonoBehaviour
         player = GetComponentInParent<PlayerController>();
     }
 
-    public void Fire()
+    public void Fire(int attackStep)
     {
+        if (!TryCreateAttackData(WeaponType.Gun, attackStep, out AttackData attackInfo)) return;
+
         Bullet bullet = ObjectPool.Spawn(Service.Get<Bootstrap>().bulletPrefab,
                                         bulletSpawnPoint.position, bulletSpawnPoint.rotation);
-        bullet.SetDirection(bulletSpawnPoint.right * player.FacingDirection);
+        bullet.Launch(bulletSpawnPoint.right * player.FacingDirection, attackInfo);
     }
 
     public void FighterAttack(int attackStep) => CheckHit(fighterHitbox, WeaponType.Fighter, attackStep);
@@ -34,15 +36,22 @@ public class PlayerAnimationAttack : MonoBehaviour
     private void CheckHit(Hitbox hitbox, WeaponType weaponType, int attackStep)
     {
         if (hitbox == null) return;
+        if (!TryCreateAttackData(weaponType, attackStep, out AttackData attackInfo)) return;
 
+        hitbox.CheckHit(attackInfo, player.FacingDirection);
+    }
+
+    private bool TryCreateAttackData(WeaponType weaponType, int attackStep, out AttackData attackInfo)
+    {
         AttackDataSO attackDataSO = player.WeaponAttackManager.GetAttackData(weaponType, attackStep);
         if (attackDataSO == null)
         {
             Debug.LogWarning($"[PlayerAnimationAttack] Không có AttackData cho {weaponType} step {attackStep}", this);
-            return;
+            attackInfo = default;
+            return false;
         }
 
-        AttackData attackInfo = new AttackData(attackDataSO, player.transform.position);
-        hitbox.CheckHit(attackInfo, player.FacingDirection);
+        attackInfo = new AttackData(attackDataSO, player.transform.position);
+        return true;
     }
 }

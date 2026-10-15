@@ -40,8 +40,7 @@
 
 - [x] **CB-01** Bỏ `CurrentAttackData` mutable dùng chung. Tham số `int` của animation event = bước đòn của clip (`0` = trên không, `1..3` = combo); vũ khí suy ra từ tên hàm event (`FighterAttack`/`SwordAttack`). `WeaponAttackManager` chỉ còn `GetAttackData(weapon, step)` (stateless) → đổi vũ khí / combo nhanh giữa chừng không đọc nhầm data. Đã gán `intParameter` cho 10 clip (gồm 2 clip Gun, chuẩn bị cho CB-03).
 - [x] **CB-02** `WeaponAttackDataSO`: `attackDataList` → `comboSteps` + field riêng `airAttack` (đã migrate 3 asset). Xoá `AttackComboIndex`; `MeleeAttackHandler` lấy số đòn combo từ `comboSteps.Count` thay vì hằng `3`.
-- [ ] **CB-03** 🟡 `P1` `S` 🖥️ `Bullet` đã dùng chung constructor `AttackData(SO, pos)` và tự recycle sau `lifeTime` (trước đây field này không được dùng → đạn bay mãi).
-  - Còn lại: bullet nhận `AttackData` từ người bắn thay vì `attackData` gắn trên prefab. Cần kiểm tra `GunWeaponAttackData` trong Editor. `→ CB-01`
+- [x] **CB-03** Đạn nhận `AttackData` từ người bắn: `Fire(int attackStep)` tra data qua `WeaponAttackManager`, roll crit lúc bắn, `Bullet.Launch(dir, data)`. Bỏ field `attackData` trên prefab `bullet`. Bắn trên không giờ dùng `GunAirAttackData` (trước đây không được dùng). `Bullet` cũng tự recycle sau `lifeTime`.
 - [ ] **CB-04** `P1` `M` 🖥️ Shield chặn damage thật (cần xem layout prefab enemy).
 - [ ] **CB-05** 🟡 `P1` `M` Hệ effect thống nhất.
   - Đã làm: `BurnEffect` tự nghe `Damageable.OnDamaged` khi `effectType == Burn` (trước đây không ai gọi); xoá `IEffectReceiver` không dùng.
@@ -122,6 +121,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Wall slide + bấm hướng ngược & nhảy cùng lúc | Rơi, mất cú nhảy | Ra wall jump |
 | Đổi sang đúng vũ khí đang cầm | Huỷ attack + phát lại animation | Không làm gì |
 | Crit | Roll riêng cho từng mục tiêu | Roll 1 lần / đòn |
+| Bắn súng trên không | Dùng `GunAttackData` (crit 5%) | Dùng `GunAirAttackData` (dmg 10, **crit 0**) — chỉnh asset nếu muốn giống bắn thường |
 
 ---
 

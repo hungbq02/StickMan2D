@@ -5,9 +5,11 @@ public class Bullet : MonoBehaviour
     private Vector2 direction;
     [SerializeField] private float speed = 10f;
     [SerializeField] private float lifeTime = 5f;
-    public AttackDataSO attackData;
     public LayerMask enemyLayer;
 
+    // Do người bắn truyền vào lúc bắn (crit đã roll sẵn) — prefab không giữ data đòn đánh
+    private AttackData attackData;
+    private bool hasAttackData;
     private float aliveTime;
 
     private void OnEnable()
@@ -15,9 +17,16 @@ public class Bullet : MonoBehaviour
         aliveTime = 0f;
     }
 
-    public void SetDirection(Vector2 dir)
+    private void OnDisable()
+    {
+        hasAttackData = false; // tránh object pool tái dùng data của lần bắn trước
+    }
+
+    public void Launch(Vector2 dir, AttackData data)
     {
         direction = dir.normalized;
+        attackData = data;
+        hasAttackData = true;
     }
 
     private void Update()
@@ -37,9 +46,12 @@ public class Bullet : MonoBehaviour
         if (((1 << other.gameObject.layer) & enemyLayer) != 0)
         {
             IDamageable enemy = other.GetComponent<IDamageable>();
-            if (enemy != null)
+            if (enemy != null && hasAttackData)
             {
-                enemy.TakeDamage(new AttackData(attackData, transform.position));
+                // Knockback đẩy theo hướng đạn bay => tính từ vị trí viên đạn lúc trúng
+                AttackData hit = attackData;
+                hit.attackerPosition = transform.position;
+                enemy.TakeDamage(hit);
             }
             ObjectPool.Recycle(gameObject);
         }

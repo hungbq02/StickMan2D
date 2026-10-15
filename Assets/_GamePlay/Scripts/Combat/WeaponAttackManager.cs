@@ -9,7 +9,6 @@ public class WeaponAttackManager : MonoBehaviour
     public const int AirAttackStep = 0; // đòn trên không
     // 1..N = bước combo trên mặt đất (Gun: 1 = bắn thường)
 
-    [Tooltip("Chỉ dùng cho vũ khí cận chiến (fighter, sword). DataAttack Gun được gắn ở Bullet")]
     [SerializeField] private List<WeaponAttackDataSO> weaponAttackDataList;
 
     public AttackDataSO GetAttackData(WeaponType weaponType, int attackStep)

@@ -100,7 +100,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 15
   lifeTime: 5
-  attackData: {fileID: 11400000, guid: 7d16713fee2d91f4f983c963b37a401c, type: 2}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
