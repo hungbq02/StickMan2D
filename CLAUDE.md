@@ -79,6 +79,7 @@ Assets/_GamePlay/
 
 - User thường mở **nhiều Unity Editor** cùng lúc: trước khi dùng Unity MCP luôn đọc `mcpforunity://instances` và `set_active_instance` đúng **StickFigure** (`D:/Unity/StickFigure`), xác nhận lại `Application.dataPath` trước khi sửa.
 - Sau khi sửa script: `refresh_unity` (mode `force` nếu có file mới) → `read_console` lỗi → mới dùng type mới.
+- Test: EditMode test ở `Assets/Tests/EditMode` (asmdef `StickFigure.Tests.EditMode`) — chạy sau khi sửa logic combat / state machine / health.
 - Editor không chạy frame khi mất focus: test logic bằng `execute_code` gọi trực tiếp method / `Update`, cảm giác chơi để user tự play-test (ghi vào bảng "Cần play-test" trong `BACKLOG.md`).
 - Mỗi task backlog xong → cập nhật `BACKLOG.md` + **1 commit riêng** (message bắt đầu bằng mã task) + push `origin main`. Không commit `Assets/_GamePlay/Art/EnemyConcepts/` (concept art của user) trừ khi được yêu cầu.
 

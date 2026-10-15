@@ -117,7 +117,7 @@
 - [ ] **OR-05** 🟡 `P2` `M` Namespace + asmdef.
   - Đã làm: asmdef `StickFigure.Gameplay` cho toàn bộ `Assets/_GamePlay` (ref Input System, TMP, UGUI, `ACTk.Runtime`; DOTween dll tự ref — code chỉ dùng API core, không cần module). Đã kiểm tra compile Editor + **player Android** (`CompilePlayerScripts`), scene không mất script.
   - Còn lại: namespace — hoãn (C# 9 không có file-scoped namespace => phải bọc + thụt lề ~60 file, lợi ích thấp với 1 game). Bật `FIREBASE` / `PURCHASE` sau này cần thêm reference SDK vào asmdef.
-- [ ] **OR-06** `P2` `M` EditMode test cho logic thuần. `→ OR-05`
+- [x] **OR-06** EditMode test (`Assets/Tests/EditMode`, asmdef `StickFigure.Tests.EditMode`): 19 test — `StateMachine` (thứ tự Enter/Exit, chặn đổi state lồng, null, Stop), `AttackData` (crit, FinalDamage, team mặc định, copy từ SO), `Health` / `Damageable` / `Shield` (clamp, chết 1 lần, heal, team, i-frame, khiên theo hướng), `WeaponAttackManager` (bước combo, đòn trên không, ngoài phạm vi). Chạy: Test Runner → EditMode, hoặc MCP `run_tests`.
 - [x] **OR-07** `CLAUDE.md` ở root: stack, cấu trúc thư mục, kiến trúc (player state machine, combat pipeline, damage, effect, enemy, service/prefab), quy ước (tên clip, tham số animation event, team/layer, cheat), cách thêm combo / vũ khí / enemy / effect, quy trình MCP + commit theo task, skill name map.
 - [ ] **OR-08** `P3` `M` CI build (GameCI).
 
