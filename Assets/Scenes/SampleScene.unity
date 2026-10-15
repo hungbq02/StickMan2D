@@ -2092,24 +2092,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 233175607}
-  stats:
-    moveSpeed: 5
-    jumpForce: 13
-    coyoteTime: 0.1
-    diveSpeed: 25
-    wallSlideSpeed: -1
-    wallJumpDuration: 0.2
-    wallJumpForceX: 14
-    wallJumpForceY: 14
-    dashDuration: 0.15
-    dashSpeed: 20
-    slideDuration: 0.2
-    slideSpeed: 15
-    slideHeightMultiplier: 0.5
-    climbSpeed: 5
-    attackComboCooldown: 0.4
-    hurtDuration: 0.3
-    invincibilityDuration: 0.8
+  statsData: {fileID: 11400000, guid: b563a8c7370d8e04e9433da83b5faa73, type: 2}
 --- !u!114 &1276027043
 MonoBehaviour:
   m_ObjectHideFlags: 0

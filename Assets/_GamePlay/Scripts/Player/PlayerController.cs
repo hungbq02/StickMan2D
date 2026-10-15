@@ -7,7 +7,8 @@
 public class PlayerController : MonoBehaviour
 {
     public Animator animator;
-    public PlayerStats stats;
+    [SerializeField] private PlayerStatsSO statsData;
+    public PlayerStatsSO stats => statsData;
 
     public PlayerInputHandler InputHandler { get; private set; }
     public GroundCheck GroundCheck { get; private set; }

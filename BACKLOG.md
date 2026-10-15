@@ -94,9 +94,8 @@
 - [x] **EN-02** `EnemyDataSO` (máu, tốc độ tuần tra/đuổi, tầm phát hiện/bỏ đuổi, chênh độ cao, `AttackDataSO` + tầm/vung/hồi/cooldown, hurt). `Health.SetMaxHealth`. Asset: `Data/Enemy/MeleeEnemyData`, `DataCombat/Enemy/EnemyMeleeAttackData` (10 dmg, knockback 5).
 - [x] **EN-03** `Death`: object spawn từ `ObjectPool` thì `Recycle` về pool (Health / Damageable / StatusEffect tự reset khi Spawn lại); object đặt sẵn trong scene giữ hành vi cũ. `Damageable.OnRespawned` (bắn ở `OnEnable`) → `Shield` đã vỡ tự bật lại đầy máu.
 - [ ] **EN-04** `P2` `M` 🖥️ `WeaponDataSO` gộp (type, attack data, animation set, hitbox, projectile). `→ CB-02, AN-01`
-- [ ] **EN-05** 🟡 `P2` `S` `PlayerStats`.
-  - Đã làm: sửa tooltip copy-paste sai; xoá `criticalDamageMultiplier` (không dùng — hệ số crit nằm ở `AttackDataSO`); combo window đọc từ `attackComboCooldown` thay vì hardcode `0.5f`.
-  - Còn lại: chuyển thành `PlayerStatsSO` 🖥️.
+- [x] **EN-05** `PlayerStats` → `PlayerStatsSO` (asset `Data/PlayerStats`, giá trị copy nguyên từ scene). `PlayerController.stats` là property trỏ vào asset nên code gọi `player.stats.X` không đổi. Trước đó: sửa tooltip sai, xoá `criticalDamageMultiplier`, combo window đọc từ `attackComboCooldown`.
+  - Chỉnh chỉ số player giờ sửa asset `PlayerStats` (thay đổi trong Play mode được giữ lại sau khi thoát Play).
 
 ## Phase 6 — Game structure (P2)
 

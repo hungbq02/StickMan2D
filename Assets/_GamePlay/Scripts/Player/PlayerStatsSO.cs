@@ -1,7 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 
-[System.Serializable]
-public class PlayerStats
+// Chỉ số di chuyển / combat của player (asset: Data/PlayerStats). PlayerController.stats trỏ vào đây.
+[CreateAssetMenu(fileName = "PlayerStats", menuName = "Data/Player Stats")]
+public class PlayerStatsSO : ScriptableObject
 {
     [Header("Movement")]
     public float moveSpeed = 5f;
