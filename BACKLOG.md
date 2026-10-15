@@ -89,7 +89,8 @@
 
 ## Phase 5 — Enemy & content scale (P2)
 
-- [ ] **EN-01** `P2` `L` 🖥️ Enemy cơ bản: `EnemyController` + state machine (Patrol / Chase / Attack / Hurt / Dead). `→ SM-06, CB-05`
+- [x] **EN-01** Enemy cơ bản `EnemyController` + `StateMachine<EnemyState>`: Patrol (qua lại quanh điểm xuất phát, nghỉ ở 2 đầu) → Chase (thấy player trong `detectRange`, cùng tầng) → Attack (đứng lại, vung đòn có tô đỏ báo hiệu, damage qua `Hitbox`, team Enemy) → Hurt khi trúng đòn (quay mặt về phía bị đánh, ưu tiên đuổi lại). Choáng / đóng băng => đứng yên. Dò mép vực + tường để không rơi / đâm tường. Prefab `Prefabs/Enemy/MeleeEnemy` (đặt 1 con ở x=19 trong `SampleScene`; 3 bia tập cũ giữ nguyên).
+  - Chưa có art: dùng sprite fighter tô hồng; `Dead` state do `Death` xử lý (tắt / về pool). Target tìm bằng `FindObjectOfType<PlayerController>` — đổi sang service khi làm GS-02.
 - [x] **EN-02** `EnemyDataSO` (máu, tốc độ tuần tra/đuổi, tầm phát hiện/bỏ đuổi, chênh độ cao, `AttackDataSO` + tầm/vung/hồi/cooldown, hurt). `Health.SetMaxHealth`. Asset: `Data/Enemy/MeleeEnemyData`, `DataCombat/Enemy/EnemyMeleeAttackData` (10 dmg, knockback 5).
 - [x] **EN-03** `Death`: object spawn từ `ObjectPool` thì `Recycle` về pool (Health / Damageable / StatusEffect tự reset khi Spawn lại); object đặt sẵn trong scene giữ hành vi cũ. `Damageable.OnRespawned` (bắn ở `OnEnable`) → `Shield` đã vỡ tự bật lại đầy máu.
 - [ ] **EN-04** `P2` `M` 🖥️ `WeaponDataSO` gộp (type, attack data, animation set, hitbox, projectile). `→ CB-02, AN-01`
@@ -142,6 +143,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Đòn trên không Fighter | Đặt effect `Knockback` (không có tác dụng) | Effect `None`, knockback vẫn theo `knockbackForce` = 3 — không đổi cảm giác |
 | Player bị trúng đòn | Không phản ứng (không có state) | Mất điều khiển 0.3s + knockback + anim `hit`; đòn choáng giữ tới hết `effectDuration` |
 | I-frame player | Không có | Bất tử 0.8s + nhấp nháy sau mỗi lần trúng — chỉnh `invincibilityDuration` |
+| Enemy AI (`MeleeEnemy` ở x=19) | Không có enemy đánh trả | Tuần tra, đuổi khi thấy player (6u), vung đòn 0.45s (tô đỏ) rồi đánh 10 dmg, cooldown 1.2s — chỉnh trong `MeleeEnemyData` |
 
 ---
 

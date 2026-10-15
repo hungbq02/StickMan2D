@@ -53,6 +53,19 @@ public class StateMachine<TState> where TState : class, IState
         }
     }
 
+    // Thoát state hiện tại và để trống (vd: object bị tắt / trả về pool). Initialize lại để chạy tiếp.
+    public void Stop()
+    {
+        if (CurrentState == null || isTransitioning) return;
+        isTransitioning = true;
+        try { CurrentState.Exit(); }
+        finally
+        {
+            CurrentState = null;
+            isTransitioning = false;
+        }
+    }
+
     public void Update() => CurrentState?.Update();
     public void FixedUpdate() => CurrentState?.FixedUpdate();
 }
