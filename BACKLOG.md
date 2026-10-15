@@ -1,7 +1,7 @@
 # StickFigure — Backlog kỹ thuật
 
 > Mục tiêu: dọn nợ kỹ thuật hiện tại và dựng nền để scale (nhiều vũ khí, nhiều loại enemy, nhiều level) mà không phải viết lại.
-> Cập nhật lần cuối: 2026-10-15 (sau GS-03)
+> Cập nhật lần cuối: 2026-10-15 (sau GS-02 respawn)
 
 **Ký hiệu**
 - Ưu tiên: `P0` làm ngay · `P1` trước khi thêm content mới · `P2` khi scale · `P3` nice-to-have
@@ -13,19 +13,21 @@
 
 
 
+
+
 ## 📊 Tiến độ
 
-**45 xong · 2 làm một phần · 6 còn lại** (tổng 53)
+**50 xong · 3 làm một phần · 5 còn lại** (tổng 58)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
-| Sửa lỗi gấp | 6 | 07 | — |
+| Sửa lỗi | 11 | 07 | — |
 | 1. State machine ✅ | 7 | — | — |
 | 2. Combat ✅ | 10 | — | — |
 | 3. Decoupling ✅ | 6 | — | — |
 | 4. Animation | 3 | — | 04 |
 | 5. Enemy ✅ | 5 | — | — |
-| 6. Game structure | 2 | — | 01, 02, 04, 05 |
+| 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
 
 ---
@@ -173,9 +175,9 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 
 ```
 FIX-07 (play-test thủ công — xem bảng "Cần play-test")
-  → GS-02 game flow (cần chốt: điều kiện thắng / thua, respawn hay game over)
+  → GS-02 phần còn lại (cần chốt: điều kiện thắng màn, giới hạn mạng / màn thua, checkpoint)
   → GS-01 scene flow (cần chốt: có Menu scene không)
   → GS-04 audio (cần file âm thanh) → GS-05 save (khi có nhiều level)
-  → AN-04 (khi bắt đầu thêm vũ khí thứ 4), OR-08 CI (cần Unity license secret trên GitHub)
+  → AN-04 (khi thêm vũ khí thứ 4), OR-08 CI (cần Unity license secret trên GitHub)
   → OR-05 namespace (tuỳ chọn)
 ```
