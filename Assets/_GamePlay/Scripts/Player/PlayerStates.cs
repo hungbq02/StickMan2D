@@ -13,6 +13,8 @@ public class PlayerStates
     public readonly ClimbState Climb;
     public readonly WallSlideState WallSlide;
     public readonly WallJumpState WallJump;
+    public readonly HurtState Hurt;
+    public readonly StunState Stun;
 
     public PlayerStates(PlayerStateMachine stateMachine, PlayerController player)
     {
@@ -28,5 +30,7 @@ public class PlayerStates
         Climb = new ClimbState(stateMachine, player);
         WallSlide = new WallSlideState(stateMachine, player);
         WallJump = new WallJumpState(stateMachine, player);
+        Hurt = new HurtState(stateMachine, player);
+        Stun = new StunState(stateMachine, player);
     }
 }

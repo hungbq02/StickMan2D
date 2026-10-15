@@ -36,6 +36,10 @@ public class PlayerController : MonoBehaviour
 
     public bool CanDash { get; private set; } = true;
 
+    public Damageable Damageable { get; private set; }
+    private StunEffect stunEffect;
+    public bool IsStunned => stunEffect != null && stunEffect.IsStunned;
+
     // Coyote time: cho phép nhảy trong thời gian ngắn sau khi rời mặt đất mà chưa nhảy
     private bool coyoteAvailable;
     public bool CanGroundJump =>
@@ -57,11 +61,15 @@ public class PlayerController : MonoBehaviour
         WeaponAttackManager = GetComponent<WeaponAttackManager>();
         AnimationController = GetComponentInChildren<AnimationController>();
         GhostSpawner = GetComponentInChildren<GhostSpriteSpawner>();
+        Damageable = GetComponent<Damageable>();
+        stunEffect = GetComponent<StunEffect>();
 
         originalSizeCollider = Collider.size;
         originalOffsetCollider = Collider.offset;
 
         WeaponManager.OnWeaponChanged += HandleWeaponChanged;
+        if (Damageable != null)
+            Damageable.OnDamaged += HandleDamaged;
 
         MeleeHandler = new MeleeAttackHandler(this, AnimationController);
         GunHandler = new GunAttackHandler(this, AnimationController);
@@ -73,6 +81,8 @@ public class PlayerController : MonoBehaviour
     {
         if (WeaponManager != null)
             WeaponManager.OnWeaponChanged -= HandleWeaponChanged;
+        if (Damageable != null)
+            Damageable.OnDamaged -= HandleDamaged;
     }
 
     void Start()
@@ -143,6 +153,13 @@ public class PlayerController : MonoBehaviour
         Collider.enabled = true;
         Collider.size = originalSizeCollider;
         Collider.offset = originalOffsetCollider;
+    }
+
+    // Trúng đòn => Hurt (rồi Stun nếu đòn có choáng). Đòn bị khiên chặn không tới đây.
+    private void HandleDamaged(int damage, AttackData data)
+    {
+        if (!isActiveAndEnabled || stateMachine.CurrentState == null) return;
+        stateMachine.ChangeState(States.Hurt);
     }
 
     private void HandleWeaponChanged(WeaponType weaponType)

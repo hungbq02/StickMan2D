@@ -26,4 +26,10 @@ public abstract class State
     }
 
     protected void ChangeState(State newState) => stateMachine.ChangeState(newState);
+
+    // Về state di chuyển mặc định theo việc đang đứng trên đất hay không
+    protected void ChangeToDefaultState()
+    {
+        ChangeState(player.GroundCheck.IsGrounded ? States.Idle : (State)States.Fall);
+    }
 }

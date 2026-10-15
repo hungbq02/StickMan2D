@@ -32,6 +32,13 @@ public class AttackState : State
         }
     }
 
+    public override void Exit()
+    {
+        base.Exit();
+        // Bị ngắt giữa chừng (Hurt / Stun / đổi vũ khí) => handler không kẹt ở trạng thái đang đánh
+        attackHandler?.Cancel();
+    }
+
     public override void FixedUpdate()
     {
         base.FixedUpdate();

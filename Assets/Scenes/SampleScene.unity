@@ -1887,6 +1887,8 @@ GameObject:
   - component: {fileID: 1276027048}
   - component: {fileID: 1276027047}
   - component: {fileID: 1276027049}
+  - component: {fileID: 1276027051}
+  - component: {fileID: 1276027050}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -2074,6 +2076,7 @@ MonoBehaviour:
     slideHeightMultiplier: 0.5
     climbSpeed: 5
     attackComboCooldown: 0.4
+    hurtDuration: 0.3
 --- !u!114 &1276027043
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2166,6 +2169,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deactivateOnDeath: 1
   destroyDelay: -1
+--- !u!114 &1276027050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276027034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0d1eed82ff24df419ab710cb78b4d7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1276027051
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276027034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227a327116b3d4345abccce5a697dc4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1345565828
 GameObject:
   m_ObjectHideFlags: 0

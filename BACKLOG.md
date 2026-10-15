@@ -32,7 +32,7 @@
 - [x] **SM-02** Cache instance state trong `PlayerStates` (tạo 1 lần ở `PlayerController.Awake`).
 - [x] **SM-03** Hierarchical state: `GroundedState` (Idle, Run, Land) và `AirborneState` (Jump, Fall). Đã thống nhất các điều kiện lệch nhau — chi tiết ở mục "Cần play-test".
 - [x] **SM-04** `PlayerStateMachine` chặn `ChangeState` lồng trong Enter/Exit + cảnh báo (Editor) khi đổi state nhiều lần trong 1 frame.
-- [ ] **SM-05** `P1` `M` 🖥️ Thêm `HurtState` + `StunState` cho player; nối `IAttackHandler.Cancel()`. Cần gắn `Health`/`Damageable` cho player trong Editor. `→ CB-05`
+- [x] **SM-05** `HurtState` + `StunState` cho player. `PlayerController` nghe `Damageable.OnDamaged` → Hurt (khoá điều khiển `stats.hurtDuration` = 0.3s, knockback vẫn tác dụng) → Stun nếu đòn có choáng (tới khi `StunEffect` hết) → Idle/Fall. `AttackState.Exit` huỷ attack handler khi bị ngắt. Player được gắn `StunEffect` + `KnockbackEffect`; dùng clip `hit_{weapon}` có sẵn.
 - [ ] **SM-06** `P2` `M` Tách state machine thành generic `StateMachine<TOwner>` để enemy dùng lại. `→ EN-01`
 - [x] **SM-07** Input buffer 0.1s (`PlayerInputHandler.inputBufferTime`, nút được `Consume` khi dùng) + coyote time (`PlayerStats.coyoteTime`).
 
@@ -123,6 +123,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Crit | Roll riêng cho từng mục tiêu | Roll 1 lần / đòn |
 | Bắn súng trên không | Dùng `GunAttackData` (crit 5%) | Dùng `GunAirAttackData` (dmg 10, **crit 0**) — chỉnh asset nếu muốn giống bắn thường |
 | Đòn trên không Fighter | Đặt effect `Knockback` (không có tác dụng) | Effect `None`, knockback vẫn theo `knockbackForce` = 3 — không đổi cảm giác |
+| Player bị trúng đòn | Không phản ứng (không có state) | Mất điều khiển 0.3s + knockback + anim `hit`; đòn choáng giữ tới hết `effectDuration` |
 
 ---
 

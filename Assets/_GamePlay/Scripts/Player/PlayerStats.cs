@@ -43,4 +43,8 @@ public class PlayerStats
     [Header("Combat")]
     [Tooltip("Thời gian cho phép bấm tiếp combo (fighter, sword)")]
     public float attackComboCooldown = 0.4f;
+
+    [Header("Hurt")]
+    [Tooltip("Thời gian mất điều khiển sau khi trúng đòn (giây)")]
+    public float hurtDuration = 0.3f;
 }
