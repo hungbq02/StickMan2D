@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: FighterWeaponAttackData
   m_EditorClassIdentifier: 
   weaponType: 0
-  attackDataList:
+  comboSteps:
   - {fileID: 11400000, guid: 97a761e91efa0d549aa8bf426e74ddb1, type: 2}
   - {fileID: 11400000, guid: 96ece648810958a47be6627e3ad801b0, type: 2}
   - {fileID: 11400000, guid: 23a9532ca05facd4a8eaf297499b7708, type: 2}
-  - {fileID: 11400000, guid: 2632547274e20a144ba9395655a52037, type: 2}
+  airAttack: {fileID: 11400000, guid: 2632547274e20a144ba9395655a52037, type: 2}

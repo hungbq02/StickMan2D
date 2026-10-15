@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: SwordWeaponAttackData
   m_EditorClassIdentifier: 
   weaponType: 1
-  attackDataList:
+  comboSteps:
   - {fileID: 11400000, guid: b4be6c07e2fd7dd479d9d6e4a9387b04, type: 2}
   - {fileID: 11400000, guid: 1551287788c34d340bba1161000ae67c, type: 2}
   - {fileID: 11400000, guid: efcbeab920dd37f40a9836ed485297c7, type: 2}
-  - {fileID: 11400000, guid: a029aaef2baaf4945b2b906367dffe61, type: 2}
+  airAttack: {fileID: 11400000, guid: a029aaef2baaf4945b2b906367dffe61, type: 2}

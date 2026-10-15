@@ -39,7 +39,7 @@
 ## Phase 2 — Combat pipeline (P1)
 
 - [x] **CB-01** Bỏ `CurrentAttackData` mutable dùng chung. Tham số `int` của animation event = bước đòn của clip (`0` = trên không, `1..3` = combo); vũ khí suy ra từ tên hàm event (`FighterAttack`/`SwordAttack`). `WeaponAttackManager` chỉ còn `GetAttackData(weapon, step)` (stateless) → đổi vũ khí / combo nhanh giữa chừng không đọc nhầm data. Đã gán `intParameter` cho 10 clip (gồm 2 clip Gun, chuẩn bị cho CB-03).
-- [ ] **CB-02** `P1` `S` 🖥️ Bỏ `AttackComboIndex` hardcode: `WeaponAttackDataSO` có field riêng `airAttack` + list `comboSteps`. Cần gán lại dữ liệu trong 3 asset `*WeaponAttackData`. Sau CB-01 chỉ cần sửa `WeaponAttackManager.GetAttackData` (bỏ `airAttackIndexMap`), không phải đụng lại `.anim`.
+- [x] **CB-02** `WeaponAttackDataSO`: `attackDataList` → `comboSteps` + field riêng `airAttack` (đã migrate 3 asset). Xoá `AttackComboIndex`; `MeleeAttackHandler` lấy số đòn combo từ `comboSteps.Count` thay vì hằng `3`.
 - [ ] **CB-03** 🟡 `P1` `S` 🖥️ `Bullet` đã dùng chung constructor `AttackData(SO, pos)` và tự recycle sau `lifeTime` (trước đây field này không được dùng → đạn bay mãi).
   - Còn lại: bullet nhận `AttackData` từ người bắn thay vì `attackData` gắn trên prefab. Cần kiểm tra `GunWeaponAttackData` trong Editor. `→ CB-01`
 - [ ] **CB-04** `P1` `M` 🖥️ Shield chặn damage thật (cần xem layout prefab enemy).

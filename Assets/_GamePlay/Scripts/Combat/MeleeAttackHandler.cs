@@ -2,13 +2,12 @@
 
 public class MeleeAttackHandler : IAttackHandler
 {
-    private const int ComboMaxStep = 3;
-
     private readonly PlayerController player;
     private readonly AnimationController animationController;
 
     private float comboTimer;
     private int comboStep = 0;
+    private int comboMaxStep = 0; // số đòn combo của vũ khí lúc bắt đầu đánh (WeaponAttackDataSO.comboSteps)
     private bool isAttacking = false;
 
     public bool IsDone => !isAttacking;
@@ -25,6 +24,7 @@ public class MeleeAttackHandler : IAttackHandler
     public void Attack()
     {
         comboStep = 1;
+        comboMaxStep = player.WeaponAttackManager.GetComboStepCount(player.WeaponManager.CurrentType);
         comboTimer = ComboWindow;
         isAttacking = true;
 
@@ -39,7 +39,7 @@ public class MeleeAttackHandler : IAttackHandler
 
         // Combo tiếp nếu nhấn tiếp tấn công và thời gian cho phép còn
         var input = player.InputHandler;
-        if (input.AttackPressed && comboTimer > 0 && comboStep < ComboMaxStep)
+        if (input.AttackPressed && comboTimer > 0 && comboStep < comboMaxStep)
         {
             input.ConsumeAttack();
             comboStep++;
@@ -50,7 +50,7 @@ public class MeleeAttackHandler : IAttackHandler
         // when animation done but don't press attack => reset combo
         if (animationController.IsDone())
         {
-            if (comboStep >= ComboMaxStep || comboTimer <= 0)
+            if (comboStep >= comboMaxStep || comboTimer <= 0)
             {
                 isAttacking = false;
             }

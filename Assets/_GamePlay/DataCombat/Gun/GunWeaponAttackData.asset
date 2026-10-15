@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: GunWeaponAttackData
   m_EditorClassIdentifier: 
   weaponType: 2
-  attackDataList:
+  comboSteps:
   - {fileID: 11400000, guid: 7d16713fee2d91f4f983c963b37a401c, type: 2}
-  - {fileID: 11400000, guid: bbbc0afc1ab372448bb67414a411d9ef, type: 2}
+  airAttack: {fileID: 11400000, guid: bbbc0afc1ab372448bb67414a411d9ef, type: 2}
