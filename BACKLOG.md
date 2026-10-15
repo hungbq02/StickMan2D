@@ -1,7 +1,7 @@
 # StickFigure — Backlog kỹ thuật
 
 > Mục tiêu: dọn nợ kỹ thuật hiện tại và dựng nền để scale (nhiều vũ khí, nhiều loại enemy, nhiều level) mà không phải viết lại.
-> Cập nhật lần cuối: 2026-10-15 (sau CB-08)
+> Cập nhật lần cuối: 2026-10-15 (sau GS-03)
 
 **Ký hiệu**
 - Ưu tiên: `P0` làm ngay · `P1` trước khi thêm content mới · `P2` khi scale · `P3` nice-to-have
@@ -11,20 +11,22 @@
 - 🟡 = đã làm một phần (phần còn lại ghi ngay dưới)
 
 
+
+
 ## 📊 Tiến độ
 
-**32 xong · 3 làm một phần · 18 còn lại** (tổng 53)
+**45 xong · 2 làm một phần · 6 còn lại** (tổng 53)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
-| Sửa lỗi gấp  | 6 | 07 | — |
-| 1. State machine  | 6 | — | 06 |
+| Sửa lỗi gấp | 6 | 07 | — |
+| 1. State machine ✅ | 7 | — | — |
 | 2. Combat ✅ | 10 | — | — |
-| 3. Decoupling  | 3 | 05 | 02, 03 |
-| 4. Animation  | 3 | — | 04 |
-| 5. Enemy  | 0 | 05 | 01, 02, 03, 04 |
-| 6. Game structure  | 0 | — | 01, 02, 03, 04, 05, 06 |
-| 7. Tổ chức project  | 4 | — | 05, 06, 07, 08 |
+| 3. Decoupling ✅ | 6 | — | — |
+| 4. Animation | 3 | — | 04 |
+| 5. Enemy ✅ | 5 | — | — |
+| 6. Game structure | 2 | — | 01, 02, 04, 05 |
+| 7. Tổ chức project | 6 | 05 | 08 |
 
 ---
 
@@ -42,7 +44,7 @@
   - Khi dùng MCP: luôn `set_active_instance` về **StickFigure** (đang mở song song Editor Meomeo).
 ---
 
-## Phase 1 — Nền tảng State Machine (P1)
+## Phase 1 — Nền tảng State Machine (P1) ✅
 
 - [x] **SM-01** Mỗi state tự khai báo `StateType` (abstract property), bỏ tham số constructor.
 - [x] **SM-02** Cache instance state trong `PlayerStates` (tạo 1 lần ở `PlayerController.Awake`).
@@ -67,7 +69,7 @@
 - [x] **CB-09** `Hitbox` dùng `OverlapCircle`/`CircleCast` với `ContactFilter2D` + List tái sử dụng; gizmo CircleCast vẽ theo hướng mặt.
 - [x] **CB-10** I-frame: `Damageable.SetInvulnerable(duration)` / `IsInvulnerable` (bỏ qua mọi đòn, reset khi object bật lại từ pool). Player bật `stats.invincibilityDuration` = 0.8s mỗi lần trúng đòn; `InvulnerabilityBlink` nhấp nháy sprite trong lúc bất tử. DoT (Burn) trừ thẳng `Health` nên vẫn tác dụng.
 
-## Phase 3 — Decoupling & dependency (P1)
+## Phase 3 — Decoupling & dependency (P1) ✅
 
 - [x] **DC-01** `WeaponManager.OnWeaponChanged` (event cục bộ, có payload) thay cho `ObserverService` global. Đổi sang cùng vũ khí không bắn event.
 - [x] **DC-02** Popup damage tách khỏi `Damageable` → component `DamagePopupSpawner` (nghe `OnDamaged`, có `offset`). `Damageable` không còn phụ thuộc `Bootstrap`. Đã gắn cho Player + 3 enemy (giữ hành vi cũ).
@@ -87,7 +89,7 @@
 - [x] **AN-03** `AttackState` null-guard `attackHandler`.
 - [ ] **AN-04** `P3` `L` 🖥️ Animator Override Controller theo vũ khí thay vì đặt tên clip `{state}_{weapon}`.
 
-## Phase 5 — Enemy & content scale (P2)
+## Phase 5 — Enemy & content scale (P2) ✅
 
 - [x] **EN-01** Enemy cơ bản `EnemyController` + `StateMachine<EnemyState>`: Patrol (qua lại quanh điểm xuất phát, nghỉ ở 2 đầu) → Chase (thấy player trong `detectRange`, cùng tầng) → Attack (đứng lại, vung đòn có tô đỏ báo hiệu, damage qua `Hitbox`, team Enemy) → Hurt khi trúng đòn (quay mặt về phía bị đánh, ưu tiên đuổi lại). Choáng / đóng băng => đứng yên. Dò mép vực + tường để không rơi / đâm tường. Prefab `Prefabs/Enemy/MeleeEnemy` (đặt 1 con ở x=19 trong `SampleScene`; 3 bia tập cũ giữ nguyên).
   - Chưa có art: dùng sprite fighter tô hồng; `Dead` state do `Death` xử lý (tắt / về pool). Target tìm bằng `FindObjectOfType<PlayerController>` — đổi sang service khi làm GS-02.
@@ -153,10 +155,10 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 ## Thứ tự đề xuất (phần còn lại)
 
 ```
-FIX-07 (play-test thủ công — gồm các thay đổi combat mới)
-  → DC-02 → DC-03 → DC-05 (Phase 3)
-  → SM-06 → EN-03 → EN-01, EN-02 → EN-04 (Phase 1 + 5)
-  → OR-07 → OR-05 → OR-06
-  → Phase 6 (GS-01..06)
-  → AN-04, OR-08 (P3)
+FIX-07 (play-test thủ công — xem bảng "Cần play-test")
+  → GS-02 game flow (cần chốt: điều kiện thắng / thua, respawn hay game over)
+  → GS-01 scene flow (cần chốt: có Menu scene không)
+  → GS-04 audio (cần file âm thanh) → GS-05 save (khi có nhiều level)
+  → AN-04 (khi bắt đầu thêm vũ khí thứ 4), OR-08 CI (cần Unity license secret trên GitHub)
+  → OR-05 namespace (tuỳ chọn)
 ```
