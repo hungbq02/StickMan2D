@@ -1,4 +1,4 @@
-public abstract class State
+public abstract class State : IState
 {
     protected readonly PlayerStateMachine stateMachine;
     protected readonly PlayerController player;

@@ -1,47 +1,13 @@
 using UnityEngine;
 
+// Component giữ state machine của player (logic dùng chung nằm ở StateMachine<TState>)
 public class PlayerStateMachine : MonoBehaviour
 {
-    public State CurrentState { get; private set; }
+    private readonly StateMachine<State> machine = new StateMachine<State>(nameof(PlayerStateMachine));
 
-    private bool isTransitioning;
-#if UNITY_EDITOR
-    private int lastChangeFrame = -1;
-#endif
+    public State CurrentState => machine.CurrentState;
 
-    public void Initialize(State startState)
-    {
-        CurrentState = startState;
-        CurrentState.Enter();
-    }
+    public void Initialize(State startState) => machine.Initialize(startState);
 
-    public void ChangeState(State newState)
-    {
-        if (newState == null) return;
-
-        // Không cho đổi state lồng trong Enter/Exit của state khác
-        if (isTransitioning)
-        {
-            Debug.LogWarning($"[PlayerStateMachine] Bỏ qua ChangeState({newState.GetType().Name}) gọi trong lúc đang chuyển state");
-            return;
-        }
-
-#if UNITY_EDITOR
-        if (lastChangeFrame == Time.frameCount)
-            Debug.LogWarning($"[PlayerStateMachine] Đổi state nhiều lần trong 1 frame: {CurrentState?.GetType().Name} -> {newState.GetType().Name}");
-        lastChangeFrame = Time.frameCount;
-#endif
-
-        isTransitioning = true;
-        try
-        {
-            CurrentState?.Exit();
-            CurrentState = newState;
-            CurrentState.Enter();
-        }
-        finally
-        {
-            isTransitioning = false;
-        }
-    }
+    public void ChangeState(State newState) => machine.ChangeState(newState);
 }
