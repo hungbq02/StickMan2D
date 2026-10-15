@@ -23,7 +23,7 @@ public class DamagePopupSpawner : MonoBehaviour
 
     private void HandleDamaged(int damage, AttackData data)
     {
-        var popup = ObjectPool.Spawn(Service.Get<Bootstrap>().textDamagePrefab, transform.position + offset, Quaternion.identity);
+        var popup = ObjectPool.Spawn(Service.Get<PrefabRegistrySO>().damagePopup, transform.position + offset, Quaternion.identity);
         popup.Init(damage);
     }
 }

@@ -3082,10 +3082,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bootstrap
       objectReference: {fileID: 0}
-    - target: {fileID: 8639717760244559930, guid: 3ca22950c992e6d43917cedb6564b4a2, type: 3}
-      propertyPath: textDamagePrefab
-      value: 
-      objectReference: {fileID: 7681332128208691924, guid: d59962ffa5657e745b5bbd5fcc5b80b7, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

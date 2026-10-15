@@ -46,7 +46,7 @@ public class GhostSpriteSpawner : MonoBehaviour
 
     private void SpawnGhost()
     {
-        GameObject ghost = ObjectPool.Spawn(Service.Get<Bootstrap>().ghostSpritePrefab, 
+        GameObject ghost = ObjectPool.Spawn(Service.Get<PrefabRegistrySO>().ghostSprite,
                                         transform.position, Quaternion.identity);
         SpriteRenderer ghostRenderer = ghost.GetComponent<SpriteRenderer>();
         ghostRenderer.sprite = spriteRenderer.sprite;

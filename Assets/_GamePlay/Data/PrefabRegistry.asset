@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93438e1c21430a84d95c1e5d40fa01b9, type: 3}
+  m_Name: PrefabRegistry
+  m_EditorClassIdentifier: 
+  damagePopup: {fileID: 7681332128208691924, guid: d59962ffa5657e745b5bbd5fcc5b80b7, type: 3}
+  ghostSprite: {fileID: 7197668107391796144, guid: f1f2b2beece2cc34fa6d06ae9e6d310b, type: 3}
+  bullet: {fileID: 3068921196285549423, guid: 8a5f62e61636a14439cedb661767821d, type: 3}

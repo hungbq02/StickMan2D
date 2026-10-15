@@ -71,7 +71,7 @@
 
 - [x] **DC-01** `WeaponManager.OnWeaponChanged` (event cục bộ, có payload) thay cho `ObserverService` global. Đổi sang cùng vũ khí không bắn event.
 - [x] **DC-02** Popup damage tách khỏi `Damageable` → component `DamagePopupSpawner` (nghe `OnDamaged`, có `offset`). `Damageable` không còn phụ thuộc `Bootstrap`. Đã gắn cho Player + 3 enemy (giữ hành vi cũ).
-- [ ] **DC-03** `P1` `M` 🖥️ `PrefabRegistrySO` thay cho prefab trong `Bootstrap`. Cần tạo asset + gán Inspector.
+- [x] **DC-03** `PrefabRegistrySO` (`Assets/_GamePlay/Data/PrefabRegistry.asset`: damagePopup, ghostSprite, bullet). `Bootstrap` chỉ giữ tham chiếu registry và `Service.Set` nó; `DamagePopupSpawner`, `GhostSpriteSpawner`, `PlayerAnimationAttack` dùng `Service.Get<PrefabRegistrySO>()`. Sửa luôn: prefab `Bootstrap` có ref popup hỏng (chỉ chạy được nhờ override trong scene) — override cũ đã gỡ.
 - [x] **DC-04** Dọn `Bootstrap`: bỏ `using UnityEngine.WSA`, `curLanguage`, `levelColorOffset`, `levelColorMap`.
   - Giữ lại `SetResolution(720)` và các `AnimationCurve` (framework `PopupBase` đang dùng `bounceCurve`) — quyết định khi làm GS-01.
 - [ ] **DC-05** 🟡 `P1` `M` Giảm trách nhiệm `PlayerController`.

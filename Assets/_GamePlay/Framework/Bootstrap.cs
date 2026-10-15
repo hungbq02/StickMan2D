@@ -10,9 +10,8 @@ public class Bootstrap : MonoBehaviour
 {
     [Space(20)]
     [Header("Prefab")]
-    public DamagePopup textDamagePrefab;
-    public GameObject ghostSpritePrefab;
-    public Bullet bulletPrefab;
+    [Tooltip("Đăng ký vào Service: Service.Get<PrefabRegistrySO>()")]
+    [SerializeField] private PrefabRegistrySO prefabRegistry;
 
 /*    [Space(20)]
     [Header("Popup")]
@@ -42,6 +41,7 @@ public class Bootstrap : MonoBehaviour
         }
 
         Service.Set<Bootstrap>(this);
+        Service.Set<PrefabRegistrySO>(prefabRegistry);
         if (Screen.currentResolution.width > 720)
             Screen.SetResolution(720, Mathf.RoundToInt(720f * Screen.currentResolution.height / Screen.currentResolution.width), true);
         

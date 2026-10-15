@@ -44,9 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0a6a2264684dc46a79c806e21636f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  textDamagePrefab: {fileID: 8058709200030956359, guid: d59962ffa5657e745b5bbd5fcc5b80b7, type: 3}
-  ghostSpritePrefab: {fileID: 7197668107391796144, guid: f1f2b2beece2cc34fa6d06ae9e6d310b, type: 3}
-  bulletPrefab: {fileID: 3068921196285549423, guid: 8a5f62e61636a14439cedb661767821d, type: 3}
+  prefabRegistry: {fileID: 11400000, guid: 6019db7df8ba8bf4d95fc439e9a7fda2, type: 2}
   bounceCurve:
     serializedVersion: 2
     m_Curve: []
@@ -71,4 +69,3 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  curLanguage: 0
