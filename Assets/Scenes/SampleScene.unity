@@ -1053,8 +1053,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 1276027035}
-  smoothSpeed: 1
   offset: {x: 0, y: 0, z: 0}
+  smoothTime: 0.12
+  deadZone: {x: 0.5, y: 0.75}
+  useBounds: 1
+  bounds:
+    serializedVersion: 2
+    x: -7.7
+    y: -2.7
+    width: 32.2
+    height: 28
 --- !u!1 &672216536
 GameObject:
   m_ObjectHideFlags: 0

@@ -105,7 +105,7 @@
 - [ ] **GS-03** `P2` `M` HUD: thanh máu player, vũ khí hiện tại.
 - [ ] **GS-04** `P2` `M` Audio service (SFX đánh/trúng/nhảy, BGM).
 - [ ] **GS-05** `P3` `M` Save system (tiến độ level, vũ khí mở khoá).
-- [ ] **GS-06** `P3` `S` Camera: SmoothDamp/Cinemachine + dead zone + biên level.
+- [x] **GS-06** `CameraFollow`: `SmoothDamp` (độc lập FPS, `smoothTime` 0.12s, 0 = bám cứng) thay `Lerp` theo frame; dead zone (0.5 × 0.75); giới hạn trong biên level (`bounds`, tính theo kích thước camera ortho, level nhỏ hơn khung hình thì căn giữa); `SnapToTarget()` cho lúc bắt đầu / respawn. Biên mặc định khớp `SampleScene` (x −7.7…24.5, y −2.7…25.3).
 
 ## Phase 7 — Tổ chức project & chất lượng (P1–P2)
 
@@ -146,6 +146,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Player bị trúng đòn | Không phản ứng (không có state) | Mất điều khiển 0.3s + knockback + anim `hit`; đòn choáng giữ tới hết `effectDuration` |
 | I-frame player | Không có | Bất tử 0.8s + nhấp nháy sau mỗi lần trúng — chỉnh `invincibilityDuration` |
 | Enemy AI (`MeleeEnemy` ở x=19) | Không có enemy đánh trả | Tuần tra, đuổi khi thấy player (6u), vung đòn 0.45s (tô đỏ) rồi đánh 10 dmg, cooldown 1.2s — chỉnh trong `MeleeEnemyData` |
+| Camera | Bám cứng tâm player (thấy cả khoảng trống dưới đất) | Mượt 0.12s, vùng chết nhỏ, không nhìn ra ngoài biên level — player đứng đất nằm ở ~1/3 dưới màn hình |
 
 ---
 
