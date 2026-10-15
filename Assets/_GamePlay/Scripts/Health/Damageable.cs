@@ -1,4 +1,3 @@
-using Kore.Utils.Core;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -68,9 +67,7 @@ public class Damageable : MonoBehaviour, IDamageable
         int finalDamage = attackData.FinalDamage;
         health.TakeDamage(finalDamage);
 
-        var popup = ObjectPool.Spawn(Service.Get<Bootstrap>().textDamagePrefab, transform.position, Quaternion.identity);
-        popup.Init(finalDamage);
-
+        // Popup, knockback, effect... nghe OnDamaged (vd: DamagePopupSpawner)
         OnDamaged?.Invoke(finalDamage, attackData);
     }
 }

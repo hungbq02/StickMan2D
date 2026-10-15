@@ -70,7 +70,7 @@
 ## Phase 3 — Decoupling & dependency (P1)
 
 - [x] **DC-01** `WeaponManager.OnWeaponChanged` (event cục bộ, có payload) thay cho `ObserverService` global. Đổi sang cùng vũ khí không bắn event.
-- [ ] **DC-02** `P1` `M` 🖥️ Tách popup damage khỏi `Damageable` → `DamagePopupSpawner`. Cần gắn component mới vào prefab enemy.
+- [x] **DC-02** Popup damage tách khỏi `Damageable` → component `DamagePopupSpawner` (nghe `OnDamaged`, có `offset`). `Damageable` không còn phụ thuộc `Bootstrap`. Đã gắn cho Player + 3 enemy (giữ hành vi cũ).
 - [ ] **DC-03** `P1` `M` 🖥️ `PrefabRegistrySO` thay cho prefab trong `Bootstrap`. Cần tạo asset + gán Inspector.
 - [x] **DC-04** Dọn `Bootstrap`: bỏ `using UnityEngine.WSA`, `curLanguage`, `levelColorOffset`, `levelColorMap`.
   - Giữ lại `SetResolution(720)` và các `AnimationCurve` (framework `PopupBase` đang dùng `bounceCurve`) — quyết định khi làm GS-01.
