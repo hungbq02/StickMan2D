@@ -17,12 +17,20 @@ MonoBehaviour:
   chaseSpeed: 3
   patrolDistance: 3
   patrolPause: 0.6
+  keepAwayDistance: 0
   detectRange: 6
   loseRange: 9
   maxHeightDifference: 1.5
-  attack: {fileID: 11400000, guid: 894d37502c14363489abec9b2e1065a0, type: 2}
-  attackRange: 1.2
-  attackWindup: 0.45
-  attackRecovery: 0.35
-  attackCooldown: 1.2
+  attacks:
+  - {fileID: 11400000, guid: 462292eb01b4e6e4da1837a1d88d8c5d, type: 2}
+  attackInterval: 0
+  flinch: 0
   hurtDuration: 0.25
+  corpseLinger: 0.6
+  phases: []
+  animIdle: idle
+  animWalk: walk
+  animRun: run
+  animHit: hit
+  animDeath: death
+  animTaunt: taunt

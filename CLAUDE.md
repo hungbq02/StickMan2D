@@ -50,9 +50,12 @@ Tools/ArtPipeline/ build.py: sprite sheet AI-gen -> frame PNG sạch (Python, ng
 - Damage & máu dùng **`int`** ở mọi nơi.
 
 ### Enemy
-- `EnemyController` + `StateMachine<EnemyState>`: Patrol → Chase → Attack (vung đòn có tô màu) → Hurt. Chỉ số trong `EnemyDataSO`. Choáng / đóng băng ⇒ đứng yên.
-- Prefab `Prefabs/Enemy/MeleeEnemy`: **giữ `EnemyController` đứng trước các StatusEffect** trong danh sách component (thứ tự nghe `OnDamaged`).
-- Object spawn từ `ObjectPool` khi chết được `Recycle` (`Death`); `Health`, `Damageable`, effect, `Shield` tự reset khi Spawn lại.
+- `EnemyController` + `StateMachine<EnemyState>`: Patrol → Chase → Attack → Hurt / PhaseChange / Taunt / Dead. Chỉ số trong `EnemyDataSO`, mỗi đòn là 1 `EnemyAttackSO` (Telegraph → Active với các mốc `hitTimes` → Recovery; chọn theo tầm / phase / cooldown / weight). Choáng / đóng băng ⇒ đứng yên (đang ra đòn thì bị ngắt).
+- Animation: `EnemyAnimator` ở child Visual, `Play("smash")` → state `smash_{animSet}` (clip sinh bởi EnemyArtImporter). Thiếu state ⇒ bỏ qua, state vẫn chạy theo timer.
+- Damage của đòn: `EnemyAttackSO.damage` + hitbox (`attackHitbox` hoặc theo tên trong `namedHitboxes`). Đạn / vùng nguy hiểm / triệu hồi: component implement `IEnemyAttackHandler` nhận mốc trúng.
+- Phase (`EnemyDataSO.phases`, ngưỡng % máu giảm dần): qua ngưỡng ⇒ `EnemyPhaseChangeState` (bất tử + animation), rồi đổi tốc độ / nhịp đánh / idle / màu; đòn lọc theo `minPhase..maxPhase`.
+- Prefab `Prefabs/Enemy/MeleeEnemy`: **giữ `EnemyController` đứng trước các StatusEffect** trong danh sách component (thứ tự nghe `OnDamaged`). Màu sprite chỉ đổi qua `EnemyController` (phase × tô báo hiệu × mờ xác).
+- Chết: `EnemyDeadState` phát `death` + mờ dần `corpseLinger`; `Death.DespawnDelay` (EnemyController tự gán) chờ xong mới `Recycle` về pool. `Health`, `Damageable`, effect, `Shield` tự reset khi Spawn lại.
 
 ### Service & prefab
 - `Bootstrap` (prefab trong scene) đăng ký `Service.Set<Bootstrap>` và `Service.Set<PrefabRegistrySO>`. Lấy prefab runtime: `Service.Get<PrefabRegistrySO>().bullet`.
@@ -78,7 +81,7 @@ Tools/ArtPipeline/ build.py: sprite sheet AI-gen -> frame PNG sạch (Python, ng
 
 **Thêm vũ khí mới**: thêm giá trị `WeaponType` → tạo `WeaponDataSO` (`attackStyle`, `comboSteps`, `airAttack`, `projectile` nếu Ranged) → thêm vào list `weapons` của `WeaponAttackManager` trên Player → tạo đủ clip `{state}_{Weapon}` (idle, run, jump, fall, land, dash, slide, climb, wallSlide, hit, attack..., airAttack). Melee cần thêm hàm event + hitbox trong `PlayerAnimationAttack`.
 
-**Thêm loại enemy**: tạo `EnemyDataSO` + `AttackDataSO` → duplicate prefab `MeleeEnemy`, gán data, chỉnh `AttackHitbox`. Hành vi mới: thêm `EnemyState` và nối transition trong các state hiện có.
+**Thêm loại enemy**: dựng art (mục dưới) → tạo `EnemyDataSO` + mỗi đòn 1 `EnemyAttackSO` (+ `AttackDataSO` damage) → duplicate prefab enemy có sẵn, gán data, `EnemyAnimator.animSet` = tên nhân vật, controller `Animator<Name>`, chỉnh hitbox / collider theo sprite. Hành vi mới: ưu tiên làm bằng data (đòn, phase); cần logic riêng thì thêm `IEnemyAttackHandler` hoặc `EnemyState`.
 
 **Dựng lại / thêm art enemy** (từ sprite sheet trong `Art/EnemyConcepts`): sửa cấu hình sheet trong `Tools/ArtPipeline/build.py` (toạ độ = pixel sheet gốc: `band` mỗi animation, nền ca rô `tones`/`period`, vùng xoá nhãn) → `python -I -B Tools/ArtPipeline/build.py <Name> --preview <thư mục>` (soi ảnh preview: cột cuối là onion skin) → `refresh_unity` → menu **Tools/Enemies/Import Enemy Art** (pivot/PPU + clip `{anim}_{Name}` + controller). Không sửa tay PNG trong `Art/Enemies` (bị ghi đè lần build sau).
 

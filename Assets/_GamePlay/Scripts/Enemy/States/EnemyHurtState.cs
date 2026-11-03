@@ -1,6 +1,6 @@
 using UnityEngine;
 
-// Khựng lại khi trúng đòn (knockback vẫn tác dụng); hết choáng / đóng băng mới hành động tiếp.
+// Khựng lại khi trúng đòn (knockback vẫn tác dụng), phát animation hit; hết choáng / đóng băng mới hành động tiếp.
 // Bị đánh thì luôn "để ý" player => ưu tiên Chase nếu player còn trong loseRange.
 public class EnemyHurtState : EnemyState
 {
@@ -11,6 +11,7 @@ public class EnemyHurtState : EnemyState
     public override void Enter()
     {
         timer = Data.hurtDuration;
+        enemy.PlayAnim(Data.animHit, restart: true);
     }
 
     public override void Update()

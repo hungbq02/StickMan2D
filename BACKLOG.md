@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**51 xong · 3 làm một phần · 10 còn lại** (tổng 64)
+**52 xong · 3 làm một phần · 9 còn lại** (tổng 64)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -29,7 +29,7 @@
 | 5. Enemy ✅ | 5 | — | — |
 | 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
-| 8. Enemy roster & boss | 1 | — | 07, 08, 09, 10, 11 |
+| 8. Enemy roster & boss | 2 | — | 08, 09, 10, 11 |
 
 ---
 
@@ -148,7 +148,13 @@ Art: 5 sprite sheet AI-gen của user trong `Art/EnemyConcepts` (không commit) 
   - Menu **Tools/Enemies/Import Enemy Art** (`Editor/EnemyArtImporter`): set sprite (PPU theo nhân vật, pivot đáy-giữa, bilinear, không mipmap), tạo clip `{anim}_{Name}` + `Anim/Enemies/<Name>/Animator<Name>.controller` (71 clip). Chạy lại an toàn (giữ GUID).
   - Lỗi của sheet gốc đã xử lý (ghi trong `build.py`): Axeman nhãn "Death"/"Slash" bị đặt ngược; mỗi sheet có watermark ngôi sao đè frame cuối 1 animation → bỏ frame đó (Axeman taunt, Stalker stealthOut, Knight rageWalk, Demon enrage, Unmaker taunt); Demon "Braced sound attack" và Stalker "Stealth Enter" thứ 2 vẽ hỏng → không dùng; Knight chỉ có 1 frame idle / rageIdle.
   - Giới hạn: frame AI vẽ không đồng nhất giữa các frame (chi tiết giáp, trượng biến mất...) nên vẫn có nháy nhẹ; Unmaker sheet chỉ 1024px (frame ~110px) → PPU 35, phóng to sẽ mờ. Bản đẹp hơn cần gen lại sheet theo spec (lưới cố định, PNG trong suốt thật, không chữ).
-- [ ] **EN-07** `P2` `M` Enemy có animation + đòn đánh theo data: `EnemyAnimator` (Play `{anim}_{Name}`), `EnemyAttackSO` (clip telegraph / đòn, thời điểm trúng, tầm, cooldown, trọng số, phase), state Telegraph → Attack → Recovery, Hurt phát `hit`, Dead phát `death` rồi mới về pool. Chuyển `MeleeEnemy` sang data mới.
+- [x] **EN-07** Enemy có animation + đòn đánh theo data:
+  - `EnemyAnimator` (child Visual, cạnh Animator + SpriteRenderer): `Play("walk")` → state `walk_{animSet}`, thiếu state thì bỏ qua (enemy không có art vẫn chạy bằng timer), `GetLength`, `IsDone`.
+  - `EnemyAttackSO` (`Data/Enemy Attack`): clip báo hiệu / đòn, `telegraphTime` (+ tô màu), `hitTimes[]` (nhiều mốc trúng / đòn), `activeDuration` (0 = theo clip), `recoveryTime`, `cooldown` riêng, tầm `min/maxRange`, `weight`, `min/maxPhase`, damage + tên hitbox, di chuyển trong đòn (Lunge / Retreat / Teleport). `EnemyAttackSelector` chọn ngẫu nhiên theo weight trong các đòn hợp lệ.
+  - `EnemyDataSO`: `attacks` thay 5 field đòn cũ, `attackInterval`, `keepAwayDistance` (đánh xa: lùi khi bị áp sát), `flinch` (Always / NotWhileAttacking / Never), `corpseLinger`, `phases` (ngưỡng máu, animation chuyển phase, bất tử lúc chuyển, idle thay thế, hệ số tốc độ / nhịp đánh, màu), tên animation idle / walk / run / hit / death / taunt.
+  - State mới: `EnemyDeadState` (tắt va chạm, phát `death`, mờ dần; `Death.DespawnDelay` chờ hết rồi mới về pool), `EnemyPhaseChangeState`, `EnemyTauntState` (hạ được player). Attack = Telegraph → Active → Recovery; Hurt phát `hit`. `IEnemyAttackHandler` cho component khác nhận mốc trúng (đạn, vùng nguy hiểm...).
+  - `Death`: thêm `despawnDelay` (mặc định 0 = như cũ). `MeleeEnemy`: tạo `Data/Enemy/Attacks/MeleeEnemySwing` từ giá trị cũ (vung 0.45s tô đỏ, 10 dmg, hồi 0.35s, cooldown 1.2s, tầm 1.2).
+  - Test: +7 EditMode (`EnemyAttackSelectorTests`: tầm, phase, cooldown, weight, tầm tiếp cận, phase theo máu, độ dài pha ra đòn) — 26/26 pass.
 - [ ] **EN-08** `P2` `M` 🖥️ Axeman + Knight (prefab, data, đòn) + phase enrage theo % máu.
 - [ ] **EN-09** `P2` `M` 🖥️ Đạn enemy + Stalker (giữ khoảng cách, lùi khi bị áp sát, bắn thường / tụ lực / 3 tên / xuyên / mưa tên).
 - [ ] **EN-10** `P2` `M` 🖥️ Khung boss: nhiều phase (chuyển phase bất tử + animation), vùng nguy hiểm trên đất (báo trước → gây damage), triệu hồi, dịch chuyển, thanh máu boss, vùng đấu trường.

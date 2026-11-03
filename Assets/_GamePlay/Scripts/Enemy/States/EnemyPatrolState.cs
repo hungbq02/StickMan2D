@@ -40,11 +40,14 @@ public class EnemyPatrolState : EnemyState
         if (!enemy.CanAct || pauseTimer > 0f)
         {
             enemy.SetVelocityX(0f);
+            enemy.PlayAnim(enemy.IdleAnim);
             return;
         }
 
         // Gặp vực / tường trước khi tới đầu đường => nghỉ và quay đầu sớm
-        if (!enemy.MoveForward(Data.patrolSpeed))
+        if (enemy.MoveForward(Data.patrolSpeed * enemy.SpeedMultiplier))
+            enemy.PlayAnim(Data.animWalk);
+        else
             pauseTimer = Data.patrolPause;
     }
 }
