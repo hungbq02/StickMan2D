@@ -1,6 +1,6 @@
 {
  "id": "axeman",
- "cellWidth": 348,
+ "cellWidth": 336,
  "cellHeight": 302,
  "pivotX": 0.5,
  "pivotY": 0.023178807947019868,
@@ -15,7 +15,8 @@
     "axeman_idle_01.png",
     "axeman_idle_02.png",
     "axeman_idle_03.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "walk",
@@ -28,7 +29,8 @@
     "axeman_walk_03.png",
     "axeman_walk_04.png",
     "axeman_walk_05.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "hit",
@@ -38,7 +40,8 @@
     "axeman_hit_00.png",
     "axeman_hit_01.png",
     "axeman_hit_02.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "slash",
@@ -49,7 +52,8 @@
     "axeman_slash_01.png",
     "axeman_slash_02.png",
     "axeman_slash_03.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "death",
@@ -63,7 +67,8 @@
     "axeman_death_04.png",
     "axeman_death_05.png",
     "axeman_death_06.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "smash",
@@ -75,7 +80,8 @@
     "axeman_smash_02.png",
     "axeman_smash_03.png",
     "axeman_smash_04.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "spin",
@@ -90,7 +96,8 @@
     "axeman_spin_05.png",
     "axeman_spin_06.png",
     "axeman_spin_07.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "charge",
@@ -108,7 +115,8 @@
     "axeman_charge_08.png",
     "axeman_charge_09.png",
     "axeman_charge_10.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "tellSmash",
@@ -116,7 +124,8 @@
    "loop": false,
    "frames": [
     "axeman_tellSmash_00.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "tellCharge",
@@ -124,7 +133,8 @@
    "loop": false,
    "frames": [
     "axeman_tellCharge_00.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "enrage",
@@ -137,7 +147,8 @@
     "axeman_enrage_03.png",
     "axeman_enrage_04.png",
     "axeman_enrage_05.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "taunt",
@@ -149,7 +160,8 @@
     "axeman_taunt_02.png",
     "axeman_taunt_03.png",
     "axeman_taunt_04.png"
-   ]
+   ],
+   "endShift": 0.0
   }
  ],
  "fx": []

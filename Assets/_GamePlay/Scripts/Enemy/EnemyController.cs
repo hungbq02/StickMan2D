@@ -104,12 +104,14 @@ public class EnemyController : MonoBehaviour
         Taunt = new EnemyTauntState(this);
 
         Damageable.OnDamaged += HandleDamaged;
+        if (Anim != null) Anim.RootShift += ShiftForward;
     }
 
     private void OnDestroy()
     {
         if (Damageable != null)
             Damageable.OnDamaged -= HandleDamaged;
+        if (Anim != null) Anim.RootShift -= ShiftForward;
     }
 
     private void OnEnable()
@@ -230,6 +232,10 @@ public class EnemyController : MonoBehaviour
 
     public bool IsOffCooldown(EnemyAttackSO attack)
     {
+        // đòn lùi mà sau lưng (phía xa mục tiêu) là tường / vực => chỉ lướt tại chỗ, không dùng
+        if (attack.movement == EnemyAttackMovement.Retreat && HasTarget
+            && IsBlocked(transform.position.x >= Target.position.x ? 1 : -1))
+            return false;
         return !attackUsedAt.TryGetValue(attack, out float t) || Time.time - t >= attack.cooldown * TempoMultiplier;
     }
 
@@ -299,10 +305,11 @@ public class EnemyController : MonoBehaviour
 
     // ---- Movement ----
 
-    public void FaceTowards(float x)
+    // deadZone: mục tiêu lệch ngang ít hơn khoảng này thì giữ hướng (player đứng sát / nhảy qua đầu không làm lật liên tục)
+    public void FaceTowards(float x, float deadZone = 0.01f)
     {
         float dx = x - transform.position.x;
-        if (Mathf.Abs(dx) > 0.01f && Mathf.Sign(dx) != FacingDirection)
+        if (Mathf.Abs(dx) > deadZone && Mathf.Sign(dx) != FacingDirection)
             Flip();
     }
 
@@ -349,6 +356,27 @@ public class EnemyController : MonoBehaviour
         // Không còn đất phía trước chân => mép vực
         Vector2 groundOrigin = new Vector2(frontX, b.min.y + 0.1f);
         return !Physics2D.Raycast(groundOrigin, Vector2.down, 0.6f, obstacleLayer);
+    }
+
+    // Root shift cuối clip: dời theo hướng mặt (âm = lùi), dừng trước tường và mép vực
+    public void ShiftForward(float distance)
+    {
+        if (!Health.IsAlive || Mathf.Approximately(distance, 0f)) return;
+        int dir = distance > 0f ? FacingDirection : -FacingDirection;
+        float allowed = Mathf.Abs(distance);
+        // dò mọi thứ thân này va chạm được (tường, player, enemy / bia khác) — dời vào trong thân khác sẽ bị physics đẩy giật ra
+        obstacleFilter.SetLayerMask(Physics2D.GetLayerCollisionMask(gameObject.layer) | obstacleLayer);
+        obstacleFilter.useTriggers = false;
+        int n = bodyCollider.Cast(Vector2.right * dir, obstacleFilter, castHits, allowed);
+        for (int i = 0; i < n; i++)
+            if (Mathf.Abs(castHits[i].normal.x) > 0.5f)
+                allowed = Mathf.Min(allowed, Mathf.Max(0f, castHits[i].distance - 0.02f));
+        // còn đất dưới chân ở điểm đến (không đẩy rơi khỏi mép)
+        Bounds b = bodyCollider.bounds;
+        while (allowed > 0.05f && !Physics2D.Raycast(new Vector2(b.center.x + dir * allowed, b.min.y + 0.1f), Vector2.down, 0.6f, obstacleLayer))
+            allowed -= 0.1f;
+        if (allowed <= 0.01f) return;
+        TeleportToX(transform.position.x + dir * allowed);
     }
 
     // Dịch chuyển tức thời (đòn Teleport); giữ nguyên độ cao

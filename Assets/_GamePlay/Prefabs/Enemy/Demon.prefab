@@ -326,6 +326,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animSet: Demon
+  endShifts: []
+  shiftAtProgress: 0.85
 --- !u!114 &6827798561949984574
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,6 +1,6 @@
 {
  "id": "unmaker",
- "cellWidth": 214,
+ "cellWidth": 208,
  "cellHeight": 130,
  "pivotX": 0.5,
  "pivotY": 0.03076923076923077,
@@ -15,7 +15,8 @@
     "unmaker_idle_01.png",
     "unmaker_idle_02.png",
     "unmaker_idle_03.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "move",
@@ -27,7 +28,8 @@
     "unmaker_move_02.png",
     "unmaker_move_03.png",
     "unmaker_move_04.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "hit",
@@ -37,7 +39,8 @@
     "unmaker_hit_00.png",
     "unmaker_hit_01.png",
     "unmaker_hit_02.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "death",
@@ -49,7 +52,8 @@
     "unmaker_death_02.png",
     "unmaker_death_03.png",
     "unmaker_death_04.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "slash",
@@ -61,7 +65,8 @@
     "unmaker_slash_02.png",
     "unmaker_slash_03.png",
     "unmaker_slash_04.png"
-   ]
+   ],
+   "endShift": -0.571
   },
   {
    "name": "beam",
@@ -72,7 +77,8 @@
     "unmaker_beam_01.png",
     "unmaker_beam_02.png",
     "unmaker_beam_03.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "wingBurst",
@@ -83,7 +89,8 @@
     "unmaker_wingBurst_01.png",
     "unmaker_wingBurst_02.png",
     "unmaker_wingBurst_03.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "summon",
@@ -94,7 +101,8 @@
     "unmaker_summon_01.png",
     "unmaker_summon_02.png",
     "unmaker_summon_03.png"
-   ]
+   ],
+   "endShift": -0.2
   },
   {
    "name": "teleport",
@@ -103,7 +111,8 @@
    "frames": [
     "unmaker_teleport_00.png",
     "unmaker_teleport_01.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "meteor",
@@ -115,7 +124,8 @@
     "unmaker_meteor_02.png",
     "unmaker_meteor_03.png",
     "unmaker_meteor_04.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "phase",
@@ -131,7 +141,8 @@
     "unmaker_phase_06.png",
     "unmaker_phase_07.png",
     "unmaker_phase_08.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "rageIdle",
@@ -142,7 +153,8 @@
     "unmaker_rageIdle_01.png",
     "unmaker_rageIdle_02.png",
     "unmaker_rageIdle_03.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "taunt",
@@ -153,7 +165,8 @@
     "unmaker_taunt_01.png",
     "unmaker_taunt_02.png",
     "unmaker_taunt_03.png"
-   ]
+   ],
+   "endShift": 0.0
   }
  ],
  "fx": [

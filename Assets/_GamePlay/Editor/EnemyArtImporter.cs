@@ -11,6 +11,7 @@ public static class EnemyArtImporter
 {
     private const string ArtRoot = "Assets/_GamePlay/Art/Enemies";
     private const string AnimRoot = "Assets/_GamePlay/Anim/Enemies";
+    private const string PrefabRoot = "Assets/_GamePlay/Prefabs/Enemy";
 
     [System.Serializable]
     private class AnimEntry
@@ -19,6 +20,7 @@ public static class EnemyArtImporter
         public float fps = 10f;
         public bool loop;
         public string[] frames;
+        public float endShift;
     }
 
     [System.Serializable]
@@ -93,7 +95,37 @@ public static class EnemyArtImporter
                 sm.defaultState = state;
         }
         EditorUtility.SetDirty(ctrl);
-        Debug.Log($"[EnemyArtImporter] {name}: {clips.Count} clip -> {ctrlPath}");
+        int prefabs = ApplyEndShifts(name, m);
+        Debug.Log($"[EnemyArtImporter] {name}: {clips.Count} clip -> {ctrlPath}, root shift -> {prefabs} prefab");
+    }
+
+    // Ghi endShift (root shift cuối clip) vào EnemyAnimator của mọi prefab enemy dùng animSet này
+    private static int ApplyEndShifts(string name, Manifest m)
+    {
+        var shifts = new List<EnemyAnimator.ClipShift>();
+        foreach (AnimEntry a in m.anims)
+            if (Mathf.Abs(a.endShift) > 0.001f)
+                shifts.Add(new EnemyAnimator.ClipShift { anim = a.name, shift = a.endShift });
+        int count = 0;
+        foreach (string guid in AssetDatabase.FindAssets("t:Prefab", new[] { PrefabRoot }))
+        {
+            string path = AssetDatabase.GUIDToAssetPath(guid);
+            var asset = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+            var anim = asset != null ? asset.GetComponentInChildren<EnemyAnimator>(true) : null;
+            if (anim == null || anim.AnimSet != name) continue;
+            GameObject root = PrefabUtility.LoadPrefabContents(path);
+            try
+            {
+                root.GetComponentInChildren<EnemyAnimator>(true).SetEndShifts(shifts.ToArray());
+                PrefabUtility.SaveAsPrefabAsset(root, path);
+                count++;
+            }
+            finally
+            {
+                PrefabUtility.UnloadPrefabContents(root);
+            }
+        }
+        return count;
     }
 
     private static void SetupSprite(string path, float ppu, Vector2 pivot)

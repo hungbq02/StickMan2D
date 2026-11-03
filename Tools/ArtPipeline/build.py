@@ -30,7 +30,8 @@ AXEMAN = dict(
     name='Axeman', source='melee_enemy_concept_Spritesheet.png',
     # ô ca rô 178/215, chu kỳ ~23.4px; vạch đất đen dài dưới mỗi hàng
     matte=[dict(tones=[178, 215], period=23.4, kill_lines=[['h', 300]], glow_sigma=5)],
-    slice=dict(id='axeman', ppu=115, anims=[
+    # chỗ nối animation thực tế (khớp EnemyAttackSO: tư thế báo hiệu -> đòn) để căn giữa các clip
+    slice=dict(id='axeman', ppu=115, align=dict(chains=[['tellSmash', 'smash'], ['tellCharge', 'charge']]), anims=[
         dict(name='idle', fps=6, loop=True, band=[0, 50, 800, 290], ground=286, anchor='head'),
         dict(name='walk', fps=10, loop=True, band=[820, 50, 1960, 290], ground=286, anchor='head'),
         dict(name='hit', fps=12, band=[1990, 50, 2816, 290], ground=286, anchor='head'),
@@ -59,7 +60,7 @@ DEMON = dict(
                              [376, 1046, 434, 1082], [782, 1046, 840, 1082], [1026, 1046, 1084, 1082], [1254, 1046, 1306, 1082],
                              [1502, 1046, 1560, 1082], [1710, 1046, 1772, 1082],
                              [896, 838, 950, 866], [2198, 1182, 2230, 1258], [2332, 1182, 2432, 1268], [20, 60, 90, 200]])],
-    slice=dict(id='demon', ppu=58, anims=[
+    slice=dict(id='demon', ppu=58, align=dict(chains=[['tellSmash', 'smash'], ['tellCharge', 'run']]), anims=[
         dict(name='idle', fps=6, loop=True, band=[100, 50, 905, 205]),
         dict(name='walk', fps=10, loop=True, band=[905, 50, 2160, 205]),
         dict(name='hit', fps=12, band=[2160, 50, 2816, 205]),
@@ -93,7 +94,10 @@ KNIGHT = dict(
                                   [28, 901, 262, 941], [28, 1138, 238, 1183], [28, 1180, 222, 1216], [1075, 1168, 1302, 1213],
                                   [28, 1428, 188, 1471], [28, 1467, 192, 1503], [468, 1434, 698, 1472], [813, 1435, 1018, 1473],
                                   [32, 1714, 222, 1759], [1235, 1714, 1370, 1759], [1558, 1714, 1708, 1759]])],
-    slice=dict(id='knight', ppu=88, text_filter=True, min_body_h=75, anims=[
+    slice=dict(id='knight', ppu=88, text_filter=True, min_body_h=75, align=dict(
+        chains=[['tellSlash', 'slash'], ['tellExecute', 'overhead'], ['stance', 'cleave'], ['tellRupture', 'rupture'],
+                ['enrage', 'rageIdle']],
+        no_return=['stagger']), anims=[
         dict(name='idle', fps=1, loop=True, band=[0, 60, 240, 295], anchor='head', face_min=200, face_top=0.45),
         dict(name='walk', fps=8, loop=True, band=[240, 60, 1040, 295], anchor='head', face_min=200, face_top=0.45),
         dict(name='stance', fps=8, band=[1040, 60, 2048, 295], anchor='head', face_min=200, face_top=0.45),
@@ -133,7 +137,9 @@ STALKER = dict(
                                   [2439, 530, 2448, 700],     # Charged f7 dính mũi tên f9
                                   [1428, 1100, 1632, 1137]]), # nhãn "Rain of Arrows"
           dict(op='box_numbers', cols=_STALKER_BOX_COLS, tops=_STALKER_BOX_TOPS, size=[33, 37], max_gray=95)],
-    slice=dict(id='stalker', ppu=90, text_filter=True, text_min_n=60, min_comp_w=12, anims=[
+    slice=dict(id='stalker', ppu=90, text_filter=True, text_min_n=60, min_comp_w=12, align=dict(
+        chains=[['aim', 'quick'], ['aim', 'charged'], ['aim', 'triple'], ['aim', 'piercing'], ['stealthIn', 'stealthOut']]),
+        anims=[
         dict(name='idle', fps=8, loop=True, band=[30, 115, 1040, 290], anchor='head'),
         dict(name='walk', fps=10, loop=True, band=[30, 320, 1390, 495], anchor='head'),
         dict(name='run', fps=12, loop=True, band=[30, 530, 1390, 700], anchor='head'),
@@ -173,7 +179,8 @@ UNMAKER = dict(
     post=[dict(op='clear', rects=[[0, 0, 1024, 34],            # tiêu đề
                                   [821, 405, 828, 503]]),      # tách tia beam khỏi đầu trượng
           dict(op='clear_lowsat', rects=_UNMAKER_LABELS, grow=2, max_sat=45)],
-    slice=dict(id='unmaker', ppu=35, text_filter=True, text_min_n=60, text_max_h=40, min_body_h=80, merge=2, pad=4, anims=[
+    slice=dict(id='unmaker', ppu=35, text_filter=True, text_min_n=60, text_max_h=40, min_body_h=80, merge=2, pad=4,
+               align=dict(chains=[['phase', 'rageIdle']], exclude=['teleport']), anims=[
         dict(name='idle', fps=6, loop=True, band=[0, 35, 500, 165], anchor='head', face_min_px=20),
         dict(name='move', fps=8, loop=True, band=[500, 35, 1024, 165], anchor='head', face_min_px=20),
         dict(name='hit', fps=10, band=[0, 200, 395, 340], anchor='head', face_min_px=20, extra_reach=30),

@@ -1,6 +1,6 @@
 {
  "id": "demon",
- "cellWidth": 306,
+ "cellWidth": 376,
  "cellHeight": 198,
  "pivotX": 0.5,
  "pivotY": 0.030303030303030304,
@@ -15,7 +15,8 @@
     "demon_idle_01.png",
     "demon_idle_02.png",
     "demon_idle_03.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "walk",
@@ -29,7 +30,8 @@
     "demon_walk_04.png",
     "demon_walk_05.png",
     "demon_walk_06.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "hit",
@@ -39,7 +41,8 @@
     "demon_hit_00.png",
     "demon_hit_01.png",
     "demon_hit_02.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "run",
@@ -55,7 +58,8 @@
     "demon_run_06.png",
     "demon_run_07.png",
     "demon_run_08.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "death",
@@ -75,7 +79,8 @@
     "demon_death_10.png",
     "demon_death_11.png",
     "demon_death_12.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "swing",
@@ -95,7 +100,8 @@
     "demon_swing_10.png",
     "demon_swing_11.png",
     "demon_swing_12.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "smash",
@@ -110,7 +116,8 @@
     "demon_smash_05.png",
     "demon_smash_06.png",
     "demon_smash_07.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "bash",
@@ -122,7 +129,8 @@
     "demon_bash_02.png",
     "demon_bash_03.png",
     "demon_bash_04.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "combo",
@@ -137,7 +145,8 @@
     "demon_combo_05.png",
     "demon_combo_06.png",
     "demon_combo_07.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "shockwave",
@@ -149,7 +158,8 @@
     "demon_shockwave_02.png",
     "demon_shockwave_03.png",
     "demon_shockwave_04.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "shield",
@@ -161,7 +171,8 @@
     "demon_shield_02.png",
     "demon_shield_03.png",
     "demon_shield_04.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "roar",
@@ -173,7 +184,8 @@
     "demon_roar_02.png",
     "demon_roar_03.png",
     "demon_roar_04.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "tellSmash",
@@ -183,7 +195,8 @@
     "demon_tellSmash_00.png",
     "demon_tellSmash_01.png",
     "demon_tellSmash_02.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "tellCharge",
@@ -193,7 +206,8 @@
     "demon_tellCharge_00.png",
     "demon_tellCharge_01.png",
     "demon_tellCharge_02.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "enrage",
@@ -208,7 +222,8 @@
     "demon_enrage_05.png",
     "demon_enrage_06.png",
     "demon_enrage_07.png"
-   ]
+   ],
+   "endShift": 0.0
   }
  ],
  "fx": []

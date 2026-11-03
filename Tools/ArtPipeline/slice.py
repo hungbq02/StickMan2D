@@ -1,7 +1,8 @@
 """Cắt sheet RGBA (đã tách nền) thành frame PNG cùng kích thước ô, chân trên cùng 1 đường đáy.
 
 cfg (mỗi nhân vật):
-  id, ppu, merge, min_body_h, text_filter, text_min_n, text_max_h, min_comp_w, pad
+  id, ppu, merge, min_body_h, text_filter, text_min_n, text_max_h, min_comp_w, pad,
+  align: {ref, chains, no_return, exclude} (căn giữa các clip theo chỗ nối, xem _align_clips; False = tắt)
   anims: [{name, fps, loop, band:[x0,y0,x1,y1], anchor: head|hip|register|bbox,
            ground (y đáy cố định, tuỳ chọn), air:[i] (frame bay -> dùng đáy trung vị),
            seeds:[[x,y]...] (tách frame dính nhau), merge_frames:[[i,j]], drop:[i], exclude:[[x0,y0,x1,y1]],
@@ -30,8 +31,13 @@ def _head_x(rgba, an, x0):
 
 
 def _core_mask(f, an):
-    a = f['rgba'][..., 3] > 128
+    al = f['rgba'][..., 3]
+    a = al > 128
+    if not a.any():
+        a = al > 20  # frame tan biến (khói, hạt)
     rows = np.nonzero(a.any(1))[0]
+    if len(rows) == 0:
+        return a
     t, b = rows[0], rows[-1]
     m = np.zeros_like(a)
     lo_, hi_ = an.get('core_rows', [0.0, 0.65])
@@ -42,7 +48,124 @@ def _core_mask(f, an):
 def _profile(f, an):
     m = _core_mask(f, an)
     xs = np.nonzero(m.any(0))[0]
+    if len(xs) == 0:
+        return m.sum(0).astype(np.float64), f['x0'] + m.shape[1] / 2
     return m.sum(0).astype(np.float64), f['x0'] + (xs.min() + xs.max()) / 2
+
+
+ALIGN_ROWS = [0.0, 0.65]  # đầu + thân trên: mốc ổn định nhất (chân bước, vũ khí, áo choàng làm nhiễu)
+RAMP_CAP_U = 0.06       # bù trôi tối đa / frame (đơn vị thế giới) — không tự tạo cú giật mới trong clip
+
+
+def _body_profile(f):
+    """Profile cột của đầu + thân trên, bỏ pixel sáng + bão hoà mạnh (lửa, glow, vòng phép) để hiệu ứng lớn
+    không kéo lệch phép khớp giữa các clip."""
+    m = _core_mask(f, {'core_rows': ALIGN_ROWS})
+    rg = f['rgba'][..., :3].astype(int)
+    fx = (rg.max(2) > 200) & (rg.max(2) - rg.min(2) > 90)
+    body = m & ~fx
+    return (body if body.sum() > 0.3 * m.sum() else m).sum(0).astype(np.float64)
+
+
+def _pair_shift(fa, fb, R=90):
+    """(dx, độ khớp): phần thân của fb lệch dx px (dương = sang phải) so với fa, tính quanh điểm neo."""
+    ca = _body_profile(fa); cb = _body_profile(fb)
+    L = 2400
+    a = np.zeros(L); b = np.zeros(L)
+    sa = int(round(fa['x0'] - fa['ax'])) + L // 2; sb = int(round(fb['x0'] - fb['ax'])) + L // 2
+    a[sa:sa + len(ca)] = ca; b[sb:sb + len(cb)] = cb
+    best = (0, -1.0)
+    na = np.sqrt((a * a).sum())
+    for dx in range(-R, R + 1):
+        bs = np.roll(b, -dx)  # b(x + dx)
+        sc = (a * bs).sum() / (na * np.sqrt((bs * bs).sum()) + 1e-9)
+        if sc > best[1]:
+            best = (dx, sc)
+    return best
+
+
+def _align_clips(frames_all, anims_cfg, align, ppu=100):
+    """Căn giữa các clip để thân nhân vật không giật ngang ở các chỗ nối thực tế:
+      ref (idle) -> frame đầu mỗi clip; frame cuối mỗi clip -> ref;
+      chuỗi [tell, attack, ...]: tell -> attack nối với nhau (attack không nối từ ref, tell không quay về ref).
+    Mỗi clip dịch o_đầu ở frame đầu, o_cuối ở frame cuối, nội suy tuyến tính ở giữa (bù clip AI vẽ trôi dần);
+    clip lặp / clip không quay về ref / 1 frame dùng 1 khoảng dịch. Bình phương tối thiểu, trọng số = độ khớp^4,
+    ưu tiên nhẹ khoảng dịch nhỏ và o_cuối ~ o_đầu (giữ chuyển động thật trong clip).
+    align: {ref, chains:[[a,b,...]], no_return:[clip], exclude:[clip]}"""
+    ref = align.get('ref', 'idle')
+    cfg_by_name = {a['name']: a for a in anims_cfg}
+    names = [a['name'] for a in anims_cfg if frames_all.get(a['name'])]
+    if ref not in names:
+        return None
+    exclude = set(align.get('exclude', []))
+    no_return = set(align.get('no_return', ['death']))
+    follows, leads = {}, set()
+    for ch in align.get('chains', []):
+        for x, y in zip(ch, ch[1:]):
+            follows.setdefault(y, []).append(x)
+            leads.add(x)
+    edges = []
+    for c in names:
+        if c == ref or c in exclude:
+            continue
+        for prev in follows.get(c, [ref]):
+            if prev in names and prev not in exclude:
+                edges.append((prev, c))
+        if c not in leads and c not in no_return:
+            edges.append((c, ref))
+    clips = [c for c in names if c != ref and c not in exclude]
+    # ẩn số: o_đầu mỗi clip, + o_cuối cho clip được nội suy
+    var = {}
+    for c in clips:
+        var[(c, 0)] = len(var)
+        ramp = (not cfg_by_name[c].get('loop') and c not in no_return and len(frames_all[c]) > 1)
+        var[(c, 1)] = len(var) if ramp else var[(c, 0)]
+    n = len(var)
+    rows, rhs = [], []
+    for a, b in edges:
+        dx, sc = _pair_shift(frames_all[a][-1], frames_all[b][0])
+        w = max(sc, 0.0) ** 4
+        row = np.zeros(n)
+        if b in clips: row[var[(b, 0)]] += 1   # frame đầu của b
+        if a in clips: row[var[(a, 1)]] -= 1   # frame cuối của a
+        rows.append(row * w); rhs.append(-dx * w)  # dx + o_b,đầu - o_a,cuối -> 0
+    for c in clips:
+        row = np.zeros(n); row[var[(c, 0)]] = 0.05
+        rows.append(row); rhs.append(0.0)
+        if var[(c, 1)] != var[(c, 0)]:
+            row = np.zeros(n); row[var[(c, 1)]] = 0.15; row[var[(c, 0)]] = -0.15
+            rows.append(row); rhs.append(0.0)
+    sol = np.linalg.lstsq(np.array(rows), np.array(rhs), rcond=None)[0]
+    moved = []
+    cap = RAMP_CAP_U * ppu
+    for c in clips:
+        o0, o1 = sol[var[(c, 0)]], sol[var[(c, 1)]]
+        fs = frames_all[c]
+        if len(fs) > 1 and abs(o1 - o0) > cap * (len(fs) - 1):  # phần trôi lớn hơn = chuyển động thật của đòn
+            o1 = o0 + np.sign(o1 - o0) * cap * (len(fs) - 1)
+        for i, f in enumerate(fs):
+            t = i / (len(fs) - 1) if len(fs) > 1 else 0.0
+            f['ax'] -= int(round(o0 + (o1 - o0) * t))  # nội dung dịch phải
+        if round(o0) or round(o1):
+            moved.append('%s%+d' % (c, round(o0)) + ('..%+d' % round(o1) if round(o1) != round(o0) else ''))
+    print('  căn giữa clip (px):', ', '.join(moved) if moved else 'không cần')
+    return ref, [c for c in clips if c not in leads and c not in no_return]
+
+
+END_SHIFT_MIN_U = 0.15  # lệch nhỏ hơn thì để nguyên (không đáng dời vị trí nhân vật)
+
+
+def _end_shifts(frames_all, ref, returning, ppu):
+    """Clip kết thúc với thân lệch khỏi idle (đòn bước tới / lùi): khoảng lệch (đơn vị thế giới, + = phía trước mặt).
+    EnemyAnimator dời nhân vật đúng khoảng này khi clip chạy hết => idle hiện ra đúng chỗ thân đang đứng."""
+    out = {}
+    for c in returning:
+        dx, sc = _pair_shift(frames_all[ref][0], frames_all[c][-1])
+        if sc >= 0.7 and abs(dx) / ppu >= END_SHIFT_MIN_U:
+            out[c] = round(dx / ppu, 3)
+    if out:
+        print('  root shift cuối clip (u):', ', '.join('%s%+.2f' % kv for kv in out.items()))
+    return out
 
 
 def _align_to(f, ref, an):
@@ -202,6 +325,11 @@ def slice_sheet(im, cfg, out_dir, preview=None):
     for an in cfg['anims']:
         frames_all[an['name']] = _anim_frames(im, lab, comps, cfg, an)
         print('  %-12s %2d frame' % (an['name'], len(frames_all[an['name']])))
+    end_shift = {}
+    if cfg.get('align') is not False:
+        res = _align_clips(frames_all, cfg['anims'], cfg.get('align') or {}, cfg['ppu'])
+        if res:
+            end_shift = _end_shifts(frames_all, res[0], res[1], cfg['ppu'])
 
     # ô chung cho cả nhân vật: neo ở giữa đáy
     allf = [f for fs in frames_all.values() for f in fs]
@@ -227,7 +355,8 @@ def slice_sheet(im, cfg, out_dir, preview=None):
             fn = '%s_%s_%02d.png' % (cfg['id'], an['name'], k)
             cell.save(os.path.join(out_dir, fn))
             names.append(fn); cells.append(cell)
-        manifest['anims'].append(dict(name=an['name'], fps=an.get('fps', 10), loop=an.get('loop', False), frames=names))
+        manifest['anims'].append(dict(name=an['name'], fps=an.get('fps', 10), loop=an.get('loop', False), frames=names,
+                                      endShift=end_shift.get(an['name'], 0.0)))
         strips.append((an['name'], cells))
     print('  cell %dx%d pivotY %.3f' % (W, H, base / H))
     if preview:

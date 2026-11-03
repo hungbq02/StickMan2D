@@ -320,6 +320,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animSet: Stalker
+  endShifts: []
+  shiftAtProgress: 0.85
 --- !u!114 &803941092423823194
 MonoBehaviour:
   m_ObjectHideFlags: 0

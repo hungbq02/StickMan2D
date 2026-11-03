@@ -323,6 +323,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animSet: Unmaker
+  endShifts:
+  - anim: slash
+    shift: -0.571
+  - anim: summon
+    shift: -0.2
+  shiftAtProgress: 0.85
 --- !u!114 &6368512968190321983
 MonoBehaviour:
   m_ObjectHideFlags: 0

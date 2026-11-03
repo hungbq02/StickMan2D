@@ -325,6 +325,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animSet: Knight
+  endShifts:
+  - anim: slash
+    shift: -0.239
+  - anim: cinder
+    shift: -1.023
+  shiftAtProgress: 0.85
 --- !u!114 &6279615343110171167
 MonoBehaviour:
   m_ObjectHideFlags: 0

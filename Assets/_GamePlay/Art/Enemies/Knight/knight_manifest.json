@@ -1,6 +1,6 @@
 {
  "id": "knight",
- "cellWidth": 494,
+ "cellWidth": 582,
  "cellHeight": 342,
  "pivotX": 0.5,
  "pivotY": 0.017543859649122806,
@@ -12,7 +12,8 @@
    "loop": true,
    "frames": [
     "knight_idle_00.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "walk",
@@ -24,7 +25,8 @@
     "knight_walk_02.png",
     "knight_walk_03.png",
     "knight_walk_04.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "stance",
@@ -34,7 +36,8 @@
     "knight_stance_00.png",
     "knight_stance_01.png",
     "knight_stance_02.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "hit",
@@ -43,7 +46,8 @@
    "frames": [
     "knight_hit_00.png",
     "knight_hit_01.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "stagger",
@@ -53,7 +57,8 @@
     "knight_stagger_00.png",
     "knight_stagger_01.png",
     "knight_stagger_02.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "taunt",
@@ -64,7 +69,8 @@
     "knight_taunt_01.png",
     "knight_taunt_02.png",
     "knight_taunt_03.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "slash",
@@ -74,7 +80,8 @@
     "knight_slash_00.png",
     "knight_slash_01.png",
     "knight_slash_02.png"
-   ]
+   ],
+   "endShift": -0.239
   },
   {
    "name": "overhead",
@@ -84,7 +91,8 @@
     "knight_overhead_00.png",
     "knight_overhead_01.png",
     "knight_overhead_02.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "cleave",
@@ -93,7 +101,8 @@
    "frames": [
     "knight_cleave_00.png",
     "knight_cleave_01.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "combo",
@@ -106,7 +115,8 @@
     "knight_combo_03.png",
     "knight_combo_04.png",
     "knight_combo_05.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "cinder",
@@ -117,7 +127,8 @@
     "knight_cinder_01.png",
     "knight_cinder_02.png",
     "knight_cinder_03.png"
-   ]
+   ],
+   "endShift": -1.023
   },
   {
    "name": "rupture",
@@ -125,7 +136,8 @@
    "loop": false,
    "frames": [
     "knight_rupture_00.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "tellSlash",
@@ -134,7 +146,8 @@
    "frames": [
     "knight_tellSlash_00.png",
     "knight_tellSlash_01.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "tellExecute",
@@ -142,7 +155,8 @@
    "loop": false,
    "frames": [
     "knight_tellExecute_00.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "tellRupture",
@@ -150,7 +164,8 @@
    "loop": false,
    "frames": [
     "knight_tellRupture_00.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "enrage",
@@ -161,7 +176,8 @@
     "knight_enrage_01.png",
     "knight_enrage_02.png",
     "knight_enrage_03.png"
-   ]
+   ],
+   "endShift": 0.0
   },
   {
    "name": "rageIdle",
@@ -169,7 +185,8 @@
    "loop": true,
    "frames": [
     "knight_rageIdle_00.png"
-   ]
+   ],
+   "endShift": 0.0
   }
  ],
  "fx": [

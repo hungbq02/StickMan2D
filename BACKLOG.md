@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**56 xong · 3 làm một phần · 5 còn lại** (tổng 64)
+**57 xong · 3 làm một phần · 5 còn lại** (tổng 65)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -29,7 +29,7 @@
 | 5. Enemy ✅ | 5 | — | — |
 | 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
-| 8. Enemy roster & boss ✅ | 6 | — | — |
+| 8. Enemy roster & boss ✅ | 7 | — | — |
 
 ---
 
@@ -181,6 +181,13 @@ Art: 5 sprite sheet AI-gen của user trong `Art/EnemyConcepts` (không commit) 
   - Hazard cột lửa đổi tên `KnightRuptureFlame` → `FlamePillar` (dùng chung Knight + Demon, GUID giữ nguyên). Đạn mới `UnmakerBeam`, `UnmakerMeteor`.
   - Sửa chung cho mọi enemy: (1) lên kế hoạch đòn bỏ các đòn có tầm tối thiểu > khoảng cách hiện tại — trước đó Demon đứng im ~3s khi player ở 2.4–3u (Charge quá gần, Swing quá xa); (2) `IsBlocked` quét cả hình collider theo hướng đi thay vì 1 tia ở tâm thân (Unmaker cao 3u vướng mép trên "Wall (1)" mà tia không thấy) + Chase bị chặn đường thì dùng đòn đang trong tầm thay vì đứng chờ.
   - Đã chạy Play mode: Demon 20s — 6 loại đòn, khoảng nghỉ dài nhất giữa 2 đòn 0.92s, chuyển phase ở 260 (roar) / 120 (enrage) có bất tử; khiên chặn 30/30 đòn phía trước, đòn sau lưng vẫn trúng; cột lửa tối đa 4 cùng lúc. Unmaker 22s — Slash / Wing Burst / Beam / Teleport (hiện sau lưng player 2.2u) / Summon (4 Imp, Imp cắn trúng) / Meteor trúng, không lần nào khựng. `BossArena`: 2 boss ngủ → vào trigger Demon: tường bật, thanh máu "Crimson Brute" → hạ Demon: tường mở, thanh máu ẩn → vào Unmaker: "The Unmaker". `SampleScene` hồi quy 18s: 4 enemy tuần tra / đuổi bình thường, console sạch. EditMode 27/27.
+
+- [x] **EN-12** 🖥️ Độ mượt chuyển animation enemy / boss:
+  - Đo (script tạm, mọi chỗ nối clip thực tế idle↔walk/run, idle→báo hiệu→đòn→idle, hit, death, phase): trước sửa ~75 chỗ nối thân giật ngang > 0.12u (Knight tới 0.9u, Demon 0.7u) do pipeline chỉ căn từng clip riêng lẻ.
+  - `Tools/ArtPipeline/slice.py`: `_align_clips` căn các clip với nhau theo chuỗi chuyển thật (`align.chains` trong `build.py`, vd `tellExecute → overhead`), bù trôi tuyến tính trong clip có giới hạn (`RAMP_CAP_U`), khớp theo đầu + thân trên và bỏ pixel lửa / glow. Sau sửa: Axeman, Stalker, Demon 0 chỗ nối lệch; Knight còn tellSlash→slash 0.28u, cleave→idle 0.14u.
+  - Root shift: đòn kết thúc với thân lệch chỗ (Knight Cinder −1.02u, Slash −0.24; Unmaker Slash −0.57, Summon −0.20) → manifest `endShift` → importer ghi `EnemyAnimator.endShifts` vào prefab; chuyển clip sau khi clip chạy ≥ 85% thì `EnemyController.ShiftForward` dời nhân vật (dò tường, mép vực, thân khác). Đo Play mode: Knight Cinder → idle thân giật 1.03u → 0.01u; sát vật cản thì dời được tới đâu hay tới đó (không còn bị physics đẩy bật ngược).
+  - Chase chống nháy: vùng đệm đứng / đi (dừng 85%, đi tiếp khi ra hẳn tầm) + giữ tối thiểu 0.35s; quay mặt có vùng chết 0.3u; cung thủ lùi có hysteresis +1u + cờ dồn góc (trước: bị dồn vào tường thì lật mặt mỗi frame); không dùng đòn lùi khi sau lưng là tường / vực. Đo Play mode: player nhích ±0.15u qua rìa tầm 6 lần/s → Axeman đổi idle/walk 6 lần/s → 2 lần/s (±0.06u: 0); player đứng trên đầu lệch ±0.2u → 0 lần lật; Stalker dồn góc 5s → 2 lần lật.
+  - Chưa xử lý: giật trong clip do AI vẽ (Axeman charge, Stalker death / rain, Knight slash, Unmaker hit) — cần gen lại art; trượt chân (tốc độ đi vs nhịp bước) chưa đo; Stalker bị áp sát < 1.5u ở góc tường thì đứng chờ (mọi phát bắn có tầm tối thiểu) — chuyện gameplay, chưa đổi.
 
 ---
 
