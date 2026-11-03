@@ -24,6 +24,10 @@ Assets/_GamePlay/
   DataCombat/      <Weapon>/<Weapon>WeaponData + *AttackData, Enemy/*AttackData
   Prefabs/         Bootstrap, bullet, DamagePopup, ghostSpawn, Enemy/MeleeEnemy
   Anim/Animation/  <Weapon>/{state}_{Weapon}.anim
+  Anim/Enemies/    <Name>/{anim}_{Name}.anim + Animator<Name>.controller (sinh tự động)
+  Art/Enemies/     <Name>/{id}_{anim}_{nn}.png + {id}_manifest.json, FX/ (sinh từ Art/EnemyConcepts)
+  Editor/          asmdef StickFigure.Editor — EnemyArtImporter
+Tools/ArtPipeline/ build.py: sprite sheet AI-gen -> frame PNG sạch (Python, ngoài Assets)
 ```
 
 ## Kiến trúc
@@ -75,6 +79,8 @@ Assets/_GamePlay/
 **Thêm vũ khí mới**: thêm giá trị `WeaponType` → tạo `WeaponDataSO` (`attackStyle`, `comboSteps`, `airAttack`, `projectile` nếu Ranged) → thêm vào list `weapons` của `WeaponAttackManager` trên Player → tạo đủ clip `{state}_{Weapon}` (idle, run, jump, fall, land, dash, slide, climb, wallSlide, hit, attack..., airAttack). Melee cần thêm hàm event + hitbox trong `PlayerAnimationAttack`.
 
 **Thêm loại enemy**: tạo `EnemyDataSO` + `AttackDataSO` → duplicate prefab `MeleeEnemy`, gán data, chỉnh `AttackHitbox`. Hành vi mới: thêm `EnemyState` và nối transition trong các state hiện có.
+
+**Dựng lại / thêm art enemy** (từ sprite sheet trong `Art/EnemyConcepts`): sửa cấu hình sheet trong `Tools/ArtPipeline/build.py` (toạ độ = pixel sheet gốc: `band` mỗi animation, nền ca rô `tones`/`period`, vùng xoá nhãn) → `python -I -B Tools/ArtPipeline/build.py <Name> --preview <thư mục>` (soi ảnh preview: cột cuối là onion skin) → `refresh_unity` → menu **Tools/Enemies/Import Enemy Art** (pivot/PPU + clip `{anim}_{Name}` + controller). Không sửa tay PNG trong `Art/Enemies` (bị ghi đè lần build sau).
 
 **Thêm status effect**: thêm giá trị vào `AttackEffect` (**số mới, không dùng lại số cũ** — asset serialize theo số) → class kế thừa `StatusEffect` (override `EffectType`, `Begin/End` hoặc `Tick`) → gắn component cho object nhận effect.
 

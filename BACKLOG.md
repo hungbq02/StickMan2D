@@ -1,7 +1,7 @@
 # StickFigure — Backlog kỹ thuật
 
 > Mục tiêu: dọn nợ kỹ thuật hiện tại và dựng nền để scale (nhiều vũ khí, nhiều loại enemy, nhiều level) mà không phải viết lại.
-> Cập nhật lần cuối: 2026-10-15 (sau GS-02 respawn)
+> Cập nhật lần cuối: 2026-11-03 (Phase 8 enemy roster & boss)
 
 **Ký hiệu**
 - Ưu tiên: `P0` làm ngay · `P1` trước khi thêm content mới · `P2` khi scale · `P3` nice-to-have
@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**50 xong · 3 làm một phần · 5 còn lại** (tổng 58)
+**51 xong · 3 làm một phần · 10 còn lại** (tổng 64)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -29,6 +29,7 @@
 | 5. Enemy ✅ | 5 | — | — |
 | 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
+| 8. Enemy roster & boss | 1 | — | 07, 08, 09, 10, 11 |
 
 ---
 
@@ -137,6 +138,21 @@
 - [x] **OR-06** EditMode test (`Assets/Tests/EditMode`, asmdef `StickFigure.Tests.EditMode`): 19 test — `StateMachine` (thứ tự Enter/Exit, chặn đổi state lồng, null, Stop), `AttackData` (crit, FinalDamage, team mặc định, copy từ SO), `Health` / `Damageable` / `Shield` (clamp, chết 1 lần, heal, team, i-frame, khiên theo hướng), `WeaponAttackManager` (bước combo, đòn trên không, ngoài phạm vi). Chạy: Test Runner → EditMode, hoặc MCP `run_tests`.
 - [x] **OR-07** `CLAUDE.md` ở root: stack, cấu trúc thư mục, kiến trúc (player state machine, combat pipeline, damage, effect, enemy, service/prefab), quy ước (tên clip, tham số animation event, team/layer, cheat), cách thêm combo / vũ khí / enemy / effect, quy trình MCP + commit theo task, skill name map.
 - [ ] **OR-08** `P3` `M` CI build (GameCI).
+
+## Phase 8 — Enemy roster & boss (P2)
+
+Art: 5 sprite sheet AI-gen của user trong `Art/EnemyConcepts` (không commit) → lính rìu **Axeman** (melee), cung thủ **Stalker** (ranged), hiệp sĩ đen **Knight** (elite), quỷ đỏ **Demon** (mini-boss), **Unmaker** (boss cuối).
+
+- [x] **EN-06** 🖥️ Pipeline art + import:
+  - `Tools/ArtPipeline/build.py` (Python: numpy, scipy, pillow) dựng lại toàn bộ frame từ sheet gốc: tách nền ca rô "vẽ chết" (alpha = 255 toàn ảnh) bằng dựng lại nền theo chu kỳ ô + color-to-alpha (giữ viền mượt, glow / vệt chém bán trong suốt), xoá nhãn / số khung / khung ô / mũi tên / chữ THUD-ROAR, tách frame dính nhau, căn mọi frame về cùng ô + chân trên 1 đường đáy (neo theo mặt / hông / khớp hình). Ra `Art/Enemies/<Name>/` 361 PNG + `<id>_manifest.json`.
+  - Menu **Tools/Enemies/Import Enemy Art** (`Editor/EnemyArtImporter`): set sprite (PPU theo nhân vật, pivot đáy-giữa, bilinear, không mipmap), tạo clip `{anim}_{Name}` + `Anim/Enemies/<Name>/Animator<Name>.controller` (71 clip). Chạy lại an toàn (giữ GUID).
+  - Lỗi của sheet gốc đã xử lý (ghi trong `build.py`): Axeman nhãn "Death"/"Slash" bị đặt ngược; mỗi sheet có watermark ngôi sao đè frame cuối 1 animation → bỏ frame đó (Axeman taunt, Stalker stealthOut, Knight rageWalk, Demon enrage, Unmaker taunt); Demon "Braced sound attack" và Stalker "Stealth Enter" thứ 2 vẽ hỏng → không dùng; Knight chỉ có 1 frame idle / rageIdle.
+  - Giới hạn: frame AI vẽ không đồng nhất giữa các frame (chi tiết giáp, trượng biến mất...) nên vẫn có nháy nhẹ; Unmaker sheet chỉ 1024px (frame ~110px) → PPU 35, phóng to sẽ mờ. Bản đẹp hơn cần gen lại sheet theo spec (lưới cố định, PNG trong suốt thật, không chữ).
+- [ ] **EN-07** `P2` `M` Enemy có animation + đòn đánh theo data: `EnemyAnimator` (Play `{anim}_{Name}`), `EnemyAttackSO` (clip telegraph / đòn, thời điểm trúng, tầm, cooldown, trọng số, phase), state Telegraph → Attack → Recovery, Hurt phát `hit`, Dead phát `death` rồi mới về pool. Chuyển `MeleeEnemy` sang data mới.
+- [ ] **EN-08** `P2` `M` 🖥️ Axeman + Knight (prefab, data, đòn) + phase enrage theo % máu.
+- [ ] **EN-09** `P2` `M` 🖥️ Đạn enemy + Stalker (giữ khoảng cách, lùi khi bị áp sát, bắn thường / tụ lực / 3 tên / xuyên / mưa tên).
+- [ ] **EN-10** `P2` `M` 🖥️ Khung boss: nhiều phase (chuyển phase bất tử + animation), vùng nguy hiểm trên đất (báo trước → gây damage), triệu hồi, dịch chuyển, thanh máu boss, vùng đấu trường.
+- [ ] **EN-11** `P2` `M` 🖥️ Demon (mini-boss) + Unmaker (boss cuối).
 
 ---
 

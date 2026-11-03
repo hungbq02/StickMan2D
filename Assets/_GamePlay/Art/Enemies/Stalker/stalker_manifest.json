@@ -1,0 +1,249 @@
+{
+ "id": "stalker",
+ "cellWidth": 388,
+ "cellHeight": 212,
+ "pivotX": 0.5,
+ "pivotY": 0.02830188679245283,
+ "pixelsPerUnit": 90,
+ "anims": [
+  {
+   "name": "idle",
+   "fps": 8,
+   "loop": true,
+   "frames": [
+    "stalker_idle_00.png",
+    "stalker_idle_01.png",
+    "stalker_idle_02.png",
+    "stalker_idle_03.png",
+    "stalker_idle_04.png",
+    "stalker_idle_05.png"
+   ]
+  },
+  {
+   "name": "walk",
+   "fps": 10,
+   "loop": true,
+   "frames": [
+    "stalker_walk_00.png",
+    "stalker_walk_01.png",
+    "stalker_walk_02.png",
+    "stalker_walk_03.png",
+    "stalker_walk_04.png",
+    "stalker_walk_05.png",
+    "stalker_walk_06.png",
+    "stalker_walk_07.png"
+   ]
+  },
+  {
+   "name": "run",
+   "fps": 12,
+   "loop": true,
+   "frames": [
+    "stalker_run_00.png",
+    "stalker_run_01.png",
+    "stalker_run_02.png",
+    "stalker_run_03.png",
+    "stalker_run_04.png",
+    "stalker_run_05.png",
+    "stalker_run_06.png",
+    "stalker_run_07.png"
+   ]
+  },
+  {
+   "name": "hit",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "stalker_hit_00.png",
+    "stalker_hit_01.png",
+    "stalker_hit_02.png",
+    "stalker_hit_03.png"
+   ]
+  },
+  {
+   "name": "death",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "stalker_death_00.png",
+    "stalker_death_01.png",
+    "stalker_death_02.png",
+    "stalker_death_03.png",
+    "stalker_death_04.png",
+    "stalker_death_05.png",
+    "stalker_death_06.png",
+    "stalker_death_07.png"
+   ]
+  },
+  {
+   "name": "dash",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "stalker_dash_00.png",
+    "stalker_dash_01.png",
+    "stalker_dash_02.png",
+    "stalker_dash_03.png",
+    "stalker_dash_04.png"
+   ]
+  },
+  {
+   "name": "stealthIn",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "stalker_stealthIn_00.png",
+    "stalker_stealthIn_01.png",
+    "stalker_stealthIn_02.png",
+    "stalker_stealthIn_03.png",
+    "stalker_stealthIn_04.png"
+   ]
+  },
+  {
+   "name": "aim",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "stalker_aim_00.png",
+    "stalker_aim_01.png",
+    "stalker_aim_02.png",
+    "stalker_aim_03.png",
+    "stalker_aim_04.png"
+   ]
+  },
+  {
+   "name": "quick",
+   "fps": 14,
+   "loop": false,
+   "frames": [
+    "stalker_quick_00.png",
+    "stalker_quick_01.png",
+    "stalker_quick_02.png",
+    "stalker_quick_03.png",
+    "stalker_quick_04.png"
+   ]
+  },
+  {
+   "name": "charged",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "stalker_charged_00.png",
+    "stalker_charged_01.png",
+    "stalker_charged_02.png",
+    "stalker_charged_03.png",
+    "stalker_charged_04.png",
+    "stalker_charged_05.png",
+    "stalker_charged_06.png"
+   ]
+  },
+  {
+   "name": "triple",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "stalker_triple_00.png",
+    "stalker_triple_01.png",
+    "stalker_triple_02.png",
+    "stalker_triple_03.png",
+    "stalker_triple_04.png",
+    "stalker_triple_05.png"
+   ]
+  },
+  {
+   "name": "piercing",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "stalker_piercing_00.png",
+    "stalker_piercing_01.png",
+    "stalker_piercing_02.png",
+    "stalker_piercing_03.png",
+    "stalker_piercing_04.png",
+    "stalker_piercing_05.png"
+   ]
+  },
+  {
+   "name": "rain",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "stalker_rain_00.png",
+    "stalker_rain_01.png",
+    "stalker_rain_02.png",
+    "stalker_rain_03.png",
+    "stalker_rain_04.png",
+    "stalker_rain_05.png",
+    "stalker_rain_06.png"
+   ]
+  },
+  {
+   "name": "stealthOut",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "stalker_stealthOut_00.png",
+    "stalker_stealthOut_01.png",
+    "stalker_stealthOut_02.png",
+    "stalker_stealthOut_03.png"
+   ]
+  }
+ ],
+ "fx": [
+  {
+   "name": "stalker_arrow",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "stalker_arrow_00.png"
+   ],
+   "pivotX": 0.5,
+   "pivotY": 0.5,
+   "pixelsPerUnit": 90
+  },
+  {
+   "name": "stalker_arrowCharged",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "stalker_arrowCharged_00.png"
+   ],
+   "pivotX": 0.5,
+   "pivotY": 0.5,
+   "pixelsPerUnit": 90
+  },
+  {
+   "name": "stalker_pierceBeam",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "stalker_pierceBeam_00.png"
+   ],
+   "pivotX": 0.5,
+   "pivotY": 0.5,
+   "pixelsPerUnit": 90
+  },
+  {
+   "name": "stalker_arrowPierce",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "stalker_arrowPierce_00.png"
+   ],
+   "pivotX": 0.5,
+   "pivotY": 0.5,
+   "pixelsPerUnit": 90
+  },
+  {
+   "name": "stalker_arrowRain",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "stalker_arrowRain_00.png"
+   ],
+   "pivotX": 0.5,
+   "pivotY": 0.5,
+   "pixelsPerUnit": 90
+  }
+ ]
+}

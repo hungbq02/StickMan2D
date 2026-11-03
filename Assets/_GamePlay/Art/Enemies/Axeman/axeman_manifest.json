@@ -1,0 +1,156 @@
+{
+ "id": "axeman",
+ "cellWidth": 348,
+ "cellHeight": 302,
+ "pivotX": 0.5,
+ "pivotY": 0.023178807947019868,
+ "pixelsPerUnit": 115,
+ "anims": [
+  {
+   "name": "idle",
+   "fps": 6,
+   "loop": true,
+   "frames": [
+    "axeman_idle_00.png",
+    "axeman_idle_01.png",
+    "axeman_idle_02.png",
+    "axeman_idle_03.png"
+   ]
+  },
+  {
+   "name": "walk",
+   "fps": 10,
+   "loop": true,
+   "frames": [
+    "axeman_walk_00.png",
+    "axeman_walk_01.png",
+    "axeman_walk_02.png",
+    "axeman_walk_03.png",
+    "axeman_walk_04.png",
+    "axeman_walk_05.png"
+   ]
+  },
+  {
+   "name": "hit",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "axeman_hit_00.png",
+    "axeman_hit_01.png",
+    "axeman_hit_02.png"
+   ]
+  },
+  {
+   "name": "slash",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "axeman_slash_00.png",
+    "axeman_slash_01.png",
+    "axeman_slash_02.png",
+    "axeman_slash_03.png"
+   ]
+  },
+  {
+   "name": "death",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "axeman_death_00.png",
+    "axeman_death_01.png",
+    "axeman_death_02.png",
+    "axeman_death_03.png",
+    "axeman_death_04.png",
+    "axeman_death_05.png",
+    "axeman_death_06.png"
+   ]
+  },
+  {
+   "name": "smash",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "axeman_smash_00.png",
+    "axeman_smash_01.png",
+    "axeman_smash_02.png",
+    "axeman_smash_03.png",
+    "axeman_smash_04.png"
+   ]
+  },
+  {
+   "name": "spin",
+   "fps": 14,
+   "loop": false,
+   "frames": [
+    "axeman_spin_00.png",
+    "axeman_spin_01.png",
+    "axeman_spin_02.png",
+    "axeman_spin_03.png",
+    "axeman_spin_04.png",
+    "axeman_spin_05.png",
+    "axeman_spin_06.png",
+    "axeman_spin_07.png"
+   ]
+  },
+  {
+   "name": "charge",
+   "fps": 14,
+   "loop": false,
+   "frames": [
+    "axeman_charge_00.png",
+    "axeman_charge_01.png",
+    "axeman_charge_02.png",
+    "axeman_charge_03.png",
+    "axeman_charge_04.png",
+    "axeman_charge_05.png",
+    "axeman_charge_06.png",
+    "axeman_charge_07.png",
+    "axeman_charge_08.png",
+    "axeman_charge_09.png",
+    "axeman_charge_10.png"
+   ]
+  },
+  {
+   "name": "tellSmash",
+   "fps": 1,
+   "loop": false,
+   "frames": [
+    "axeman_tellSmash_00.png"
+   ]
+  },
+  {
+   "name": "tellCharge",
+   "fps": 1,
+   "loop": false,
+   "frames": [
+    "axeman_tellCharge_00.png"
+   ]
+  },
+  {
+   "name": "enrage",
+   "fps": 8,
+   "loop": false,
+   "frames": [
+    "axeman_enrage_00.png",
+    "axeman_enrage_01.png",
+    "axeman_enrage_02.png",
+    "axeman_enrage_03.png",
+    "axeman_enrage_04.png",
+    "axeman_enrage_05.png"
+   ]
+  },
+  {
+   "name": "taunt",
+   "fps": 8,
+   "loop": false,
+   "frames": [
+    "axeman_taunt_00.png",
+    "axeman_taunt_01.png",
+    "axeman_taunt_02.png",
+    "axeman_taunt_03.png",
+    "axeman_taunt_04.png"
+   ]
+  }
+ ],
+ "fx": []
+}

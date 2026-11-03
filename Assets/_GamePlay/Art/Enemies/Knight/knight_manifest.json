@@ -1,0 +1,191 @@
+{
+ "id": "knight",
+ "cellWidth": 494,
+ "cellHeight": 342,
+ "pivotX": 0.5,
+ "pivotY": 0.017543859649122806,
+ "pixelsPerUnit": 88,
+ "anims": [
+  {
+   "name": "idle",
+   "fps": 1,
+   "loop": true,
+   "frames": [
+    "knight_idle_00.png"
+   ]
+  },
+  {
+   "name": "walk",
+   "fps": 8,
+   "loop": true,
+   "frames": [
+    "knight_walk_00.png",
+    "knight_walk_01.png",
+    "knight_walk_02.png",
+    "knight_walk_03.png",
+    "knight_walk_04.png"
+   ]
+  },
+  {
+   "name": "stance",
+   "fps": 8,
+   "loop": false,
+   "frames": [
+    "knight_stance_00.png",
+    "knight_stance_01.png",
+    "knight_stance_02.png"
+   ]
+  },
+  {
+   "name": "hit",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "knight_hit_00.png",
+    "knight_hit_01.png"
+   ]
+  },
+  {
+   "name": "stagger",
+   "fps": 8,
+   "loop": false,
+   "frames": [
+    "knight_stagger_00.png",
+    "knight_stagger_01.png",
+    "knight_stagger_02.png"
+   ]
+  },
+  {
+   "name": "taunt",
+   "fps": 6,
+   "loop": false,
+   "frames": [
+    "knight_taunt_00.png",
+    "knight_taunt_01.png",
+    "knight_taunt_02.png",
+    "knight_taunt_03.png"
+   ]
+  },
+  {
+   "name": "slash",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "knight_slash_00.png",
+    "knight_slash_01.png",
+    "knight_slash_02.png"
+   ]
+  },
+  {
+   "name": "overhead",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "knight_overhead_00.png",
+    "knight_overhead_01.png",
+    "knight_overhead_02.png"
+   ]
+  },
+  {
+   "name": "cleave",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "knight_cleave_00.png",
+    "knight_cleave_01.png"
+   ]
+  },
+  {
+   "name": "combo",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "knight_combo_00.png",
+    "knight_combo_01.png",
+    "knight_combo_02.png",
+    "knight_combo_03.png",
+    "knight_combo_04.png",
+    "knight_combo_05.png"
+   ]
+  },
+  {
+   "name": "cinder",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "knight_cinder_00.png",
+    "knight_cinder_01.png",
+    "knight_cinder_02.png",
+    "knight_cinder_03.png"
+   ]
+  },
+  {
+   "name": "rupture",
+   "fps": 1,
+   "loop": false,
+   "frames": [
+    "knight_rupture_00.png"
+   ]
+  },
+  {
+   "name": "tellSlash",
+   "fps": 6,
+   "loop": false,
+   "frames": [
+    "knight_tellSlash_00.png",
+    "knight_tellSlash_01.png"
+   ]
+  },
+  {
+   "name": "tellExecute",
+   "fps": 1,
+   "loop": false,
+   "frames": [
+    "knight_tellExecute_00.png"
+   ]
+  },
+  {
+   "name": "tellRupture",
+   "fps": 1,
+   "loop": false,
+   "frames": [
+    "knight_tellRupture_00.png"
+   ]
+  },
+  {
+   "name": "enrage",
+   "fps": 6,
+   "loop": false,
+   "frames": [
+    "knight_enrage_00.png",
+    "knight_enrage_01.png",
+    "knight_enrage_02.png",
+    "knight_enrage_03.png"
+   ]
+  },
+  {
+   "name": "rageIdle",
+   "fps": 1,
+   "loop": true,
+   "frames": [
+    "knight_rageIdle_00.png"
+   ]
+  }
+ ],
+ "fx": [
+  {
+   "name": "knight_ruptureFlame",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "knight_ruptureFlame_00.png",
+    "knight_ruptureFlame_01.png",
+    "knight_ruptureFlame_02.png",
+    "knight_ruptureFlame_03.png"
+   ],
+   "pivotX": 0.5,
+   "pivotY": 0.0072992700729927005,
+   "pixelsPerUnit": 88
+  }
+ ]
+}

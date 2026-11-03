@@ -1,0 +1,195 @@
+{
+ "id": "unmaker",
+ "cellWidth": 214,
+ "cellHeight": 130,
+ "pivotX": 0.5,
+ "pivotY": 0.03076923076923077,
+ "pixelsPerUnit": 35,
+ "anims": [
+  {
+   "name": "idle",
+   "fps": 6,
+   "loop": true,
+   "frames": [
+    "unmaker_idle_00.png",
+    "unmaker_idle_01.png",
+    "unmaker_idle_02.png",
+    "unmaker_idle_03.png"
+   ]
+  },
+  {
+   "name": "move",
+   "fps": 8,
+   "loop": true,
+   "frames": [
+    "unmaker_move_00.png",
+    "unmaker_move_01.png",
+    "unmaker_move_02.png",
+    "unmaker_move_03.png",
+    "unmaker_move_04.png"
+   ]
+  },
+  {
+   "name": "hit",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "unmaker_hit_00.png",
+    "unmaker_hit_01.png",
+    "unmaker_hit_02.png"
+   ]
+  },
+  {
+   "name": "death",
+   "fps": 6,
+   "loop": false,
+   "frames": [
+    "unmaker_death_00.png",
+    "unmaker_death_01.png",
+    "unmaker_death_02.png",
+    "unmaker_death_03.png",
+    "unmaker_death_04.png"
+   ]
+  },
+  {
+   "name": "slash",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "unmaker_slash_00.png",
+    "unmaker_slash_01.png",
+    "unmaker_slash_02.png",
+    "unmaker_slash_03.png",
+    "unmaker_slash_04.png"
+   ]
+  },
+  {
+   "name": "beam",
+   "fps": 8,
+   "loop": false,
+   "frames": [
+    "unmaker_beam_00.png",
+    "unmaker_beam_01.png",
+    "unmaker_beam_02.png",
+    "unmaker_beam_03.png"
+   ]
+  },
+  {
+   "name": "wingBurst",
+   "fps": 8,
+   "loop": false,
+   "frames": [
+    "unmaker_wingBurst_00.png",
+    "unmaker_wingBurst_01.png",
+    "unmaker_wingBurst_02.png",
+    "unmaker_wingBurst_03.png"
+   ]
+  },
+  {
+   "name": "summon",
+   "fps": 8,
+   "loop": false,
+   "frames": [
+    "unmaker_summon_00.png",
+    "unmaker_summon_01.png",
+    "unmaker_summon_02.png",
+    "unmaker_summon_03.png"
+   ]
+  },
+  {
+   "name": "teleport",
+   "fps": 6,
+   "loop": false,
+   "frames": [
+    "unmaker_teleport_00.png",
+    "unmaker_teleport_01.png"
+   ]
+  },
+  {
+   "name": "meteor",
+   "fps": 8,
+   "loop": false,
+   "frames": [
+    "unmaker_meteor_00.png",
+    "unmaker_meteor_01.png",
+    "unmaker_meteor_02.png",
+    "unmaker_meteor_03.png",
+    "unmaker_meteor_04.png"
+   ]
+  },
+  {
+   "name": "phase",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "unmaker_phase_00.png",
+    "unmaker_phase_01.png",
+    "unmaker_phase_02.png",
+    "unmaker_phase_03.png",
+    "unmaker_phase_04.png",
+    "unmaker_phase_05.png",
+    "unmaker_phase_06.png",
+    "unmaker_phase_07.png",
+    "unmaker_phase_08.png"
+   ]
+  },
+  {
+   "name": "rageIdle",
+   "fps": 6,
+   "loop": true,
+   "frames": [
+    "unmaker_rageIdle_00.png",
+    "unmaker_rageIdle_01.png",
+    "unmaker_rageIdle_02.png",
+    "unmaker_rageIdle_03.png"
+   ]
+  },
+  {
+   "name": "taunt",
+   "fps": 6,
+   "loop": false,
+   "frames": [
+    "unmaker_taunt_00.png",
+    "unmaker_taunt_01.png",
+    "unmaker_taunt_02.png",
+    "unmaker_taunt_03.png"
+   ]
+  }
+ ],
+ "fx": [
+  {
+   "name": "unmaker_beam",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "unmaker_beam_00.png"
+   ],
+   "pivotX": 0.5,
+   "pivotY": 0.5,
+   "pixelsPerUnit": 35
+  },
+  {
+   "name": "unmaker_imp",
+   "fps": 8,
+   "loop": true,
+   "frames": [
+    "unmaker_imp_00.png",
+    "unmaker_imp_01.png"
+   ],
+   "pivotX": 0.5,
+   "pivotY": 0.05555555555555555,
+   "pixelsPerUnit": 35
+  },
+  {
+   "name": "unmaker_meteor",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "unmaker_meteor_00.png"
+   ],
+   "pivotX": 0.5,
+   "pivotY": 0.5,
+   "pixelsPerUnit": 35
+  }
+ ]
+}
