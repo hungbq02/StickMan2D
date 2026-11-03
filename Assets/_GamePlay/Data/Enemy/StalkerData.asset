@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24deae85e8a264e499bab666d20a00bb, type: 3}
+  m_Name: StalkerData
+  m_EditorClassIdentifier: 
+  maxHealth: 70
+  patrolSpeed: 1.3
+  chaseSpeed: 2.8
+  patrolDistance: 3
+  patrolPause: 0.8
+  keepAwayDistance: 3.5
+  detectRange: 9
+  loseRange: 12
+  maxHeightDifference: 1.5
+  attacks:
+  - {fileID: 11400000, guid: c018c9abf0eb7e34899cff43988bfeca, type: 2}
+  - {fileID: 11400000, guid: c56a63aa99fe76b44bb86dd8426f58fc, type: 2}
+  - {fileID: 11400000, guid: 2c1f960f7a439254195aae2844bd8b2e, type: 2}
+  - {fileID: 11400000, guid: 755beea60896e884488136475a7febec, type: 2}
+  - {fileID: 11400000, guid: 40b7087a644ba994e920921a467be7f5, type: 2}
+  - {fileID: 11400000, guid: 61b6eb4904d82b246a69e2e83a9549ef, type: 2}
+  attackInterval: 0.5
+  flinch: 0
+  hurtDuration: 0.3
+  corpseLinger: 0.4
+  phases: []
+  animIdle: idle
+  animWalk: walk
+  animRun: run
+  animHit: hit
+  animDeath: death
+  animTaunt: 

@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**53 xong · 3 làm một phần · 8 còn lại** (tổng 64)
+**54 xong · 3 làm một phần · 7 còn lại** (tổng 64)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -29,7 +29,7 @@
 | 5. Enemy ✅ | 5 | — | — |
 | 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
-| 8. Enemy roster & boss | 3 | — | 09, 10, 11 |
+| 8. Enemy roster & boss | 4 | — | 10, 11 |
 
 ---
 
@@ -162,7 +162,12 @@ Art: 5 sprite sheet AI-gen của user trong `Art/EnemyConcepts` (không commit) 
   - Pipeline: thêm `flip` (lật ngang: Smash của Axeman AI vẽ bổ về sau lưng); frame không thấy mặt (bị tay che) căn khớp hình với frame bên cạnh thay vì tâm khung.
   - Chase lên kế hoạch 1 đòn (random theo weight trong các đòn hết cooldown) rồi tiến tới tầm của đòn đó — trước đây chỉ tiến tới tầm xa nhất nên đòn tầm gần ít khi được dùng. Lunge dừng khi đã áp sát mục tiêu (`lungeStopDistance`), không lao xuyên người.
   - Đã chạy Play mode (`EditorApplication.Step`): Axeman ra đủ Charge → Slash → Smash → Spin, trúng đúng damage; enrage bất tử khi chuyển (đòn trong lúc đó bị bỏ qua); chết phát animation + mờ dần, tắt sau 1.6s. Knight 30s: Slash ×7, Overhead ×4, Cleave ×4, Combo ×3. EditMode 27/27.
-- [ ] **EN-09** `P2` `M` 🖥️ Đạn enemy + Stalker (giữ khoảng cách, lùi khi bị áp sát, bắn thường / tụ lực / 3 tên / xuyên / mưa tên).
+- [x] **EN-09** 🖥️ Đạn enemy + Stalker:
+  - `EnemyProjectile` (bay thẳng, `pierce` = xuyên mục tiêu mỗi mục tiêu 1 lần, gặp đất / tường thì mất, về pool; cần Rigidbody2D Kinematic + trigger). `EnemyShooter` (`IEnemyAttackHandler`): mỗi mốc trúng của đòn có `projectile` bắn `projectileCount` viên từ `muzzle` theo hướng mặt, tỏa đều `spreadAngle`, hoặc `AboveTarget` rơi xuống quanh mục tiêu (`rainHeight`, `rainWidth`). Damage đạn = `projectileDamage` (tách khỏi `damage` chém).
+  - Prefab đạn `Prefabs/Enemy/Projectiles/StalkerArrow` (13u/s), `StalkerArrowCharged` (17u/s, xuyên), `StalkerArrowPierce` (22u/s, xuyên), `StalkerArrowRain` (rơi 9u/s). Sprite từ `Art/Enemies/Stalker/FX`.
+  - **Stalker** (70 máu, `keepAwayDistance` 3.5): Quick 8 · Charged 16 (xuyên) · Triple 3 × 7 · Piercing 12 (xuyên) · Rain 3 cụm tên rơi × 10 · Dash lùi khi player áp sát < 2.2u. Báo hiệu bằng tư thế `aim`. Đặt trong `SampleScene` x=23.
+  - Chưa dùng: `stealthIn` / `stealthOut` (đòn Teleport hiện ra sau lưng player không hợp với cung thủ — cần kiểu "biến mất rồi hiện ở xa").
+  - Đã chạy Play mode với 1 Stalker: bắn đúng damage từng loại (8 / 16 / 12 / 7), đứng yên khi bắn; player áp sát 1.2u → dash lùi 3u rồi bắn tiếp.
 - [ ] **EN-10** `P2` `M` 🖥️ Khung boss: nhiều phase (chuyển phase bất tử + animation), vùng nguy hiểm trên đất (báo trước → gây damage), triệu hồi, dịch chuyển, thanh máu boss, vùng đấu trường.
 - [ ] **EN-11** `P2` `M` 🖥️ Demon (mini-boss) + Unmaker (boss cuối).
 
@@ -198,6 +203,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Player hết máu | Object bị tắt, game đứng | Animation chết → 2s sau hồi sinh tại điểm xuất phát (đầy máu, nhấp nháy bất tử 0.8s) — chỉnh `respawnDelay` |
 | Axeman (x=9) | — | Đòn báo hiệu bằng tư thế + tô đỏ; Charge lao từ 2.5–4.2u; dưới 40% máu enrage (ửng đỏ, đánh dồn hơn). Chỉnh trong `Data/Enemy/AxemanData` + `Attacks/Axeman/*`, hitbox trên prefab |
 | Knight (x=14.5) | — | Không bị ngắt khi đang vung; Overhead/Cleave tầm ~2u, Slash/Combo ~1.8u; dưới 50% thêm Cinder Wave (cháy). Cần soi: tầm hitbox có khớp vệt chém không, nhịp báo hiệu có né kịp không |
+| Stalker (x=23) | — | Giữ khoảng cách, bắn 5 kiểu (tên thường / tụ lực xuyên / 3 tên / tia xuyên / mưa tên rơi từ trên), áp sát < 2.2u thì lướt lùi. Cần soi: tốc độ tên có né / nhảy qua kịp không, mưa tên rơi có đủ thời gian chạy khỏi |
 
 ---
 

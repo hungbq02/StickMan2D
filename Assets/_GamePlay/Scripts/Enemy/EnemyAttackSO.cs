@@ -8,6 +8,12 @@ public enum EnemyAttackMovement
     Teleport,  // biến mất rồi hiện ra phía sau mục tiêu
 }
 
+public enum ProjectileOrigin
+{
+    Muzzle,      // từ điểm ra đạn, bay theo hướng mặt
+    AboveTarget, // rơi thẳng xuống quanh mục tiêu (mưa tên / thiên thạch)
+}
+
 // 1 đòn / hành động của enemy: Telegraph (báo hiệu) -> Active (các mốc trúng) -> Recovery.
 // EnemyController chọn ngẫu nhiên theo weight trong các đòn hợp lệ (tầm, phase, cooldown).
 [CreateAssetMenu(fileName = "NewEnemyAttack", menuName = "Data/Enemy Attack")]
@@ -55,6 +61,19 @@ public class EnemyAttackSO : ScriptableObject
     public float moveEnd = 0.3f;
     [Tooltip("Lunge: dừng lao khi mục tiêu ở ngay phía trước trong khoảng này (không xuyên qua người)")]
     public float lungeStopDistance = 0.8f;
+
+    [Header("Đạn (EnemyShooter) — bắn ở mỗi mốc trúng")]
+    public EnemyProjectile projectile;
+    public AttackDataSO projectileDamage;
+    [Min(1)] public int projectileCount = 1;
+    [Tooltip("Muzzle: góc tỏa (độ) giữa viên đầu và viên cuối")]
+    public float spreadAngle;
+    public ProjectileOrigin projectileOrigin;
+    [Tooltip("Tên child điểm ra đạn; trống = muzzle mặc định của EnemyShooter")]
+    public string muzzle;
+    [Tooltip("AboveTarget: rơi từ độ cao này trên đầu mục tiêu, rải đều trên bề rộng rainWidth")]
+    public float rainHeight = 6f;
+    public float rainWidth = 3f;
 
     // Hết pha ra đòn: activeDuration > 0 thì theo nó, không thì theo clip; luôn >= mốc trúng cuối
     public float ResolveActiveDuration(float clipLength)

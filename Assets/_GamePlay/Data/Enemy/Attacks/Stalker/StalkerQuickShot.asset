@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86e17a0b7d32f3c468eca48f60d71d21, type: 3}
+  m_Name: StalkerQuickShot
+  m_EditorClassIdentifier: 
+  telegraphAnim: aim
+  attackAnim: quick
+  telegraphTime: 0.4
+  tintTelegraph: 0
+  hitTimes:
+  - 0.15
+  activeDuration: 0
+  recoveryTime: 0.3
+  cooldown: 1.2
+  minRange: 1.5
+  maxRange: 9
+  weight: 3
+  minPhase: 0
+  maxPhase: 99
+  damage: {fileID: 0}
+  hitbox: 
+  movement: 0
+  moveSpeed: 8
+  moveStart: 0
+  moveEnd: 0.3
+  lungeStopDistance: 0.8
+  projectile: {fileID: 35405736061374285, guid: 13c2838b839cecf4f866ca3889036b88, type: 3}
+  projectileDamage: {fileID: 11400000, guid: 2d821d7319e0f36478c4a7a68c3c5bb0, type: 2}
+  projectileCount: 1
+  spreadAngle: 0
+  projectileOrigin: 0
+  muzzle: 
+  rainHeight: 6
+  rainWidth: 3
