@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24deae85e8a264e499bab666d20a00bb, type: 3}
+  m_Name: UnmakerData
+  m_EditorClassIdentifier: 
+  maxHealth: 900
+  patrolSpeed: 1
+  chaseSpeed: 2.4
+  patrolDistance: 0.5
+  patrolPause: 1.5
+  keepAwayDistance: 0
+  detectRange: 14
+  loseRange: 30
+  maxHeightDifference: 3
+  attacks:
+  - {fileID: 11400000, guid: 8c656eb8672a12a478469be9fb2f7c19, type: 2}
+  - {fileID: 11400000, guid: 910ddc9ab40f53244a8252455107fee3, type: 2}
+  - {fileID: 11400000, guid: a98ff62956725bf44afd4ea8d89a9f92, type: 2}
+  - {fileID: 11400000, guid: c8e2517cc5827664c919c6c2deb425e5, type: 2}
+  - {fileID: 11400000, guid: 2f7485d126b7d5749bab1dc432f47367, type: 2}
+  - {fileID: 11400000, guid: 534d9da9083f2b646a75dd8bd2e99865, type: 2}
+  attackInterval: 0.5
+  flinch: 2
+  hurtDuration: 0.2
+  corpseLinger: 1.5
+  phases:
+  - healthFraction: 0.66
+    transitionAnim: phase
+    transitionTime: 0
+    invulnerableDuringTransition: 1
+    idleAnim: 
+    moveSpeedMultiplier: 1.1
+    tempoMultiplier: 0.9
+    tint: {r: 0.95, g: 0.88, b: 1, a: 1}
+  - healthFraction: 0.33
+    transitionAnim: phase
+    transitionTime: 0
+    invulnerableDuringTransition: 1
+    idleAnim: rageIdle
+    moveSpeedMultiplier: 1.3
+    tempoMultiplier: 0.7
+    tint: {r: 1, g: 0.78, b: 0.9, a: 1}
+  animIdle: idle
+  animWalk: move
+  animRun: move
+  animHit: hit
+  animDeath: death
+  animTaunt: taunt

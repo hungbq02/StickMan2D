@@ -16,13 +16,16 @@ Assets/_GamePlay/
     Combat/        AttackData(SO), Hitbox, Bullet, WeaponManager, WeaponAttackManager, WeaponDataSO,
                    Melee/GunAttackHandler, Shield, Team, DamagePopupSpawner, Effect/*
     Health/        Health, Damageable, Death, InvulnerabilityBlink
-    Enemy/         EnemyController, EnemyDataSO, States/*  (Enemy.cs = bia tập, không có AI)
+    Enemy/         EnemyController, EnemyDataSO, EnemyAttackSO, EnemyAnimator, States/*,
+                   EnemyShooter/Projectile, EnemyHazardCaster/GroundHazard, EnemySummoner, EnemyGuard,
+                   BossEncounter  (Enemy.cs = bia tập, không có AI)
     StateMachine/  StateMachine<TState>, IState (dùng chung player + enemy)
     Debug/         DebugCheatPanel
   Framework/       Bootstrap, PrefabRegistrySO, Service, Pool, Observer, ...
   Data/            PlayerStats, PrefabRegistry, Enemy/*Data
   DataCombat/      <Weapon>/<Weapon>WeaponData + *AttackData, Enemy/*AttackData
-  Prefabs/         Bootstrap, bullet, DamagePopup, ghostSpawn, Enemy/MeleeEnemy
+  Prefabs/         Bootstrap, bullet, DamagePopup, ghostSpawn, UI/HUD (+ BossBar),
+                   Enemy/{MeleeEnemy, Axeman, Knight, Stalker, Demon, Unmaker, Imp}, Enemy/Projectiles, Enemy/Hazards
   Anim/Animation/  <Weapon>/{state}_{Weapon}.anim
   Anim/Enemies/    <Name>/{anim}_{Name}.anim + Animator<Name>.controller (sinh tự động)
   Art/Enemies/     <Name>/{id}_{anim}_{nn}.png + {id}_manifest.json, FX/ (sinh từ Art/EnemyConcepts)
@@ -56,6 +59,9 @@ Tools/ArtPipeline/ build.py: sprite sheet AI-gen -> frame PNG sạch (Python, ng
 - Phase (`EnemyDataSO.phases`, ngưỡng % máu giảm dần): qua ngưỡng ⇒ `EnemyPhaseChangeState` (bất tử + animation), rồi đổi tốc độ / nhịp đánh / idle / màu; đòn lọc theo `minPhase..maxPhase`.
 - Prefab `Prefabs/Enemy/MeleeEnemy`: **giữ `EnemyController` đứng trước các StatusEffect** trong danh sách component (thứ tự nghe `OnDamaged`). Màu sprite chỉ đổi qua `EnemyController` (phase × tô báo hiệu × mờ xác).
 - Chết: `EnemyDeadState` phát `death` + mờ dần `corpseLinger`; `Death.DespawnDelay` (EnemyController tự gán) chờ xong mới `Recycle` về pool. `Health`, `Damageable`, effect, `Shield` tự reset khi Spawn lại.
+- Chase lên kế hoạch 1 đòn (hết cooldown, tầm tối thiểu ≤ khoảng cách) rồi tiến tới tầm của nó; bị tường / vực chặn thì dùng đòn đang trong tầm. Đánh xa: `keepAwayDistance` (lùi khi bị áp sát) + đòn `Retreat`.
+- Mốc trúng của đòn còn kích hoạt: `EnemyShooter` (`projectile`: từ muzzle hoặc rơi trên đầu mục tiêu), `EnemyHazardCaster` (`hazard`: `GroundHazard` báo trước → gây damage), `EnemySummoner` (`summon`, giới hạn `maxSummons`). `EnemyGuard` + `guardFront`: chặn đòn phía trước lúc ra đòn đỡ.
+- Boss: `BossEncounter` (object có trigger trong scene, tham chiếu boss) cho boss ngủ tới khi player vào → bật `arenaWalls`, event `Started` → `BossHealthBar` (HUD) hiện. Boss chết → `Ended`; player chết → boss reset về chỗ cũ đầy máu. Scene thử: `Scenes/BossArena`.
 
 ### Service & prefab
 - `Bootstrap` (prefab trong scene) đăng ký `Service.Set<Bootstrap>` và `Service.Set<PrefabRegistrySO>`. Lấy prefab runtime: `Service.Get<PrefabRegistrySO>().bullet`.

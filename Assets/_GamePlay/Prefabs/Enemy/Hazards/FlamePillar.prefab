@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8063268964358179999}
   - component: {fileID: 9056694729856255687}
   m_Layer: 0
-  m_Name: KnightRuptureFlame
+  m_Name: FlamePillar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

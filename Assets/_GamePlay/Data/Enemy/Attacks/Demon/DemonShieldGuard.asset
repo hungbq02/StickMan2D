@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86e17a0b7d32f3c468eca48f60d71d21, type: 3}
+  m_Name: DemonShieldGuard
+  m_EditorClassIdentifier: 
+  telegraphAnim: 
+  attackAnim: shield
+  telegraphTime: 0
+  tintTelegraph: 0
+  hitTimes: []
+  activeDuration: 1.5
+  recoveryTime: 0.2
+  cooldown: 8
+  minRange: 0
+  maxRange: 5
+  weight: 1.5
+  minPhase: 0
+  maxPhase: 99
+  damage: {fileID: 0}
+  hitbox: 
+  movement: 0
+  moveSpeed: 8
+  moveStart: 0
+  moveEnd: 0.3
+  lungeStopDistance: 0.8
+  projectile: {fileID: 0}
+  projectileDamage: {fileID: 0}
+  projectileCount: 1
+  spreadAngle: 0
+  projectileOrigin: 0
+  muzzle: 
+  rainHeight: 6
+  rainWidth: 3
+  hazard: {fileID: 0}
+  hazardDamage: {fileID: 0}
+  hazardCount: 1
+  hazardPlacement: 0
+  hazardStartDistance: 1.5
+  hazardSpacing: 1.5
+  hazardStagger: 0.12
+  hazardScatter: 0
+  summon: {fileID: 0}
+  summonCount: 1
+  summonDistance: 2
+  maxSummons: 4
+  guardFront: 1

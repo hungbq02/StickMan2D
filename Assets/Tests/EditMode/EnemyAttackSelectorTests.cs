@@ -86,6 +86,8 @@ public class EnemyAttackSelectorTests
         Assert.AreSame(charge, EnemyAttackSelector.Choose(list, 10f, 0, null, 0f, ignoreRange: true));
         Assert.AreSame(slash, EnemyAttackSelector.Choose(list, 10f, 0, null, 0.99f, ignoreRange: true));
         Assert.AreSame(slash, EnemyAttackSelector.Choose(list, 10f, 0, x => x != charge, 0f, ignoreRange: true));
+        // đứng 2u: quá gần cho charge (tầm tối thiểu 2.5) -> không bao giờ lên kế hoạch charge (tránh đứng chờ ở vùng chết)
+        Assert.AreSame(slash, EnemyAttackSelector.Choose(list, 2f, 0, null, 0f, ignoreRange: true));
     }
 
     [Test]

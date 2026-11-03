@@ -6,7 +6,8 @@ using System.Collections.Generic;
 public static class EnemyAttackSelector
 {
     // isReady(attack): đòn đã hết cooldown chưa. random01: số ngẫu nhiên [0, 1).
-    // ignoreRange = true: lên kế hoạch đòn tiếp theo (bỏ qua tầm, bỏ đòn lùi) — Chase sẽ tiến tới tầm của đòn đó.
+    // ignoreRange = true: lên kế hoạch đòn tiếp theo — bỏ qua tầm xa nhất (Chase sẽ tiến lại), nhưng vẫn loại đòn có
+    // tầm tối thiểu > khoảng cách hiện tại (tiến lại gần không bao giờ dùng được) và đòn lùi.
     public static EnemyAttackSO Choose(IReadOnlyList<EnemyAttackSO> attacks, float distanceX, int phase,
                                        Func<EnemyAttackSO, bool> isReady, float random01, bool ignoreRange = false)
     {
@@ -55,7 +56,7 @@ public static class EnemyAttackSelector
     private static bool IsCandidate(EnemyAttackSO a, float distanceX, int phase, Func<EnemyAttackSO, bool> isReady, bool ignoreRange)
     {
         if (a == null || a.weight <= 0f) return false;
-        bool fits = ignoreRange ? IsOffensive(a, phase) : a.IsUsableAt(distanceX, phase);
+        bool fits = ignoreRange ? IsOffensive(a, phase) && distanceX >= a.minRange : a.IsUsableAt(distanceX, phase);
         return fits && (isReady == null || isReady(a));
     }
 }

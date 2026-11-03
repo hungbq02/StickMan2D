@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24deae85e8a264e499bab666d20a00bb, type: 3}
+  m_Name: ImpData
+  m_EditorClassIdentifier: 
+  maxHealth: 12
+  patrolSpeed: 1.5
+  chaseSpeed: 3.6
+  patrolDistance: 1
+  patrolPause: 0.3
+  keepAwayDistance: 0
+  detectRange: 14
+  loseRange: 20
+  maxHeightDifference: 3
+  attacks:
+  - {fileID: 11400000, guid: cacf6fa06bf25ca49b38cf1eca8b14c6, type: 2}
+  attackInterval: 0.3
+  flinch: 0
+  hurtDuration: 0.2
+  corpseLinger: 0
+  phases: []
+  animIdle: idle
+  animWalk: walk
+  animRun: run
+  animHit: hit
+  animDeath: death
+  animTaunt: taunt

@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86e17a0b7d32f3c468eca48f60d71d21, type: 3}
+  m_Name: UnmakerMeteorRain
+  m_EditorClassIdentifier: 
+  telegraphAnim: 
+  attackAnim: meteor
+  telegraphTime: 0.4
+  tintTelegraph: 1
+  hitTimes:
+  - 0.25
+  - 0.5
+  activeDuration: 0
+  recoveryTime: 0.5
+  cooldown: 8
+  minRange: 0
+  maxRange: 14
+  weight: 2
+  minPhase: 1
+  maxPhase: 99
+  damage: {fileID: 0}
+  hitbox: 
+  movement: 0
+  moveSpeed: 8
+  moveStart: 0
+  moveEnd: 0.3
+  lungeStopDistance: 0.8
+  projectile: {fileID: 6690182850392795525, guid: 8aa32d6c81c010946b5d9046dcca8fe3, type: 3}
+  projectileDamage: {fileID: 11400000, guid: b4dbdb04d3851274db6f49a0639d7ec9, type: 2}
+  projectileCount: 3
+  spreadAngle: 0
+  projectileOrigin: 1
+  muzzle: 
+  rainHeight: 8
+  rainWidth: 4.5
+  hazard: {fileID: 0}
+  hazardDamage: {fileID: 0}
+  hazardCount: 1
+  hazardPlacement: 0
+  hazardStartDistance: 1.5
+  hazardSpacing: 1.5
+  hazardStagger: 0.12
+  hazardScatter: 0
+  summon: {fileID: 0}
+  summonCount: 1
+  summonDistance: 2
+  maxSummons: 4
+  guardFront: 0

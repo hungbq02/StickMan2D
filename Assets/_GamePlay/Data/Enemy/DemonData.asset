@@ -1,0 +1,58 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24deae85e8a264e499bab666d20a00bb, type: 3}
+  m_Name: DemonData
+  m_EditorClassIdentifier: 
+  maxHealth: 450
+  patrolSpeed: 1
+  chaseSpeed: 2.4
+  patrolDistance: 1.5
+  patrolPause: 1
+  keepAwayDistance: 0
+  detectRange: 10
+  loseRange: 16
+  maxHeightDifference: 2.2
+  attacks:
+  - {fileID: 11400000, guid: 99ece214d93c30e4797854bf6bd083c0, type: 2}
+  - {fileID: 11400000, guid: b1049b474728af84a886124b29c0374c, type: 2}
+  - {fileID: 11400000, guid: 615d366abf51629439d8508030638ade, type: 2}
+  - {fileID: 11400000, guid: c9a98ade0f6630e43a4d17454a6adafb, type: 2}
+  - {fileID: 11400000, guid: f3c1f270f41950f45985cc2874cedc6f, type: 2}
+  - {fileID: 11400000, guid: f1b2c5285c98d7b42810c88b253c74c4, type: 2}
+  - {fileID: 11400000, guid: e8e2a9a250081284aa541bff5542ed3e, type: 2}
+  attackInterval: 0.6
+  flinch: 1
+  hurtDuration: 0.2
+  corpseLinger: 1.2
+  phases:
+  - healthFraction: 0.6
+    transitionAnim: roar
+    transitionTime: 0
+    invulnerableDuringTransition: 1
+    idleAnim: 
+    moveSpeedMultiplier: 1.15
+    tempoMultiplier: 0.85
+    tint: {r: 1, g: 1, b: 1, a: 1}
+  - healthFraction: 0.3
+    transitionAnim: enrage
+    transitionTime: 0
+    invulnerableDuringTransition: 1
+    idleAnim: 
+    moveSpeedMultiplier: 1.3
+    tempoMultiplier: 0.7
+    tint: {r: 1, g: 0.72, b: 0.72, a: 1}
+  animIdle: idle
+  animWalk: walk
+  animRun: run
+  animHit: hit
+  animDeath: death
+  animTaunt: roar

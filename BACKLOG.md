@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**55 xong · 3 làm một phần · 6 còn lại** (tổng 64)
+**56 xong · 3 làm một phần · 5 còn lại** (tổng 64)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -29,7 +29,7 @@
 | 5. Enemy ✅ | 5 | — | — |
 | 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
-| 8. Enemy roster & boss | 5 | — | 11 |
+| 8. Enemy roster & boss ✅ | 6 | — | — |
 
 ---
 
@@ -139,7 +139,7 @@
 - [x] **OR-07** `CLAUDE.md` ở root: stack, cấu trúc thư mục, kiến trúc (player state machine, combat pipeline, damage, effect, enemy, service/prefab), quy ước (tên clip, tham số animation event, team/layer, cheat), cách thêm combo / vũ khí / enemy / effect, quy trình MCP + commit theo task, skill name map.
 - [ ] **OR-08** `P3` `M` CI build (GameCI).
 
-## Phase 8 — Enemy roster & boss (P2)
+## Phase 8 — Enemy roster & boss (P2) ✅
 
 Art: 5 sprite sheet AI-gen của user trong `Art/EnemyConcepts` (không commit) → lính rìu **Axeman** (melee), cung thủ **Stalker** (ranged), hiệp sĩ đen **Knight** (elite), quỷ đỏ **Demon** (mini-boss), **Unmaker** (boss cuối).
 
@@ -175,7 +175,12 @@ Art: 5 sprite sheet AI-gen của user trong `Art/EnemyConcepts` (không commit) 
   - `EnemySummoner` (triệu hồi qua pool, xen kẽ 2 bên, giới hạn `maxSummons` còn sống, `DespawnAll` khi trận kết thúc). `EnemyGuard` (`IDamageBlocker`: chặn đòn phía trước trong pha ra đòn có `guardFront`).
   - Knight thêm **Ground Rupture** (phase 2): tư thế báo hiệu 0.6s → 4 cột lửa trồi lần lượt phía trước (prefab `Prefabs/Enemy/Hazards/KnightRuptureFlame`), 15 + cháy.
   - Đã chạy Play mode (Knight làm boss thử): ngủ → vào trigger thì thức, thanh máu hiện đúng tên; mất 125 máu → fill 0.43 ngay, vệt sáng chạy dần; phase 2 → Ground Rupture 4 cột lửa, trúng 15; player chết → thanh máu ẩn, 1s sau boss về x gốc đầy máu ngủ lại, vào lại thì trận mới phase 0. Summoner / Guard chạy thử ở EN-11.
-- [ ] **EN-11** `P2` `M` 🖥️ Demon (mini-boss) + Unmaker (boss cuối).
+- [x] **EN-11** 🖥️ Demon (mini-boss) + Unmaker (boss cuối) — scene thử `Assets/Scenes/BossArena` (copy SampleScene, bỏ enemy thường; 2 đấu trường liền nhau, mỗi cái 1 `BossEncounter` + 2 tường đỏ mờ layer Wall):
+  - **Demon "Crimson Brute"** (450 máu, không bị ngắt khi đang ra đòn; đấu trường x 2.5–13.5): Swing 2 nhát × 16 · Smash (báo hiệu 0.6s) 24 + choáng + 2 cột lửa mỗi bên · Shield Bash 10 đẩy văng 12 · Shield Guard (chặn mọi đòn phía trước 1.5s, `EnemyGuard`) · Charge húc 14. < 60% gầm (`roar`) → thêm Combo, Shockwave (nổ quanh thân + cột lửa); < 30% enrage (đỏ, nhịp ×0.7).
+  - **Unmaker "The Unmaker"** (900 máu, không bao giờ khựng; đấu trường x 14.5–24.3): Slash 18 · Beam (tia xuyên 16u/s) 20 · Wing Burst (vòng 2.3u) 16 văng 11 · Teleport ra sau lưng player. < 66% → thêm triệu hồi 2 **Imp** (tối đa 4, prefab `Prefabs/Enemy/Imp`: 12 máu, cắn lao 6) + Meteor Rain (2 đợt × 3 thiên thạch rơi) 14; < 33% → `rageIdle`, nhanh ×1.3, nhịp ×0.7.
+  - Hazard cột lửa đổi tên `KnightRuptureFlame` → `FlamePillar` (dùng chung Knight + Demon, GUID giữ nguyên). Đạn mới `UnmakerBeam`, `UnmakerMeteor`.
+  - Sửa chung cho mọi enemy: (1) lên kế hoạch đòn bỏ các đòn có tầm tối thiểu > khoảng cách hiện tại — trước đó Demon đứng im ~3s khi player ở 2.4–3u (Charge quá gần, Swing quá xa); (2) `IsBlocked` quét cả hình collider theo hướng đi thay vì 1 tia ở tâm thân (Unmaker cao 3u vướng mép trên "Wall (1)" mà tia không thấy) + Chase bị chặn đường thì dùng đòn đang trong tầm thay vì đứng chờ.
+  - Đã chạy Play mode: Demon 20s — 6 loại đòn, khoảng nghỉ dài nhất giữa 2 đòn 0.92s, chuyển phase ở 260 (roar) / 120 (enrage) có bất tử; khiên chặn 30/30 đòn phía trước, đòn sau lưng vẫn trúng; cột lửa tối đa 4 cùng lúc. Unmaker 22s — Slash / Wing Burst / Beam / Teleport (hiện sau lưng player 2.2u) / Summon (4 Imp, Imp cắn trúng) / Meteor trúng, không lần nào khựng. `BossArena`: 2 boss ngủ → vào trigger Demon: tường bật, thanh máu "Crimson Brute" → hạ Demon: tường mở, thanh máu ẩn → vào Unmaker: "The Unmaker". `SampleScene` hồi quy 18s: 4 enemy tuần tra / đuổi bình thường, console sạch. EditMode 27/27.
 
 ---
 
@@ -210,13 +215,15 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Axeman (x=9) | — | Đòn báo hiệu bằng tư thế + tô đỏ; Charge lao từ 2.5–4.2u; dưới 40% máu enrage (ửng đỏ, đánh dồn hơn). Chỉnh trong `Data/Enemy/AxemanData` + `Attacks/Axeman/*`, hitbox trên prefab |
 | Knight (x=14.5) | — | Không bị ngắt khi đang vung; Overhead/Cleave tầm ~2u, Slash/Combo ~1.8u; dưới 50% thêm Cinder Wave (cháy). Cần soi: tầm hitbox có khớp vệt chém không, nhịp báo hiệu có né kịp không |
 | Stalker (x=23) | — | Giữ khoảng cách, bắn 5 kiểu (tên thường / tụ lực xuyên / 3 tên / tia xuyên / mưa tên rơi từ trên), áp sát < 2.2u thì lướt lùi. Cần soi: tốc độ tên có né / nhảy qua kịp không, mưa tên rơi có đủ thời gian chạy khỏi |
+| Boss — scene `BossArena` | — | Đi sang phải: x=4.5 vào trận Demon (tường chặn 2 bên, thanh máu trên giữa màn), x=16 vào trận Unmaker. Chết giữa trận → boss về chỗ cũ đầy máu. Cần soi: độ khó / máu boss, Shield Guard có quá lì không, mưa thiên thạch + Imp có quá dồn không, tường đấu trường có làm player bám tường (layer Wall) gây khó chịu không |
+| Unmaker art | — | Sheet gốc 1024px → frame ~110px phóng lên 3.4u, sẽ mờ. Cần gen lại sheet độ phân giải cao (xem EN-06) |
 
 ---
 
 ## Thứ tự đề xuất (phần còn lại)
 
 ```
-FIX-07 (play-test thủ công — xem bảng "Cần play-test")
+FIX-07 (play-test thủ công — xem bảng "Cần play-test", gồm Phase 8: enemy mới + BossArena)
   → GS-02 phần còn lại (cần chốt: điều kiện thắng màn, giới hạn mạng / màn thua, checkpoint)
   → GS-01 scene flow (cần chốt: có Menu scene không)
   → GS-04 audio (cần file âm thanh) → GS-05 save (khi có nhiều level)

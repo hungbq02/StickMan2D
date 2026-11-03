@@ -38,6 +38,8 @@ public class EnemyController : MonoBehaviour
     private readonly Dictionary<EnemyAttackSO, float> attackUsedAt = new Dictionary<EnemyAttackSO, float>();
     private bool windup;
     private float fade = 1f;
+    private ContactFilter2D obstacleFilter;
+    private readonly RaycastHit2D[] castHits = new RaycastHit2D[4];
 
     public EnemyDataSO Data => data;
     public EnemyAnimator Anim { get; private set; }
@@ -337,10 +339,12 @@ public class EnemyController : MonoBehaviour
         Bounds b = bodyCollider.bounds;
         float frontX = b.center.x + direction * (b.extents.x + 0.05f);
 
-        // Vật cản ngang thân
-        Vector2 wallOrigin = new Vector2(b.center.x, b.center.y);
-        if (Physics2D.Raycast(wallOrigin, Vector2.right * direction, b.extents.x + 0.15f, obstacleLayer))
-            return true;
+        // Vật cản trên cả chiều cao thân (quét hình collider; bỏ mặt đất / trần: pháp tuyến gần thẳng đứng)
+        obstacleFilter.SetLayerMask(obstacleLayer);
+        obstacleFilter.useTriggers = false;
+        int n = bodyCollider.Cast(Vector2.right * direction, obstacleFilter, castHits, 0.15f);
+        for (int i = 0; i < n; i++)
+            if (Mathf.Abs(castHits[i].normal.x) > 0.5f) return true;
 
         // Không còn đất phía trước chân => mép vực
         Vector2 groundOrigin = new Vector2(frontX, b.min.y + 0.1f);
