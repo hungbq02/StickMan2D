@@ -27,6 +27,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: c16837f3606373d42bd01947c0f30ae0, type: 2}
   - {fileID: 11400000, guid: 486bd76c1bd89d448abfdb1f9e779999, type: 2}
   - {fileID: 11400000, guid: 16d20c0028826534a8afa62b7a135f9a, type: 2}
+  - {fileID: 11400000, guid: 0971eaf4abd27d442a4cf11df62312d6, type: 2}
   attackInterval: 0.6
   flinch: 1
   hurtDuration: 0.25

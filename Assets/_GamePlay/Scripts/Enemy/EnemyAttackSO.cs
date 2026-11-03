@@ -8,6 +8,13 @@ public enum EnemyAttackMovement
     Teleport,  // biến mất rồi hiện ra phía sau mục tiêu
 }
 
+public enum HazardPlacement
+{
+    AtTarget,   // dưới chân mục tiêu
+    InFront,    // hàng nối tiếp phía trước mặt
+    AroundSelf, // 2 bên thân, lan ra
+}
+
 public enum ProjectileOrigin
 {
     Muzzle,      // từ điểm ra đạn, bay theo hướng mặt
@@ -74,6 +81,30 @@ public class EnemyAttackSO : ScriptableObject
     [Tooltip("AboveTarget: rơi từ độ cao này trên đầu mục tiêu, rải đều trên bề rộng rainWidth")]
     public float rainHeight = 6f;
     public float rainWidth = 3f;
+
+    [Header("Vùng nguy hiểm trên đất (EnemyHazardCaster) — sinh ở mỗi mốc trúng")]
+    public GroundHazard hazard;
+    public AttackDataSO hazardDamage;
+    [Min(1)] public int hazardCount = 1;
+    public HazardPlacement hazardPlacement;
+    [Tooltip("InFront / AroundSelf: khoảng cách vùng đầu tiên; AtTarget (không có mục tiêu): đặt trước mặt")]
+    public float hazardStartDistance = 1.5f;
+    public float hazardSpacing = 1.5f;
+    [Tooltip("Trễ giữa 2 vùng liên tiếp (lan dần ra)")]
+    public float hazardStagger = 0.12f;
+    [Tooltip("AtTarget: lệch ngẫu nhiên ± theo trục X")]
+    public float hazardScatter;
+
+    [Header("Triệu hồi (EnemySummoner) — ở mỗi mốc trúng")]
+    public EnemyController summon;
+    [Min(1)] public int summonCount = 1;
+    public float summonDistance = 2f;
+    [Tooltip("Tối đa minion còn sống cùng lúc")]
+    public int maxSummons = 4;
+
+    [Header("Phòng thủ")]
+    [Tooltip("Pha ra đòn chặn mọi đòn đến từ phía trước (cần EnemyGuard trên enemy)")]
+    public bool guardFront;
 
     // Hết pha ra đòn: activeDuration > 0 thì theo nó, không thì theo clip; luôn >= mốc trúng cuối
     public float ResolveActiveDuration(float clipLength)

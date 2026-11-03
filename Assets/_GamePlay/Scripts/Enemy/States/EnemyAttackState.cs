@@ -15,6 +15,7 @@ public class EnemyAttackState : EnemyState
     private bool teleported;
 
     public EnemyAttackSO Current => attack;
+    public bool IsActiveStage => stage == Stage.Active;
 
     public EnemyAttackState(EnemyController enemy) : base(enemy) { }
 

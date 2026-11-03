@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**54 xong · 3 làm một phần · 7 còn lại** (tổng 64)
+**55 xong · 3 làm một phần · 6 còn lại** (tổng 64)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -29,7 +29,7 @@
 | 5. Enemy ✅ | 5 | — | — |
 | 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
-| 8. Enemy roster & boss | 4 | — | 10, 11 |
+| 8. Enemy roster & boss | 5 | — | 11 |
 
 ---
 
@@ -168,7 +168,13 @@ Art: 5 sprite sheet AI-gen của user trong `Art/EnemyConcepts` (không commit) 
   - **Stalker** (70 máu, `keepAwayDistance` 3.5): Quick 8 · Charged 16 (xuyên) · Triple 3 × 7 · Piercing 12 (xuyên) · Rain 3 cụm tên rơi × 10 · Dash lùi khi player áp sát < 2.2u. Báo hiệu bằng tư thế `aim`. Đặt trong `SampleScene` x=23.
   - Chưa dùng: `stealthIn` / `stealthOut` (đòn Teleport hiện ra sau lưng player không hợp với cung thủ — cần kiểu "biến mất rồi hiện ở xa").
   - Đã chạy Play mode với 1 Stalker: bắn đúng damage từng loại (8 / 16 / 12 / 7), đứng yên khi bắn; player áp sát 1.2u → dash lùi 3u rồi bắn tiếp.
-- [ ] **EN-10** `P2` `M` 🖥️ Khung boss: nhiều phase (chuyển phase bất tử + animation), vùng nguy hiểm trên đất (báo trước → gây damage), triệu hồi, dịch chuyển, thanh máu boss, vùng đấu trường.
+- [x] **EN-10** 🖥️ Khung boss:
+  - `BossEncounter` (object có trigger, tham chiếu boss trong scene): boss ngủ (EnemyController tắt, đứng idle) tới khi player bước vào → bật boss, bật `arenaWalls`, event `Started`. Boss chết → mở tường, `Ended`. Player chết giữa trận → `Ended`, sau `resetDelay` boss về chỗ cũ, đầy máu, phase 0, ngủ lại.
+  - `BossHealthBar` trong `Prefabs/UI/HUD` (giữa trên, ẩn mặc định): tên boss, fill đỏ nhảy ngay + vệt sáng chạy theo lượng máu vừa mất. Nghe `BossEncounter.Started/Ended` + `Health.OnHealthChanged`.
+  - `GroundHazard` (báo trước: frame đầu mờ nhấp nháy `warnTime` → active: damage 1 lần / mục tiêu trong hộp `size` → về pool; bám mặt đất). `EnemyHazardCaster`: sinh hazard ở mốc trúng — `AtTarget` (± scatter) / `InFront` (hàng lan dần) / `AroundSelf` (2 bên). `SpriteSequence`: phát chuỗi sprite không cần Animator.
+  - `EnemySummoner` (triệu hồi qua pool, xen kẽ 2 bên, giới hạn `maxSummons` còn sống, `DespawnAll` khi trận kết thúc). `EnemyGuard` (`IDamageBlocker`: chặn đòn phía trước trong pha ra đòn có `guardFront`).
+  - Knight thêm **Ground Rupture** (phase 2): tư thế báo hiệu 0.6s → 4 cột lửa trồi lần lượt phía trước (prefab `Prefabs/Enemy/Hazards/KnightRuptureFlame`), 15 + cháy.
+  - Đã chạy Play mode (Knight làm boss thử): ngủ → vào trigger thì thức, thanh máu hiện đúng tên; mất 125 máu → fill 0.43 ngay, vệt sáng chạy dần; phase 2 → Ground Rupture 4 cột lửa, trúng 15; player chết → thanh máu ẩn, 1s sau boss về x gốc đầy máu ngủ lại, vào lại thì trận mới phase 0. Summoner / Guard chạy thử ở EN-11.
 - [ ] **EN-11** `P2` `M` 🖥️ Demon (mini-boss) + Unmaker (boss cuối).
 
 ---
