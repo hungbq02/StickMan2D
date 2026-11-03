@@ -1,0 +1,47 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24deae85e8a264e499bab666d20a00bb, type: 3}
+  m_Name: AxemanData
+  m_EditorClassIdentifier: 
+  maxHealth: 90
+  patrolSpeed: 1.2
+  chaseSpeed: 2.6
+  patrolDistance: 3
+  patrolPause: 0.8
+  keepAwayDistance: 0
+  detectRange: 7
+  loseRange: 10
+  maxHeightDifference: 1.5
+  attacks:
+  - {fileID: 11400000, guid: ce28d455b539de848a14272b6595fba6, type: 2}
+  - {fileID: 11400000, guid: 12d0267fc6a5a6846b4fdf76bc7af7ce, type: 2}
+  - {fileID: 11400000, guid: 45e1810a23231f64c81ae0ea38f14c99, type: 2}
+  - {fileID: 11400000, guid: 2459854ae3b18214b87cee70d6b1755e, type: 2}
+  attackInterval: 0.5
+  flinch: 0
+  hurtDuration: 0.3
+  corpseLinger: 0.8
+  phases:
+  - healthFraction: 0.4
+    transitionAnim: enrage
+    transitionTime: 0
+    invulnerableDuringTransition: 1
+    idleAnim: 
+    moveSpeedMultiplier: 1.25
+    tempoMultiplier: 0.75
+    tint: {r: 1, g: 0.78, b: 0.78, a: 1}
+  animIdle: idle
+  animWalk: walk
+  animRun: walk
+  animHit: hit
+  animDeath: death
+  animTaunt: taunt

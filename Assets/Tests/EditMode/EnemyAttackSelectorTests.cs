@@ -74,16 +74,31 @@ public class EnemyAttackSelectorTests
     }
 
     [Test]
-    public void MaxRange_IgnoresRetreatAndOtherPhases()
+    public void Plan_IgnoresRange_ButSkipsRetreatAndNotReady()
     {
-        var melee = Attack(0f, 1.2f);
-        var dashBack = Attack(0f, 5f, movement: EnemyAttackMovement.Retreat);
-        var rageOnly = Attack(0f, 9f, minPhase: 1);
-        var list = new List<EnemyAttackSO> { melee, dashBack, rageOnly };
+        var charge = Attack(2.5f, 4f);
+        var dashBack = Attack(0f, 3f, movement: EnemyAttackMovement.Retreat);
+        var slash = Attack(0f, 1.2f);
+        var list = new List<EnemyAttackSO> { charge, dashBack, slash };
 
-        Assert.AreEqual(1.2f, EnemyAttackSelector.MaxRange(list, 0), 1e-5f);
-        Assert.AreEqual(9f, EnemyAttackSelector.MaxRange(list, 1), 1e-5f);
-        Assert.AreEqual(0f, EnemyAttackSelector.MaxRange(null, 0));
+        // đứng ở 10u: không đòn nào trong tầm, nhưng vẫn lên kế hoạch được (charge hoặc slash, không bao giờ dash lùi)
+        Assert.IsNull(EnemyAttackSelector.Choose(list, 10f, 0, null, 0f));
+        Assert.AreSame(charge, EnemyAttackSelector.Choose(list, 10f, 0, null, 0f, ignoreRange: true));
+        Assert.AreSame(slash, EnemyAttackSelector.Choose(list, 10f, 0, null, 0.99f, ignoreRange: true));
+        Assert.AreSame(slash, EnemyAttackSelector.Choose(list, 10f, 0, x => x != charge, 0f, ignoreRange: true));
+    }
+
+    [Test]
+    public void ShortestReach_IgnoresRetreatAndOtherPhases()
+    {
+        var charge = Attack(2.5f, 4f);
+        var dashBack = Attack(0f, 0.5f, movement: EnemyAttackMovement.Retreat);
+        var rageOnly = Attack(0f, 0.8f, minPhase: 1);
+        var list = new List<EnemyAttackSO> { charge, dashBack, rageOnly };
+
+        Assert.AreEqual(4f, EnemyAttackSelector.ShortestReach(list, 0), 1e-5f);
+        Assert.AreEqual(0.8f, EnemyAttackSelector.ShortestReach(list, 1), 1e-5f);
+        Assert.AreEqual(0f, EnemyAttackSelector.ShortestReach(null, 0));
     }
 
     [Test]

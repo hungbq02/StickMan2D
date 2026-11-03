@@ -5,7 +5,7 @@ cfg (mỗi nhân vật):
   anims: [{name, fps, loop, band:[x0,y0,x1,y1], anchor: head|hip|register|bbox,
            ground (y đáy cố định, tuỳ chọn), air:[i] (frame bay -> dùng đáy trung vị),
            seeds:[[x,y]...] (tách frame dính nhau), merge_frames:[[i,j]], drop:[i], exclude:[[x0,y0,x1,y1]],
-           extra_reach, min_body_h, face_*, hip_*, core_rows, reg_range}]
+           flip (lật ngang), extra_reach, min_body_h, face_*, hip_*, core_rows, reg_range}]
 Mỗi frame: 1 "body" (cụm cao >= min_body_h) + các cụm nhỏ gần nó (tia lửa, hạt...).
 Neo ngang: head = tâm khối mặt sáng; hip = trọng tâm dải hông; register = dịch để
 phần đầu-thân chồng khít frame trước; bbox = tâm khung.
@@ -26,8 +26,7 @@ def _head_x(rgba, an, x0):
         k = int(np.argmax(sz)) + 1
         if sz[k - 1] >= an.get('face_min_px', 80):
             return x0 + np.nonzero(fl == k)[1].mean()
-    print('  ! %s: không thấy mặt, dùng tâm bbox' % an['name'])
-    return x0 + rgba.shape[1] / 2
+    return None  # không thấy mặt (bị tay / vũ khí che) -> căn khớp hình với frame bên cạnh
 
 
 def _core_mask(f, an):
@@ -40,31 +39,40 @@ def _core_mask(f, an):
     return a & m
 
 
-def _register(frames, an):
-    """Neo ngang: frame 0 theo tâm bbox phần lõi; frame sau dịch để profile cột của lõi khớp frame trước."""
+def _profile(f, an):
+    m = _core_mask(f, an)
+    xs = np.nonzero(m.any(0))[0]
+    return m.sum(0).astype(np.float64), f['x0'] + (xs.min() + xs.max()) / 2
+
+
+def _align_to(f, ref, an):
+    """Điểm neo của f sao cho profile cột phần lõi khớp nhất với frame ref (đã có neo)."""
     R = an.get('reg_range', 60)
-    prev = None
-    for f in frames:
-        m = _core_mask(f, an)
-        xs = np.nonzero(m.any(0))[0]
-        col = m.sum(0).astype(np.float64)
-        guess = f['x0'] + (xs.min() + xs.max()) / 2
-        if prev is None:
-            f['ax'] = guess
-        else:
-            pc, px0, pax = prev
-            best = None
-            L = 1200
-            for dx in range(-R, R + 1):
-                ax = guess + dx
-                a1 = np.zeros(L); a2 = np.zeros(L)
-                s1 = int(round(f['x0'] - ax)) + L // 2; s2 = int(round(px0 - pax)) + L // 2
-                a1[s1:s1 + len(col)] = col; a2[s2:s2 + len(pc)] = pc
-                sc = (a1 * a2).sum() / (np.sqrt((a1 ** 2).sum() * (a2 ** 2).sum()) + 1e-9)
-                if best is None or sc > best[0]:
-                    best = (sc, ax)
-            f['ax'] = best[1]
-        prev = (col, f['x0'], f['ax'])
+    col, guess = _profile(f, an)
+    pc, _ = _profile(ref, an)
+    best = None
+    L = 1200
+    for dx in range(-R, R + 1):
+        ax = guess + dx
+        a1 = np.zeros(L); a2 = np.zeros(L)
+        s1 = int(round(f['x0'] - ax)) + L // 2; s2 = int(round(ref['x0'] - ref['ax'])) + L // 2
+        a1[s1:s1 + len(col)] = col; a2[s2:s2 + len(pc)] = pc
+        sc = (a1 * a2).sum() / (np.sqrt((a1 ** 2).sum() * (a2 ** 2).sum()) + 1e-9)
+        if best is None or sc > best[0]:
+            best = (sc, ax)
+    return best[1]
+
+
+def _register(frames, an):
+    """Neo ngang cho frame chưa có neo: căn khớp hình với frame đã có neo gần nhất phía trước
+    (frame đầu chưa có neo thì lấy tâm bbox phần lõi). Mode register: mọi frame chưa có neo."""
+    for i, f in enumerate(frames):
+        if f['ax'] is not None:
+            continue
+        ref = next((frames[j] for j in range(i - 1, -1, -1) if frames[j]['ax'] is not None), None)
+        if ref is None:
+            ref = next((g for g in frames[i + 1:] if g['ax'] is not None), None)
+        f['ax'] = _align_to(f, ref, an) if ref is not None else _profile(f, an)[1]
 
 
 def _seed_frames(im, lab, an, inside):
@@ -98,8 +106,7 @@ def _seed_frames(im, lab, an, inside):
     if an.get('anchor') == 'head':
         for f in frames:
             f['ax'] = _head_x(f['rgba'], an, f['x0'])
-    else:
-        _register(frames, an)
+    _register(frames, an)
     return frames
 
 
@@ -179,8 +186,12 @@ def _anim_frames(im, lab, comps, cfg, an):
     for f in frames:
         if f['ground'] is None:
             f['ground'] = float(np.median(grounds))
-    if mode == 'register':
-        _register(frames, an)
+    _register(frames, an)  # mode register, hoặc frame head không thấy mặt
+    if an.get('flip'):  # lật ngang quanh điểm neo (AI vẽ đòn đánh về phía sau lưng)
+        for f in frames:
+            w = f['rgba'].shape[1]
+            f['ax'] = f['x0'] + (w - (f['ax'] - f['x0']))
+            f['rgba'] = f['rgba'][:, ::-1].copy()
     return frames
 
 

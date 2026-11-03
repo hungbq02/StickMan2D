@@ -79,7 +79,7 @@ public class EnemyAttackState : EnemyState
     public override void FixedUpdate()
     {
         bool moving = stage == Stage.Active && activeTime >= attack.moveStart && activeTime <= attack.moveEnd;
-        if (moving && attack.movement == EnemyAttackMovement.Lunge)
+        if (moving && attack.movement == EnemyAttackMovement.Lunge && !ReachedTarget())
             enemy.MoveForward(attack.moveSpeed * enemy.SpeedMultiplier);
         else if (moving && attack.movement == EnemyAttackMovement.Retreat)
             enemy.MoveTowardsDirection(-enemy.FacingDirection, attack.moveSpeed * enemy.SpeedMultiplier);
@@ -111,6 +111,14 @@ public class EnemyAttackState : EnemyState
         timer = attack.recoveryTime;
         enemy.SetVelocityX(0f);
         enemy.PlayAnim(enemy.IdleAnim);
+    }
+
+    // Mục tiêu ở phía trước và đã đủ gần => thôi lao
+    private bool ReachedTarget()
+    {
+        if (!enemy.HasTarget) return false;
+        float dx = (enemy.Target.position.x - enemy.transform.position.x) * enemy.FacingDirection;
+        return dx >= 0f && dx <= attack.lungeStopDistance;
     }
 
     private void TeleportBehindTarget()

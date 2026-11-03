@@ -1,0 +1,37 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86e17a0b7d32f3c468eca48f60d71d21, type: 3}
+  m_Name: AxemanCharge
+  m_EditorClassIdentifier: 
+  telegraphAnim: tellCharge
+  attackAnim: charge
+  telegraphTime: 0.7
+  tintTelegraph: 1
+  hitTimes:
+  - 0.35
+  - 0.5
+  - 0.65
+  activeDuration: 0
+  recoveryTime: 0.6
+  cooldown: 5
+  minRange: 2.5
+  maxRange: 4.2
+  weight: 2
+  minPhase: 0
+  maxPhase: 99
+  damage: {fileID: 11400000, guid: 5cf489938487ec743ab33f5dcb5aab22, type: 2}
+  hitbox: ChargeHitbox
+  movement: 1
+  moveSpeed: 9
+  moveStart: 0.28
+  moveEnd: 0.72
+  lungeStopDistance: 0.8

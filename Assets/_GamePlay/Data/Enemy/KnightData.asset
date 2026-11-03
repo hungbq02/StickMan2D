@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24deae85e8a264e499bab666d20a00bb, type: 3}
+  m_Name: KnightData
+  m_EditorClassIdentifier: 
+  maxHealth: 220
+  patrolSpeed: 1
+  chaseSpeed: 2.2
+  patrolDistance: 2.5
+  patrolPause: 1
+  keepAwayDistance: 0
+  detectRange: 7.5
+  loseRange: 11
+  maxHeightDifference: 1.8
+  attacks:
+  - {fileID: 11400000, guid: 7f1075aa47fd2764aa415a4d6e258fc6, type: 2}
+  - {fileID: 11400000, guid: 95fc816b17611e34d97e3dd16fbfd650, type: 2}
+  - {fileID: 11400000, guid: c16837f3606373d42bd01947c0f30ae0, type: 2}
+  - {fileID: 11400000, guid: 486bd76c1bd89d448abfdb1f9e779999, type: 2}
+  - {fileID: 11400000, guid: 16d20c0028826534a8afa62b7a135f9a, type: 2}
+  attackInterval: 0.6
+  flinch: 1
+  hurtDuration: 0.25
+  corpseLinger: 1
+  phases:
+  - healthFraction: 0.5
+    transitionAnim: enrage
+    transitionTime: 0
+    invulnerableDuringTransition: 1
+    idleAnim: rageIdle
+    moveSpeedMultiplier: 1.2
+    tempoMultiplier: 0.8
+    tint: {r: 1, g: 0.85, b: 0.85, a: 1}
+  animIdle: idle
+  animWalk: walk
+  animRun: walk
+  animHit: hit
+  animDeath: stagger
+  animTaunt: taunt

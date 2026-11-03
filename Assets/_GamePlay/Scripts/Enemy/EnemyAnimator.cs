@@ -18,16 +18,24 @@ public class EnemyAnimator : MonoBehaviour
     private int lastPlayFrame = -1;
 
     public string AnimSet => animSet;
-    public Animator Animator => animator;
+    public Animator Animator => Init();
 
     private void Awake()
     {
+        Init();
+    }
+
+    // Khởi tạo lười: component khác (EnemyController.OnEnable) có thể gọi trước khi Awake của component này chạy
+    private Animator Init()
+    {
+        if (animator != null) return animator;
         animator = GetComponent<Animator>();
         if (animator.runtimeAnimatorController != null)
         {
             foreach (AnimationClip clip in animator.runtimeAnimatorController.animationClips)
                 lengths[clip.name] = clip.length;
         }
+        return animator;
     }
 
     // Bật lại (Spawn từ pool) => Animator về state mặc định, quên state đã Play lần trước
@@ -37,12 +45,13 @@ public class EnemyAnimator : MonoBehaviour
         lastPlayedStarted = false;
     }
 
-    public bool Has(string anim) => !string.IsNullOrEmpty(anim) && animator.HasState(0, Hash(anim));
+    public bool Has(string anim) => !string.IsNullOrEmpty(anim) && Init().HasState(0, Hash(anim));
 
     // Độ dài clip (giây, ở speed 1). Không có clip => 0
     public float GetLength(string anim)
     {
         if (string.IsNullOrEmpty(anim)) return 0f;
+        Init();
         return lengths.TryGetValue(StateName(anim), out float len) ? len : 0f;
     }
 
@@ -69,7 +78,7 @@ public class EnemyAnimator : MonoBehaviour
         if (Time.frameCount == lastPlayFrame && !lastPlayedStarted)
             return false;
 
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+        AnimatorStateInfo info = Init().GetCurrentAnimatorStateInfo(0);
         if (info.shortNameHash != lastPlayedHash)
             return lastPlayedStarted;
 
@@ -77,7 +86,7 @@ public class EnemyAnimator : MonoBehaviour
         return !info.loop && info.normalizedTime >= 1f && !animator.IsInTransition(0);
     }
 
-    public void SetSpeed(float speed) => animator.speed = speed;
+    public void SetSpeed(float speed) => Init().speed = speed;
 
     private string StateName(string anim) => $"{anim}_{animSet}";
 

@@ -53,6 +53,8 @@ public class EnemyAttackSO : ScriptableObject
     [Tooltip("Khoảng thời gian di chuyển, tính từ lúc bắt đầu animation đòn (Teleport dùng moveStart)")]
     public float moveStart;
     public float moveEnd = 0.3f;
+    [Tooltip("Lunge: dừng lao khi mục tiêu ở ngay phía trước trong khoảng này (không xuyên qua người)")]
+    public float lungeStopDistance = 0.8f;
 
     // Hết pha ra đòn: activeDuration > 0 thì theo nó, không thì theo clip; luôn >= mốc trúng cuối
     public float ResolveActiveDuration(float clipLength)

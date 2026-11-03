@@ -217,12 +217,17 @@ public class EnemyController : MonoBehaviour
 
     // ---- Attack selection ----
 
-    // Tầm xa nhất của các đòn trong phase hiện tại — Chase tiến lại tới tầm này
-    public float EngageRange => EnemyAttackSelector.MaxRange(data.attacks, Phase);
+    // Lúc mọi đòn còn cooldown, Chase chờ ở tầm gần nhất của các đòn trong phase
+    public float ShortestReach => EnemyAttackSelector.ShortestReach(data.attacks, Phase);
 
+    // Dùng được ngay: hết khoảng nghỉ chung giữa 2 đòn + hết cooldown riêng của đòn
     public bool IsAttackReady(EnemyAttackSO attack)
     {
-        if (Time.time - LastAttackTime < data.attackInterval * TempoMultiplier) return false;
+        return Time.time - LastAttackTime >= data.attackInterval * TempoMultiplier && IsOffCooldown(attack);
+    }
+
+    public bool IsOffCooldown(EnemyAttackSO attack)
+    {
         return !attackUsedAt.TryGetValue(attack, out float t) || Time.time - t >= attack.cooldown * TempoMultiplier;
     }
 
@@ -231,6 +236,12 @@ public class EnemyController : MonoBehaviour
     {
         if (!TargetSameLevel) return null;
         return EnemyAttackSelector.Choose(data.attacks, TargetDistanceX, Phase, IsAttackReady, Random.value);
+    }
+
+    // Đòn tiếp theo định dùng (hết cooldown riêng, bỏ qua tầm) — Chase tiến tới tầm của nó
+    public EnemyAttackSO PlanAttack()
+    {
+        return EnemyAttackSelector.Choose(data.attacks, TargetDistanceX, Phase, IsOffCooldown, Random.value, ignoreRange: true);
     }
 
     public void StartAttack(EnemyAttackSO attack)

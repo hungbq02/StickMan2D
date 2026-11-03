@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**52 xong · 3 làm một phần · 9 còn lại** (tổng 64)
+**53 xong · 3 làm một phần · 8 còn lại** (tổng 64)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -29,7 +29,7 @@
 | 5. Enemy ✅ | 5 | — | — |
 | 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
-| 8. Enemy roster & boss | 2 | — | 08, 09, 10, 11 |
+| 8. Enemy roster & boss | 3 | — | 09, 10, 11 |
 
 ---
 
@@ -155,7 +155,13 @@ Art: 5 sprite sheet AI-gen của user trong `Art/EnemyConcepts` (không commit) 
   - State mới: `EnemyDeadState` (tắt va chạm, phát `death`, mờ dần; `Death.DespawnDelay` chờ hết rồi mới về pool), `EnemyPhaseChangeState`, `EnemyTauntState` (hạ được player). Attack = Telegraph → Active → Recovery; Hurt phát `hit`. `IEnemyAttackHandler` cho component khác nhận mốc trúng (đạn, vùng nguy hiểm...).
   - `Death`: thêm `despawnDelay` (mặc định 0 = như cũ). `MeleeEnemy`: tạo `Data/Enemy/Attacks/MeleeEnemySwing` từ giá trị cũ (vung 0.45s tô đỏ, 10 dmg, hồi 0.35s, cooldown 1.2s, tầm 1.2).
   - Test: +7 EditMode (`EnemyAttackSelectorTests`: tầm, phase, cooldown, weight, tầm tiếp cận, phase theo máu, độ dài pha ra đòn) — 26/26 pass.
-- [ ] **EN-08** `P2` `M` 🖥️ Axeman + Knight (prefab, data, đòn) + phase enrage theo % máu.
+- [x] **EN-08** 🖥️ Axeman + Knight:
+  - Prefab `Prefabs/Enemy/Axeman`, `Knight` (copy từ `MeleeEnemy`, gốc toạ độ ở chân, Animator + `EnemyAnimator` cùng object với SpriteRenderer, mỗi đòn 1 hitbox con: `SmashHitbox`, `SpinHitbox`, `ChargeHitbox` / `OverheadHitbox`, `CleaveHitbox`, `CinderHitbox`). Đặt trong `SampleScene`: Axeman x=9, Knight x=14.5 (MeleeEnemy x=19 giữ nguyên).
+  - **Axeman** (90 máu, khựng mọi đòn): Slash 10 · Smash (tư thế báo hiệu 0.6s) 18 + choáng 0.4s · Spin 2 nhát × 8 · Charge (báo hiệu 0.7s, lao 9u/s, tầm 2.5–4.2) 14. Dưới 40% máu → enrage (bất tử lúc chuyển, nhanh ×1.25, nhịp ×0.75, ửng đỏ).
+  - **Knight** (220 máu, không bị ngắt khi đang ra đòn): Slash 14 · Overhead (báo hiệu 0.7s) 24 + choáng 0.5s · Cleave 14 · Combo 3 nhát × 9 · Cinder Wave 16 + cháy 2s (chỉ phase 2). Dưới 50% → enrage, idle đổi `rageIdle`. Sheet không có animation chết → dùng `stagger` rồi mờ dần.
+  - Pipeline: thêm `flip` (lật ngang: Smash của Axeman AI vẽ bổ về sau lưng); frame không thấy mặt (bị tay che) căn khớp hình với frame bên cạnh thay vì tâm khung.
+  - Chase lên kế hoạch 1 đòn (random theo weight trong các đòn hết cooldown) rồi tiến tới tầm của đòn đó — trước đây chỉ tiến tới tầm xa nhất nên đòn tầm gần ít khi được dùng. Lunge dừng khi đã áp sát mục tiêu (`lungeStopDistance`), không lao xuyên người.
+  - Đã chạy Play mode (`EditorApplication.Step`): Axeman ra đủ Charge → Slash → Smash → Spin, trúng đúng damage; enrage bất tử khi chuyển (đòn trong lúc đó bị bỏ qua); chết phát animation + mờ dần, tắt sau 1.6s. Knight 30s: Slash ×7, Overhead ×4, Cleave ×4, Combo ×3. EditMode 27/27.
 - [ ] **EN-09** `P2` `M` 🖥️ Đạn enemy + Stalker (giữ khoảng cách, lùi khi bị áp sát, bắn thường / tụ lực / 3 tên / xuyên / mưa tên).
 - [ ] **EN-10** `P2` `M` 🖥️ Khung boss: nhiều phase (chuyển phase bất tử + animation), vùng nguy hiểm trên đất (báo trước → gây damage), triệu hồi, dịch chuyển, thanh máu boss, vùng đấu trường.
 - [ ] **EN-11** `P2` `M` 🖥️ Demon (mini-boss) + Unmaker (boss cuối).
@@ -190,6 +196,8 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Camera khi rơi | Tụt lại, player chạy về mép dưới / ra khỏi màn hình | Nhìn trước xuống dưới, bám sát; player luôn trong khung |
 | Bị đánh trên đất | Trượt mãi tới khi bấm phím | Lùi ~0.26u rồi dừng — chỉnh `groundDeceleration` / `knockbackForce` |
 | Player hết máu | Object bị tắt, game đứng | Animation chết → 2s sau hồi sinh tại điểm xuất phát (đầy máu, nhấp nháy bất tử 0.8s) — chỉnh `respawnDelay` |
+| Axeman (x=9) | — | Đòn báo hiệu bằng tư thế + tô đỏ; Charge lao từ 2.5–4.2u; dưới 40% máu enrage (ửng đỏ, đánh dồn hơn). Chỉnh trong `Data/Enemy/AxemanData` + `Attacks/Axeman/*`, hitbox trên prefab |
+| Knight (x=14.5) | — | Không bị ngắt khi đang vung; Overhead/Cleave tầm ~2u, Slash/Combo ~1.8u; dưới 50% thêm Cinder Wave (cháy). Cần soi: tầm hitbox có khớp vệt chém không, nhịp báo hiệu có né kịp không |
 
 ---
 

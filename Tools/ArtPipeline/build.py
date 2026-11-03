@@ -37,10 +37,11 @@ AXEMAN = dict(
         # sheet gốc đặt nhãn ngược: hàng "Death" là đòn chém, hàng "Slash" là ngã gục
         dict(name='slash', fps=12, band=[0, 350, 800, 580], ground=577, anchor='head'),
         dict(name='death', fps=10, band=[820, 350, 2816, 580], ground=577, anchor='hip'),
-        dict(name='smash', fps=10, band=[0, 660, 985, 930], ground=928, anchor='head'),
+        # rìu giơ bên trái và bổ xuống sau lưng -> lật ngang cho đòn trúng phía trước
+        dict(name='smash', fps=10, band=[0, 660, 985, 930], ground=928, anchor='head', flip=True),
         dict(name='spin', fps=14, band=[985, 660, 2816, 930], ground=928, anchor='head'),
         dict(name='charge', fps=14, band=[0, 975, 2816, 1215], ground=1211, anchor='hip'),
-        dict(name='tellSmash', fps=1, band=[0, 1290, 240, 1535], ground=1531, anchor='head'),
+        dict(name='tellSmash', fps=1, band=[0, 1290, 240, 1535], ground=1531, anchor='head', flip=True),
         dict(name='tellCharge', fps=1, band=[240, 1290, 505, 1535], ground=1531, anchor='head'),
         dict(name='enrage', fps=8, band=[505, 1290, 1600, 1535], ground=1531, anchor='head'),
         # frame 5 bị watermark ngôi sao đè -> bỏ

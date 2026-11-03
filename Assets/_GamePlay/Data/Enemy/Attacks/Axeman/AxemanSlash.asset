@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86e17a0b7d32f3c468eca48f60d71d21, type: 3}
+  m_Name: AxemanSlash
+  m_EditorClassIdentifier: 
+  telegraphAnim: 
+  attackAnim: slash
+  telegraphTime: 0.35
+  tintTelegraph: 1
+  hitTimes:
+  - 0.17
+  activeDuration: 0
+  recoveryTime: 0.35
+  cooldown: 1
+  minRange: 0
+  maxRange: 1.4
+  weight: 3
+  minPhase: 0
+  maxPhase: 99
+  damage: {fileID: 11400000, guid: 492a39c61aa998a4ca63fef2c5e27472, type: 2}
+  hitbox: 
+  movement: 0
+  moveSpeed: 8
+  moveStart: 0
+  moveEnd: 0.3
