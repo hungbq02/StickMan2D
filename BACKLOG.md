@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**59 xong · 3 làm một phần · 5 còn lại** (tổng 67)
+**60 xong · 3 làm một phần · 5 còn lại** (tổng 68)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -30,6 +30,7 @@
 | 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
 | 8. Enemy roster & boss ✅ | 9 | — | — |
+| 9. Asset & visual | 1 | — | — |
 
 ---
 
@@ -241,6 +242,15 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Art enemy / boss mới (EN-13) | Art sheet cũ, boss 1.5–1.9× player | Thiết kế mới, Demon 2×, Unmaker 2.5× player; collider / hitbox phóng theo. Cần soi: chuyển clip có nhảy cỡ / giật không, hitbox có khớp vệt chém mới không, boss to có che tầm nhìn / chật đấu trường không, mốc trúng (`hitTimes`) có khớp frame va chạm không |
 
 ---
+
+## Phase 9 — Asset & visual (P2)
+
+- [x] **AS-01** 🖥️ Môi trường dark fantasy (pháo đài đổ nát, đêm tím + than hồng) thay ô vuông trắng — SampleScene + BossArena:
+  - Art sprite-gen (`SpriteGenRuns/env`, ref = base Axeman / Unmaker), tile lặp bằng `sprite-gen background-tile` (seam ground / far: needs-review → soi mắt OK; mid / wall / ladder: pass): `Art/Environment/` ground_tile (PPU 259, cao 1.2u), wall_tile (426), ladder_tile (600), far_tile (90), mid_tile (100), sky (100); FullRect + Repeat.
+  - Mỗi Ground / Wall / Ladder: tắt SpriteRenderer Square, thêm child `Visual` (Tiled, sorting −5..−7) khớp bounds cũ — **collider / transform không đổi**. Bục nhỏ cao 0.7u. `Underground` + `UndergroundFade` che trời dưới nền đất.
+  - `Scripts/Environment/ParallaxLayer.cs` (mới): Sky (1, 1, `centerOnCameraAtStart`), Far (0.85, 0.6), Mid (0.6, 0.3) — root `Environment_BG`.
+  - Đã kiểm: EditMode 27/27; Play mode Step: camera (15.6, 2.3) → trời phủ kín, các lớp dời đúng tỉ lệ; console 0 lỗi.
+  - Chưa: bia tập "Enemy" vẫn hình fighter đỏ tạm; tường lặp lộ dải sắt đôi ở chỗ nối tile; tường đấu trường boss (đỏ mờ) giữ nguyên.
 
 ## Việc còn mở sau EN-13 / EN-14 (chờ user test + feedback)
 
