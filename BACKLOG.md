@@ -281,6 +281,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
   - `UI/Frames` (6): ui_panel / ui_button (9-slice), ui_slot (ô trang bị), ui_title_banner (tên màn), ui_victory_frame / ui_defeat_frame (màn thắng / thua).
   - `Environment/L2` (Tường thành nguyền: trời đỏ máu, thành lũy, tường cờ đỏ, sàn gạch đỏ) + `Environment/L3` (Ngai Hư Không: vũ trụ tím, đảo đá nổi, cột hắc diện, sàn hắc diện nứt tím): sky + far_tile + mid_tile + ground_tile (tile ngang, seam soi mắt OK).
   - `Props` (10): torch_holder, banner, chains, skull_pile, broken_pillar, barrel_crate, spike_trap, brazier (checkpoint), dead_tree, gravestone.
+  - `Equipment/{Iron,Ember,Void}` (18): {set}_{head,body,cape,gauntlet,sword,gun} — sprite trang bị cho EQ-02 (lớp hiển thị) + icon kho đồ; ember_gun lấy ảnh gốc có alpha (bản tách chroma mất thân súng).
   - Chưa làm: logo / tên game (chưa có tên), đổi ngoại hình player (cần quyết).
 
 ## Việc còn mở sau EN-13 / EN-14 (chờ user test + feedback)
