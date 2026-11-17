@@ -258,7 +258,7 @@ Chưa làm hoặc chưa kiểm chứng — user play-test rồi feedback, Claude
 | 8 | Cân bằng chỉ số | Chưa đổi (vd Knight cleave trúng ~48 máu) | Sau play-test |
 | 9 | AnimatorController lệch bộ nhớ ↔ đĩa | 2 lần: `death_Knight` (EN-13) + controller Imp/Grunt sau import bị MCP timeout; nguyên nhân gốc chưa rõ | Sau mỗi lần import kiểm số state trong file `.controller`; nếu lặp lại thì sửa importer |
 | 10 | `BossArena.unity` bị ghi ngoài ý muốn 1 lần (object "Enemy" bị tắt) | Đã khôi phục, nguyên nhân chưa rõ | Theo dõi `git status` sau khi test qua MCP |
-| 11 | Asset không còn dùng | `Art/fighter_Idle_0002.png` (MeleeEnemy hết dùng), FX `unmaker_imp_00/01` + entry trong `unmaker_manifest.json` (Imp có art riêng) | Chờ user quyết xoá hay giữ |
+| 11 | Asset không còn dùng / tạm | FX `unmaker_imp_00/01` + entry trong `unmaker_manifest.json` không còn dùng (Imp có art riêng). `Art/fighter_Idle_0002.png` **vẫn dùng** cho 3 bia tập "Enemy" ở SampleScene + BossArena (hình tạm, lệch style) | Chờ user quyết xoá FX Imp cũ; bia tập nên có art riêng |
 | 12 | Hiệu ứng trúng đòn / hit-stop | Chưa có (có thể dùng skill `beanfx` hoặc Epic Toon FX) | Nếu muốn đòn "đã tay" hơn |
 | 13 | Còn từ EN-12 | Trượt chân (tốc độ đi vs nhịp bước) chưa đo; Stalker bị dồn góc tường đứng chờ | Đo / sửa sau play-test |
 | 14 | Nguồn gen art (`SpriteGenRuns/`) nằm ngoài git | Base, request, raw cần khi gen lại một clip | Muốn giữ lâu dài thì sao lưu / đưa vào repo (khá nặng) |
