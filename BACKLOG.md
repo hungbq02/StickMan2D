@@ -284,6 +284,21 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
   - `Equipment/{Iron,Ember,Void}` (18): {set}_{head,body,cape,gauntlet,sword,gun} — sprite trang bị cho EQ-02 (lớp hiển thị) + icon kho đồ; ember_gun lấy ảnh gốc có alpha (bản tách chroma mất thân súng).
   - Chưa làm: logo / tên game (chưa có tên), đổi ngoại hình player (cần quyết).
 
+## Câu hỏi chờ user trả lời (ghi 2026-11-17)
+
+| # | Câu hỏi | Bối cảnh / lựa chọn |
+|---|---|---|
+| Q1 | Tên game + logo | Chưa có tên → chưa gen logo (sprite-gen `logo` làm được khi có tên) |
+| Q2 | Player giữ que trắng hay vẽ lại? | Hiện que trắng nét phẳng (asset pack), enemy vẽ tay chi tiết. A: giữ que trắng + trang bị phủ lên (EQ-02). B: vẽ lại cả bộ ~40 clip cùng style (việc lớn, đụng animation event combat) |
+| Q3 | Thang có cần leo xuống từ trên không? | Hiện chỉ vào Climb khi đứng đất + bấm lên → không leo xuống được. Có thì phải sửa ClimbState / GroundedState |
+| Q4 | Dash xuyên tường mỏng: giữ hay chặn? | DashState tắt collider → dash 3u xuyên tường 1u, bỏ qua được đoạn wall-jump. Chặn = tường dày > 3u hoặc không tắt collider khi dash |
+| Q5 | Xác nhận thiết kế EQ-01 | Giáp trừ phẳng (damage − armor, tối thiểu 1); tốc độ chạy % áp cả khi trên không; PlayerEquipment tự gắn bằng code; tăng máu tối đa chỉ cộng phần chênh (không hồi đầy) |
+| Q6 | Xoá asset cũ không dùng? | FX `unmaker_imp_00/01` + entry trong `unmaker_manifest.json` (Imp đã có art riêng) |
+| Q7 | Thư mục `SpriteGenRuns/` (ngoài git) sao lưu ở đâu? | Chứa base, request, ảnh gốc — cần khi gen lại 1 clip / FX |
+| Q8 | Scene test cũ (SampleScene, BossArena, bia tập "Enemy") | Giữ làm scene thử hay xoá khi có 3 màn mới? |
+| Q9 | Tia Unmaker bắn thấp hơn quả cầu trượng | Giữ (để trúng player) / dời muzzle lên quả cầu + tia chéo / gen lại clip beam |
+| Q10 | Hit-stop cho mọi đòn trúng (kể cả đạn, mưa thiên thạch) | Sau play-test: thấy khựng nhiều thì giảm riêng cho đạn / vùng nguy hiểm |
+
 ## Việc còn mở sau EN-13 / EN-14 (chờ user test + feedback)
 
 Chưa làm hoặc chưa kiểm chứng — user play-test rồi feedback, Claude xử lý theo feedback:
