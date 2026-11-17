@@ -242,6 +242,27 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 
 ---
 
+## Việc còn mở sau EN-13 / EN-14 (chờ user test + feedback)
+
+Chưa làm hoặc chưa kiểm chứng — user play-test rồi feedback, Claude xử lý theo feedback:
+
+| # | Việc | Hiện trạng | Hướng xử lý đề xuất |
+|---|---|---|---|
+| 1 | Tia Unmaker bắn ra thấp hơn quả cầu trên trượng | Muzzle 1.6u (để tia trúng player cao 1.74u), quả cầu vẽ ở ~3.2u | Giữ; hoặc dời muzzle lên quả cầu + cho tia chéo xuống; hoặc gen lại clip `beam` chĩa trượng ngang hông |
+| 2 | Unmaker `phase` → `rageIdle` có thể nhảy cỡ | Frame cuối `phase` to hơn `rageIdle` một chút (scale chuẩn hoá theo frame đầu) | Soi khi chuyển phase; nếu thấy thì `from_run.py --scale phase=…` hoặc gen lại `phase` |
+| 3 | Clip chuyển động nhẹ | Axeman `hit` chỉ nghiêng đầu, Unmaker `taunt` gần như đứng yên | Gen lại nếu thấy thiếu lực |
+| 4 | Đạn tia / thiên thạch Unmaker chưa xem tận mắt khi bay | Mới kiểm sprite + kích thước trên prefab | Play-test trận Unmaker |
+| 5 | Collider đạn vs sprite mới | Tên mảnh hơn (cao 0.39–0.59u), thiên thạch hẹp hơn (0.75u); collider giữ như cũ | Nếu trúng / né thấy sai thì chỉnh `BoxCollider2D` từng prefab đạn |
+| 6 | `hitTimes` chỉnh theo mắt (14 đòn) | Đặt theo frame va chạm thấy trên preview, chưa đo cảm giác | Feedback đòn nào "trúng sớm / trễ" |
+| 7 | Collider / hitbox phóng theo tỉ lệ | Nhân đều theo mức tăng chiều cao, chưa khớp từng đòn | Feedback đòn nào tầm sai; boss to có làm đấu trường chật không |
+| 8 | Cân bằng chỉ số | Chưa đổi (vd Knight cleave trúng ~48 máu) | Sau play-test |
+| 9 | AnimatorController lệch bộ nhớ ↔ đĩa | 2 lần: `death_Knight` (EN-13) + controller Imp/Grunt sau import bị MCP timeout; nguyên nhân gốc chưa rõ | Sau mỗi lần import kiểm số state trong file `.controller`; nếu lặp lại thì sửa importer |
+| 10 | `BossArena.unity` bị ghi ngoài ý muốn 1 lần (object "Enemy" bị tắt) | Đã khôi phục, nguyên nhân chưa rõ | Theo dõi `git status` sau khi test qua MCP |
+| 11 | Asset không còn dùng | `Art/fighter_Idle_0002.png` (MeleeEnemy hết dùng), FX `unmaker_imp_00/01` + entry trong `unmaker_manifest.json` (Imp có art riêng) | Chờ user quyết xoá hay giữ |
+| 12 | Hiệu ứng trúng đòn / hit-stop | Chưa có (có thể dùng skill `beanfx` hoặc Epic Toon FX) | Nếu muốn đòn "đã tay" hơn |
+| 13 | Còn từ EN-12 | Trượt chân (tốc độ đi vs nhịp bước) chưa đo; Stalker bị dồn góc tường đứng chờ | Đo / sửa sau play-test |
+| 14 | Nguồn gen art (`SpriteGenRuns/`) nằm ngoài git | Base, request, raw cần khi gen lại một clip | Muốn giữ lâu dài thì sao lưu / đưa vào repo (khá nặng) |
+
 ## Thứ tự đề xuất (phần còn lại)
 
 ```
