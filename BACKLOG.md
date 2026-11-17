@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**60 xong · 3 làm một phần · 5 còn lại** (tổng 68)
+**61 xong · 3 làm một phần · 5 còn lại** (tổng 69)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -30,7 +30,7 @@
 | 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
 | 8. Enemy roster & boss ✅ | 9 | — | — |
-| 9. Asset & visual | 1 | — | — |
+| 9. Asset & visual | 2 | — | — |
 
 ---
 
@@ -251,6 +251,12 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
   - `Scripts/Environment/ParallaxLayer.cs` (mới): Sky (1, 1, `centerOnCameraAtStart`), Far (0.85, 0.6), Mid (0.6, 0.3) — root `Environment_BG`.
   - Đã kiểm: EditMode 27/27; Play mode Step: camera (15.6, 2.3) → trời phủ kín, các lớp dời đúng tỉ lệ; console 0 lỗi.
   - Chưa: bia tập "Enemy" vẫn hình fighter đỏ tạm; tường lặp lộ dải sắt đôi ở chỗ nối tile; tường đấu trường boss (đỏ mờ) giữ nguyên.
+
+- [x] **AS-02** 🖥️ VFX trúng đòn + hit-stop:
+  - Art sprite-gen (run effect): `Art/FX/Hit/` hit (5 frame, trắng-cam), crit (5, đỏ-vàng + vòng sóng), block (4, xanh-trắng + vệt khiên; run riêng khoá magenta vì khoá xanh tự chọn trùng màu). Prefab `Prefabs/FX/HitFx_{hit,crit,block}` (SpriteSequence 24fps + `HitFx` tự Recycle, xoay ±25°, lật theo hướng đòn); đăng ký `PrefabRegistrySO.hitFx/critFx/blockFx`.
+  - `HitFeedback` (mới, nghe `Damageable.OnDamaged / OnBlocked` như DamagePopupSpawner): spawn FX qua ObjectPool ở mép thân phía đòn đến (55% chiều cao collider), chí mạng ×1.25; hit-stop qua `HitStop.Request` (mới: hạ `Time.timeScale` 0.05 theo giây thật, chồng yêu cầu lấy mốc xa nhất). Mặc định 0.06s / crit 0.11s / chặn 0.04s; player bị đánh 0.08 / 0.12. Gắn: 7 prefab enemy (cỡ FX: Demon 1.5, Unmaker 1.6, Imp 0.7…), Player + 3 bia tập ở 2 scene.
+  - Đã kiểm Play mode: trúng thường → FX hit đúng phía, timeScale 0.05 → 1 sau 0.15s thật; crit → FX crit ×1.25; FX tự thu sau ~30 frame; EditMode 27/27; console 0 lỗi.
+  - Chưa: rung camera (screen shake) chưa làm; hit-stop áp cho mọi đòn trúng kể cả đạn / vùng nguy hiểm — nếu thấy khựng quá nhiều khi bị mưa thiên thạch thì giảm riêng.
 
 ## Việc còn mở sau EN-13 / EN-14 (chờ user test + feedback)
 

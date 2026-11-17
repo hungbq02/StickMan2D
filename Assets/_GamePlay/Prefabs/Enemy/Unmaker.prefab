@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 5228011175890428136}
   - component: {fileID: 6368512968190321983}
   - component: {fileID: 2727038831843748077}
+  - component: {fileID: 4133235828355918977}
   m_Layer: 7
   m_Name: Unmaker
   m_TagString: Untagged
@@ -350,6 +351,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cec535556b8c1ac4a9afc132338a96cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4133235828355918977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390279800019522145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e333d3b3b96c04789b561a7c0406e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitStop: 0.06
+  critHitStop: 0.11
+  blockHitStop: 0.04
+  fxScale: 1.6
+  towardAttacker: 0.6
+  heightRatio: 0.55
 --- !u!1 &1806517758192097296
 GameObject:
   m_ObjectHideFlags: 0

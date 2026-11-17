@@ -2205,6 +2205,7 @@ GameObject:
   - component: {fileID: 781897990}
   - component: {fileID: 781897989}
   - component: {fileID: 781897992}
+  - component: {fileID: 781897993}
   m_Layer: 7
   m_Name: Enemy (2)
   m_TagString: Untagged
@@ -2458,6 +2459,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
+--- !u!114 &781897993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781897979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e333d3b3b96c04789b561a7c0406e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitStop: 0.06
+  critHitStop: 0.11
+  blockHitStop: 0.04
+  fxScale: 1
+  towardAttacker: 0.6
+  heightRatio: 0.55
 --- !u!1 &806758591
 GameObject:
   m_ObjectHideFlags: 0
@@ -2942,6 +2961,7 @@ GameObject:
   - component: {fileID: 1220038861}
   - component: {fileID: 1220038860}
   - component: {fileID: 1220038863}
+  - component: {fileID: 1220038864}
   m_Layer: 7
   m_Name: Enemy (1)
   m_TagString: Untagged
@@ -3195,6 +3215,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
+--- !u!114 &1220038864
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1220038850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e333d3b3b96c04789b561a7c0406e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitStop: 0.06
+  critHitStop: 0.11
+  blockHitStop: 0.04
+  fxScale: 1
+  towardAttacker: 0.6
+  heightRatio: 0.55
 --- !u!1 &1276027034
 GameObject:
   m_ObjectHideFlags: 0
@@ -3221,6 +3259,7 @@ GameObject:
   - component: {fileID: 1276027050}
   - component: {fileID: 1276027052}
   - component: {fileID: 1276027053}
+  - component: {fileID: 1276027054}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -3537,6 +3576,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
+--- !u!114 &1276027054
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276027034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e333d3b3b96c04789b561a7c0406e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitStop: 0.08
+  critHitStop: 0.12
+  blockHitStop: 0.04
+  fxScale: 1
+  towardAttacker: 0.6
+  heightRatio: 0.55
 --- !u!1 &1345565828
 GameObject:
   m_ObjectHideFlags: 0
@@ -4995,6 +5052,7 @@ GameObject:
   - component: {fileID: 2077940847}
   - component: {fileID: 2077940846}
   - component: {fileID: 2077940849}
+  - component: {fileID: 2077940850}
   m_Layer: 7
   m_Name: Enemy
   m_TagString: Untagged
@@ -5248,6 +5306,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
+--- !u!114 &2077940850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2077940836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4e333d3b3b96c04789b561a7c0406e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitStop: 0.06
+  critHitStop: 0.11
+  blockHitStop: 0.04
+  fxScale: 1
+  towardAttacker: 0.6
+  heightRatio: 0.55
 --- !u!1001 &8237757094174983170
 PrefabInstance:
   m_ObjectHideFlags: 0

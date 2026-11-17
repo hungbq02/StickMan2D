@@ -7,4 +7,8 @@ public class PrefabRegistrySO : ScriptableObject
     public DamagePopup damagePopup;
     public GameObject ghostSprite;
     public Bullet bullet;
+    [Header("Hiệu ứng trúng đòn (HitFeedback)")]
+    public HitFx hitFx;
+    public HitFx critFx;
+    public HitFx blockFx;
 }

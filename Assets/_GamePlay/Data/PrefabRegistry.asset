@@ -15,3 +15,6 @@ MonoBehaviour:
   damagePopup: {fileID: 7681332128208691924, guid: d59962ffa5657e745b5bbd5fcc5b80b7, type: 3}
   ghostSprite: {fileID: 7197668107391796144, guid: f1f2b2beece2cc34fa6d06ae9e6d310b, type: 3}
   bullet: {fileID: 3068921196285549423, guid: 8a5f62e61636a14439cedb661767821d, type: 3}
+  hitFx: {fileID: 5196109145416205173, guid: 17bb9c091d110f6499269aa8b5b20d8a, type: 3}
+  critFx: {fileID: 3459455290784099902, guid: 01a1fafd6170c6441baea16783518306, type: 3}
+  blockFx: {fileID: 6326058698837693271, guid: f065da204b964064d9aa3bbb816b6123, type: 3}
