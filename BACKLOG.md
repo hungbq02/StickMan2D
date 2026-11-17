@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**61 xong · 3 làm một phần · 5 còn lại** (tổng 69)
+**62 xong · 3 làm một phần · 5 còn lại** (tổng 70)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -30,7 +30,7 @@
 | 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
 | 8. Enemy roster & boss ✅ | 9 | — | — |
-| 9. Asset & visual | 2 | — | — |
+| 9. Asset & visual | 3 | — | — |
 
 ---
 
@@ -257,6 +257,13 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
   - `HitFeedback` (mới, nghe `Damageable.OnDamaged / OnBlocked` như DamagePopupSpawner): spawn FX qua ObjectPool ở mép thân phía đòn đến (55% chiều cao collider), chí mạng ×1.25; hit-stop qua `HitStop.Request` (mới: hạ `Time.timeScale` 0.05 theo giây thật, chồng yêu cầu lấy mốc xa nhất). Mặc định 0.06s / crit 0.11s / chặn 0.04s; player bị đánh 0.08 / 0.12. Gắn: 7 prefab enemy (cỡ FX: Demon 1.5, Unmaker 1.6, Imp 0.7…), Player + 3 bia tập ở 2 scene.
   - Đã kiểm Play mode: trúng thường → FX hit đúng phía, timeScale 0.05 → 1 sau 0.15s thật; crit → FX crit ×1.25; FX tự thu sau ~30 frame; EditMode 27/27; console 0 lỗi.
   - Chưa: rung camera (screen shake) chưa làm; hit-stop áp cho mọi đòn trúng kể cả đạn / vùng nguy hiểm — nếu thấy khựng quá nhiều khi bị mưa thiên thạch thì giảm riêng.
+
+- [x] **AS-03** 🖥️ UI thanh máu player + thanh máu boss cùng style:
+  - Art sprite-gen (`Art/UI/`): `hp_frame` (khung sắt cháy + ổ tròn trái — chỗ cho icon vũ khí sau này), `boss_frame` (khung gai + sọ sừng, rune tím), `bar_fill` (dải bóng trắng, tô màu trong game).
+  - `HUD.prefab`: khung là Image đè lên (raycast off), thanh / fill khớp vùng rỗng đo từ alpha của khung; player: thanh 428×43, khung ×0.27; boss: giữ trên giữa, thanh 510×59, khung ×0.28, tên boss dưới khung — 2 khung không chồng nhau (mép phải player 625 < mép trái boss 656, canvas 1920). Logic fill / trail / màu giữ nguyên (`PlayerHUD`, `BossHealthBar`).
+  - Đã thử đặt thanh boss ở đáy màn hình → che vùng chân nhân vật đánh nhau → bỏ.
+  - Đã kiểm Play mode (screenshot): trận Demon → thanh boss hiện, mất máu đúng; EditMode 27/27.
+  - Chưa: tường đấu trường boss vẫn là dải đỏ mờ (lệch style); chữ "Fighter" chưa có icon.
 
 ## Việc còn mở sau EN-13 / EN-14 (chờ user test + feedback)
 
