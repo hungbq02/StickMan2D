@@ -17,7 +17,7 @@ MonoBehaviour:
   telegraphTime: 0.3
   tintTelegraph: 1
   hitTimes:
-  - 0.5
+  - 0.36
   activeDuration: 0
   recoveryTime: 0.4
   cooldown: 5

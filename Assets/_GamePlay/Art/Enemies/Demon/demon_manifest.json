@@ -1,10 +1,10 @@
 {
  "id": "demon",
- "cellWidth": 376,
- "cellHeight": 198,
+ "cellWidth": 578,
+ "cellHeight": 460,
  "pivotX": 0.5,
- "pivotY": 0.030303030303030304,
- "pixelsPerUnit": 58,
+ "pivotY": 0.013043478260869565,
+ "pixelsPerUnit": 90,
  "anims": [
   {
    "name": "idle",
@@ -20,7 +20,7 @@
   },
   {
    "name": "walk",
-   "fps": 10,
+   "fps": 9,
    "loop": true,
    "frames": [
     "demon_walk_00.png",
@@ -28,8 +28,21 @@
     "demon_walk_02.png",
     "demon_walk_03.png",
     "demon_walk_04.png",
-    "demon_walk_05.png",
-    "demon_walk_06.png"
+    "demon_walk_05.png"
+   ],
+   "endShift": 0.0
+  },
+  {
+   "name": "run",
+   "fps": 9,
+   "loop": true,
+   "frames": [
+    "demon_run_00.png",
+    "demon_run_01.png",
+    "demon_run_02.png",
+    "demon_run_03.png",
+    "demon_run_04.png",
+    "demon_run_05.png"
    ],
    "endShift": 0.0
   },
@@ -45,46 +58,8 @@
    "endShift": 0.0
   },
   {
-   "name": "run",
-   "fps": 14,
-   "loop": true,
-   "frames": [
-    "demon_run_00.png",
-    "demon_run_01.png",
-    "demon_run_02.png",
-    "demon_run_03.png",
-    "demon_run_04.png",
-    "demon_run_05.png",
-    "demon_run_06.png",
-    "demon_run_07.png",
-    "demon_run_08.png"
-   ],
-   "endShift": 0.0
-  },
-  {
-   "name": "death",
-   "fps": 10,
-   "loop": false,
-   "frames": [
-    "demon_death_00.png",
-    "demon_death_01.png",
-    "demon_death_02.png",
-    "demon_death_03.png",
-    "demon_death_04.png",
-    "demon_death_05.png",
-    "demon_death_06.png",
-    "demon_death_07.png",
-    "demon_death_08.png",
-    "demon_death_09.png",
-    "demon_death_10.png",
-    "demon_death_11.png",
-    "demon_death_12.png"
-   ],
-   "endShift": 0.0
-  },
-  {
    "name": "swing",
-   "fps": 14,
+   "fps": 6,
    "loop": false,
    "frames": [
     "demon_swing_00.png",
@@ -92,20 +67,13 @@
     "demon_swing_02.png",
     "demon_swing_03.png",
     "demon_swing_04.png",
-    "demon_swing_05.png",
-    "demon_swing_06.png",
-    "demon_swing_07.png",
-    "demon_swing_08.png",
-    "demon_swing_09.png",
-    "demon_swing_10.png",
-    "demon_swing_11.png",
-    "demon_swing_12.png"
+    "demon_swing_05.png"
    ],
    "endShift": 0.0
   },
   {
    "name": "smash",
-   "fps": 12,
+   "fps": 9,
    "loop": false,
    "frames": [
     "demon_smash_00.png",
@@ -113,9 +81,7 @@
     "demon_smash_02.png",
     "demon_smash_03.png",
     "demon_smash_04.png",
-    "demon_smash_05.png",
-    "demon_smash_06.png",
-    "demon_smash_07.png"
+    "demon_smash_05.png"
    ],
    "endShift": 0.0
   },
@@ -134,7 +100,7 @@
   },
   {
    "name": "combo",
-   "fps": 12,
+   "fps": 9,
    "loop": false,
    "frames": [
     "demon_combo_00.png",
@@ -142,9 +108,7 @@
     "demon_combo_02.png",
     "demon_combo_03.png",
     "demon_combo_04.png",
-    "demon_combo_05.png",
-    "demon_combo_06.png",
-    "demon_combo_07.png"
+    "demon_combo_05.png"
    ],
    "endShift": 0.0
   },
@@ -163,14 +127,13 @@
   },
   {
    "name": "shield",
-   "fps": 10,
+   "fps": 8,
    "loop": false,
    "frames": [
     "demon_shield_00.png",
     "demon_shield_01.png",
     "demon_shield_02.png",
-    "demon_shield_03.png",
-    "demon_shield_04.png"
+    "demon_shield_03.png"
    ],
    "endShift": 0.0
   },
@@ -211,7 +174,7 @@
   },
   {
    "name": "enrage",
-   "fps": 10,
+   "fps": 8,
    "loop": false,
    "frames": [
     "demon_enrage_00.png",
@@ -219,9 +182,21 @@
     "demon_enrage_02.png",
     "demon_enrage_03.png",
     "demon_enrage_04.png",
-    "demon_enrage_05.png",
-    "demon_enrage_06.png",
-    "demon_enrage_07.png"
+    "demon_enrage_05.png"
+   ],
+   "endShift": 0.0
+  },
+  {
+   "name": "death",
+   "fps": 5,
+   "loop": false,
+   "frames": [
+    "demon_death_00.png",
+    "demon_death_01.png",
+    "demon_death_02.png",
+    "demon_death_03.png",
+    "demon_death_04.png",
+    "demon_death_05.png"
    ],
    "endShift": 0.0
   }

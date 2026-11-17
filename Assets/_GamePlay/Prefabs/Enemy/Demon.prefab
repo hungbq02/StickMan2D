@@ -135,8 +135,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.15}
-  m_Size: {x: 1.4, y: 2.3}
+  m_Offset: {x: 0, y: 1.5661479}
+  m_Size: {x: 1.9066149, y: 3.1322958}
   m_Direction: 0
 --- !u!50 &7238738071561755633
 Rigidbody2D:
@@ -378,7 +378,7 @@ Transform:
   m_GameObject: {fileID: 3923814292025536526}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.4, y: 1, z: 0}
+  m_LocalPosition: {x: 1.9066149, y: 1.3618678, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -397,12 +397,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxType: 0
-  radius: 1.1
+  radius: 1.4980546
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   castDirection: {x: 1, y: -0.3}
-  castDistance: 2
+  castDistance: 2.7237356
 --- !u!1 &4074229877660129284
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,7 +429,7 @@ Transform:
   m_GameObject: {fileID: 4074229877660129284}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2, y: 0.6, z: 0}
+  m_LocalPosition: {x: 1.6342415, y: 0.81712073, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -448,12 +448,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxType: 0
-  radius: 1.2
+  radius: 1.6342415
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   castDirection: {x: 1, y: -0.3}
-  castDistance: 2
+  castDistance: 2.7237356
 --- !u!1 &4598963063740536182
 GameObject:
   m_ObjectHideFlags: 0
@@ -480,7 +480,7 @@ Transform:
   m_GameObject: {fileID: 4598963063740536182}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1, y: 1.1, z: 0}
+  m_LocalPosition: {x: 1.4980546, y: 1.4980546, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -499,12 +499,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxType: 0
-  radius: 0.8
+  radius: 1.0894942
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   castDirection: {x: 1, y: -0.3}
-  castDistance: 2
+  castDistance: 2.7237356
 --- !u!1 &5827759233704505910
 GameObject:
   m_ObjectHideFlags: 0
@@ -531,7 +531,7 @@ Transform:
   m_GameObject: {fileID: 5827759233704505910}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: 0}
+  m_LocalPosition: {x: 0, y: 1.3618678, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -550,9 +550,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxType: 0
-  radius: 2.3
+  radius: 3.1322958
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   castDirection: {x: 1, y: -0.3}
-  castDistance: 2
+  castDistance: 2.7237356

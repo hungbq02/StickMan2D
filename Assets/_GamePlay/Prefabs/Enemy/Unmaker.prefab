@@ -134,8 +134,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.5}
-  m_Size: {x: 1.2, y: 3}
+  m_Offset: {x: 0, y: 1.9969041}
+  m_Size: {x: 1.5975233, y: 3.9938083}
   m_Direction: 0
 --- !u!50 &7238738071561755633
 Rigidbody2D:
@@ -323,11 +323,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animSet: Unmaker
-  endShifts:
-  - anim: slash
-    shift: -0.571
-  - anim: summon
-    shift: -0.2
+  endShifts: []
   shiftAtProgress: 0.85
 --- !u!114 &6368512968190321983
 MonoBehaviour:
@@ -380,7 +376,7 @@ Transform:
   m_GameObject: {fileID: 1806517758192097296}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.4, z: 0}
+  m_LocalPosition: {x: 0, y: 1.8637772, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -399,12 +395,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxType: 0
-  radius: 2.3
+  radius: 3.0619195
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   castDirection: {x: 1, y: -0.3}
-  castDistance: 2
+  castDistance: 2.6625388
 --- !u!1 &2886148065264728700
 GameObject:
   m_ObjectHideFlags: 0
@@ -430,7 +426,7 @@ Transform:
   m_GameObject: {fileID: 2886148065264728700}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.4, y: 1.2, z: 0}
+  m_LocalPosition: {x: 1.8637772, y: 1.5975233, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -462,7 +458,7 @@ Transform:
   m_GameObject: {fileID: 3923814292025536526}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.1, y: 1.3, z: 0}
+  m_LocalPosition: {x: 1.4643964, y: 1.7306502, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -481,9 +477,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxType: 0
-  radius: 1
+  radius: 1.3312694
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   castDirection: {x: 1, y: -0.3}
-  castDistance: 2
+  castDistance: 2.6625388

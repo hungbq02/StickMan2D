@@ -134,8 +134,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 1.13}
-  m_Size: {x: 1, y: 2.25}
+  m_Offset: {x: 0, y: 1.2072649}
+  m_Size: {x: 1.0683761, y: 2.4038463}
   m_Direction: 0
 --- !u!50 &7238738071561755633
 Rigidbody2D:
@@ -326,10 +326,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   animSet: Knight
   endShifts:
-  - anim: slash
-    shift: -0.239
-  - anim: cinder
-    shift: -1.023
+  - anim: cleave
+    shift: 0.261
   shiftAtProgress: 0.85
 --- !u!114 &6279615343110171167
 MonoBehaviour:
@@ -369,7 +367,7 @@ Transform:
   m_GameObject: {fileID: 501348317611399593}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.7, y: 0.6, z: 0}
+  m_LocalPosition: {x: 1.8162394, y: 0.64102566, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -388,12 +386,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxType: 0
-  radius: 0.9
+  radius: 0.96153843
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   castDirection: {x: 1, y: -0.3}
-  castDistance: 2
+  castDistance: 2.1367521
 --- !u!1 &1527789217317881764
 GameObject:
   m_ObjectHideFlags: 0
@@ -420,7 +418,7 @@ Transform:
   m_GameObject: {fileID: 1527789217317881764}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.7, y: 1.3, z: 0}
+  m_LocalPosition: {x: 1.8162394, y: 1.3888888, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -439,12 +437,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxType: 0
-  radius: 1
+  radius: 1.0683761
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   castDirection: {x: 1, y: -0.3}
-  castDistance: 2
+  castDistance: 2.1367521
 --- !u!1 &3923814292025536526
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,7 +469,7 @@ Transform:
   m_GameObject: {fileID: 3923814292025536526}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 1.1, z: 0}
+  m_LocalPosition: {x: 1.0683761, y: 1.1752137, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -490,12 +488,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxType: 0
-  radius: 0.85
+  radius: 0.9081197
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   castDirection: {x: 1, y: -0.3}
-  castDistance: 2
+  castDistance: 2.1367521
 --- !u!1 &8082933618760655378
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,7 +520,7 @@ Transform:
   m_GameObject: {fileID: 8082933618760655378}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.2, y: 0.5, z: 0}
+  m_LocalPosition: {x: 1.2820513, y: 0.53418803, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -541,9 +539,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxType: 0
-  radius: 0.95
+  radius: 1.0149572
   targetLayer:
     serializedVersion: 2
     m_Bits: 64
   castDirection: {x: 1, y: -0.3}
-  castDistance: 2
+  castDistance: 2.1367521

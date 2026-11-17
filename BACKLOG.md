@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**57 xong · 3 làm một phần · 5 còn lại** (tổng 65)
+**58 xong · 3 làm một phần · 5 còn lại** (tổng 66)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -29,7 +29,7 @@
 | 5. Enemy ✅ | 5 | — | — |
 | 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
-| 8. Enemy roster & boss ✅ | 7 | — | — |
+| 8. Enemy roster & boss ✅ | 8 | — | — |
 
 ---
 
@@ -189,6 +189,14 @@ Art: 5 sprite sheet AI-gen của user trong `Art/EnemyConcepts` (không commit) 
   - Chase chống nháy: vùng đệm đứng / đi (dừng 85%, đi tiếp khi ra hẳn tầm) + giữ tối thiểu 0.35s; quay mặt có vùng chết 0.3u; cung thủ lùi có hysteresis +1u + cờ dồn góc (trước: bị dồn vào tường thì lật mặt mỗi frame); không dùng đòn lùi khi sau lưng là tường / vực. Đo Play mode: player nhích ±0.15u qua rìa tầm 6 lần/s → Axeman đổi idle/walk 6 lần/s → 2 lần/s (±0.06u: 0); player đứng trên đầu lệch ±0.2u → 0 lần lật; Stalker dồn góc 5s → 2 lần lật.
   - Chưa xử lý: giật trong clip do AI vẽ (Axeman charge, Stalker death / rain, Knight slash, Unmaker hit) — cần gen lại art; trượt chân (tốc độ đi vs nhịp bước) chưa đo; Stalker bị áp sát < 1.5u ở góc tường thì đứng chờ (mọi phát bắn có tầm tối thiểu) — chuyện gameplay, chưa đổi.
 
+- [x] **EN-13** 🖥️ Thiết kế lại + gen lại toàn bộ art animation 5 enemy / boss (sprite-gen, GPT image rows):
+  - Base mới phản diện hơn (user chọn 5/5 phương án B, concept chỉ làm cảm hứng); chiều cao so với player 1.74u: Axeman 2.1u (1.2×), Stalker 1.9u (1.1×), Knight 2.5u (1.45×), **Demon 3.5u (2×), Unmaker 4.3u (2.5×)** — boss to hơn hẳn trước (1.48× / 1.86×).
+  - Giữ đúng bộ anim cũ (Knight thêm `death`), 72 row, 4–6 frame / row, thời lượng ≈ cũ. Mọi đòn bắt đầu / kết thúc ở idle; tư thế báo hiệu dừng đúng pose đầu của đòn. 16 row phải gen lại (lệch nhận dạng, tách nền hỏng), 3 row thêm lần nữa.
+  - `Tools/ArtPipeline/from_run.py` (mới): frame sprite-gen → `Art/Enemies/<Name>` + manifest; chuẩn hoá cỡ giữa các row (sprite-gen fit từng row riêng, lệch 5–30%) bằng khớp mặt nạ frame đầu / cuối với idle; căn chỗ nối + root shift dùng chung `slice.compose_cells` (tách từ `slice_sheet`). Giữ `FX/` cũ.
+  - `hitTimes` chỉnh theo frame va chạm mới: Axeman Smash/Spin, Stalker Quick/Charged/Piercing/Rain, Knight Combo, Demon Swing/Combo, Unmaker Beam/WingBurst/Meteor. Collider + vị trí / bán kính / tầm hitbox, muzzle × hệ số tăng chiều cao mỗi prefab.
+  - Đã kiểm: Import Enemy Art không lỗi (72 clip); EditMode 27/27; Play mode (Step) BossArena: Demon run→swing→shield, Unmaker move→beam→wingBurst→slash; Axeman tellCharge→charge→tellSmash→smash→spin; Stalker aim→triple/quick/charged; Knight stance→cleave — đòn trúng player, console 0 lỗi.
+  - Chưa: FX rời (tên, beam, thiên thạch, lửa, Imp) vẫn art cũ; Unmaker muzzle ở 1.6u còn quả cầu phép vẽ ở ~3.2u (giữ thấp để tia trúng player); Unmaker `phase` kết thúc to hơn `rageIdle` chút; Axeman `hit`, Unmaker `taunt` chuyển động nhẹ.
+
 ---
 
 ## Cần play-test (FIX-07)
@@ -223,7 +231,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Knight (x=14.5) | — | Không bị ngắt khi đang vung; Overhead/Cleave tầm ~2u, Slash/Combo ~1.8u; dưới 50% thêm Cinder Wave (cháy). Cần soi: tầm hitbox có khớp vệt chém không, nhịp báo hiệu có né kịp không |
 | Stalker (x=23) | — | Giữ khoảng cách, bắn 5 kiểu (tên thường / tụ lực xuyên / 3 tên / tia xuyên / mưa tên rơi từ trên), áp sát < 2.2u thì lướt lùi. Cần soi: tốc độ tên có né / nhảy qua kịp không, mưa tên rơi có đủ thời gian chạy khỏi |
 | Boss — scene `BossArena` | — | Đi sang phải: x=4.5 vào trận Demon (tường chặn 2 bên, thanh máu trên giữa màn), x=16 vào trận Unmaker. Chết giữa trận → boss về chỗ cũ đầy máu. Cần soi: độ khó / máu boss, Shield Guard có quá lì không, mưa thiên thạch + Imp có quá dồn không, tường đấu trường có làm player bám tường (layer Wall) gây khó chịu không |
-| Unmaker art | — | Sheet gốc 1024px → frame ~110px phóng lên 3.4u, sẽ mờ. Cần gen lại sheet độ phân giải cao (xem EN-06) |
+| Art enemy / boss mới (EN-13) | Art sheet cũ, boss 1.5–1.9× player | Thiết kế mới, Demon 2×, Unmaker 2.5× player; collider / hitbox phóng theo. Cần soi: chuyển clip có nhảy cỡ / giật không, hitbox có khớp vệt chém mới không, boss to có che tầm nhìn / chật đấu trường không, mốc trúng (`hitTimes`) có khớp frame va chạm không |
 
 ---
 

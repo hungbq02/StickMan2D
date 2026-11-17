@@ -325,6 +325,11 @@ def slice_sheet(im, cfg, out_dir, preview=None):
     for an in cfg['anims']:
         frames_all[an['name']] = _anim_frames(im, lab, comps, cfg, an)
         print('  %-12s %2d frame' % (an['name'], len(frames_all[an['name']])))
+    return compose_cells(frames_all, cfg, out_dir, preview)
+
+
+def compose_cells(frames_all, cfg, out_dir, preview=None):
+    """frames_all: {anim: [frame dict rgba/x0/y0/ax/ground]} -> căn chỗ nối, ghi frame PNG cùng ô, trả manifest."""
     end_shift = {}
     if cfg.get('align') is not False:
         res = _align_clips(frames_all, cfg['anims'], cfg.get('align') or {}, cfg['ppu'])
