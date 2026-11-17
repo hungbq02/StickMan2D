@@ -272,7 +272,16 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
   - **Cold** (2): freeze_crust (`FreezeEffect`, lặp), arrow_impact (tên Stalker chạm; đã bỏ 1 frame co lại — chọn tay).
   - **Particles**: particle_ember / smoke / fog → ParticleSystem (than bay, khói, sương nền).
   - **Environment** thêm: rune_gate_tile (tile dọc, cổng rào đấu trường), exit_gate, platform.
-  - Chưa: ice_shatter (2 lần gen không ra hình vỡ — gen lại sau); import PPU/pivot + prefab `HitFx`-style + gắn code; FX có "frame nhỏ hơn trung vị" ở đầu/cuối là chủ ý (bùng / tàn).
+  - ice_shatter: 3 lần gen theo frame không ra hình vỡ tung → thay bằng `FX/Cold/ice_block.png` (khối nứt) + `FX/Particles/particle_ice_shard_0..4` cho ParticleSystem bắn mảnh (AS-05).
+  - Chưa: import PPU/pivot + prefab `HitFx`-style + gắn code; FX có "frame nhỏ hơn trung vị" ở đầu/cuối là chủ ý (bùng / tàn).
+
+- [ ] **AS-05** 🟡 Bổ sung art còn thiếu — ĐÃ CÓ ART, CHƯA import / dùng (cần Editor):
+  - `UI/Controls` (8): joystick base + knob, nút attack / jump / dash / slide / swap / pause → điều khiển cảm ứng Android (game chưa có, cần code On-Screen Controls của Input System).
+  - `UI/Icons` (8): icon_weapon_{fighter,sword,gun} (ổ tròn trái khung HP, thay chữ "Fighter"), icon_stat_{health,armor,damage,speed,crit} (kho đồ EQ-03). icon_weapon_sword: provider vẽ nền đen thay vì khoá → tách bằng `sprite-gen cutout --key measured`.
+  - `UI/Frames` (6): ui_panel / ui_button (9-slice), ui_slot (ô trang bị), ui_title_banner (tên màn), ui_victory_frame / ui_defeat_frame (màn thắng / thua).
+  - `Environment/L2` (Tường thành nguyền: trời đỏ máu, thành lũy, tường cờ đỏ, sàn gạch đỏ) + `Environment/L3` (Ngai Hư Không: vũ trụ tím, đảo đá nổi, cột hắc diện, sàn hắc diện nứt tím): sky + far_tile + mid_tile + ground_tile (tile ngang, seam soi mắt OK).
+  - `Props` (10): torch_holder, banner, chains, skull_pile, broken_pillar, barrel_crate, spike_trap, brazier (checkpoint), dead_tree, gravestone.
+  - Chưa làm: logo / tên game (chưa có tên), đổi ngoại hình player (cần quyết).
 
 ## Việc còn mở sau EN-13 / EN-14 (chờ user test + feedback)
 
