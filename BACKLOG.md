@@ -265,6 +265,15 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
   - Đã kiểm Play mode (screenshot): trận Demon → thanh boss hiện, mất máu đúng; EditMode 27/27.
   - Chưa: tường đấu trường boss vẫn là dải đỏ mờ (lệch style); chữ "Fighter" chưa có icon.
 
+- [ ] **AS-04** 🟡 Art FX đầy đủ (sprite-gen, cùng nét vẽ tay) — ĐÃ CÓ ART trong `Art/FX/*`, CHƯA import / gắn code (cần Editor):
+  - **Warm** (12): sword_slash1/2/3 + sword_air → animation event `SwordAttack(n)` / `FighterAirAttack`; fist_swoosh → `FighterAttack`; muzzle_flash → `FireProjectile` (đầu nòng); bullet_impact → `Bullet` chạm tường; burn_loop / stun_loop → `BurnEffect` / `StunEffect` Begin–End; boss_explosion → boss chết; phase_burst → `EnemyPhaseChangeState`; torch_loop → đuốc trong màn.
+  - **Dust** (6): jump_dust / land_dust / run_dust (Jump, Land, Run), dash_burst (Dash), slide_dust (Slide), wall_sparks (WallSlide).
+  - **Void** (8): enemy_death (`EnemyDeadState`), enemy_spawn (SpawnZone MAP-01), beam_impact / meteor_impact (đạn Unmaker chạm), exit_portal (cổng ra màn, lặp), rune_pulse (cổng rào rune, lặp), telegraph_glint (đầu Telegraph đòn nặng), hazard_warning (`GroundHazard` lúc báo trước, lặp).
+  - **Cold** (2): freeze_crust (`FreezeEffect`, lặp), arrow_impact (tên Stalker chạm; đã bỏ 1 frame co lại — chọn tay).
+  - **Particles**: particle_ember / smoke / fog → ParticleSystem (than bay, khói, sương nền).
+  - **Environment** thêm: rune_gate_tile (tile dọc, cổng rào đấu trường), exit_gate, platform.
+  - Chưa: ice_shatter (2 lần gen không ra hình vỡ — gen lại sau); import PPU/pivot + prefab `HitFx`-style + gắn code; FX có "frame nhỏ hơn trung vị" ở đầu/cuối là chủ ý (bùng / tàn).
+
 ## Việc còn mở sau EN-13 / EN-14 (chờ user test + feedback)
 
 Chưa làm hoặc chưa kiểm chứng — user play-test rồi feedback, Claude xử lý theo feedback:
