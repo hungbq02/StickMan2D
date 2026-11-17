@@ -1,0 +1,99 @@
+{
+ "id": "grunt",
+ "cellWidth": 358,
+ "cellHeight": 324,
+ "pivotX": 0.5,
+ "pivotY": 0.018518518518518517,
+ "pixelsPerUnit": 128,
+ "anims": [
+  {
+   "name": "idle",
+   "fps": 6,
+   "loop": true,
+   "frames": [
+    "grunt_idle_00.png",
+    "grunt_idle_01.png",
+    "grunt_idle_02.png",
+    "grunt_idle_03.png"
+   ],
+   "endShift": 0.0
+  },
+  {
+   "name": "walk",
+   "fps": 9,
+   "loop": true,
+   "frames": [
+    "grunt_walk_00.png",
+    "grunt_walk_01.png",
+    "grunt_walk_02.png",
+    "grunt_walk_03.png",
+    "grunt_walk_04.png",
+    "grunt_walk_05.png"
+   ],
+   "endShift": 0.0
+  },
+  {
+   "name": "run",
+   "fps": 11,
+   "loop": true,
+   "frames": [
+    "grunt_run_00.png",
+    "grunt_run_01.png",
+    "grunt_run_02.png",
+    "grunt_run_03.png",
+    "grunt_run_04.png",
+    "grunt_run_05.png"
+   ],
+   "endShift": 0.0
+  },
+  {
+   "name": "hit",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "grunt_hit_00.png",
+    "grunt_hit_01.png",
+    "grunt_hit_02.png"
+   ],
+   "endShift": 0.0
+  },
+  {
+   "name": "tellSwing",
+   "fps": 7,
+   "loop": false,
+   "frames": [
+    "grunt_tellSwing_00.png",
+    "grunt_tellSwing_01.png",
+    "grunt_tellSwing_02.png"
+   ],
+   "endShift": 0.0
+  },
+  {
+   "name": "swing",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "grunt_swing_00.png",
+    "grunt_swing_01.png",
+    "grunt_swing_02.png",
+    "grunt_swing_03.png"
+   ],
+   "endShift": 0.0
+  },
+  {
+   "name": "death",
+   "fps": 9,
+   "loop": false,
+   "frames": [
+    "grunt_death_00.png",
+    "grunt_death_01.png",
+    "grunt_death_02.png",
+    "grunt_death_03.png",
+    "grunt_death_04.png",
+    "grunt_death_05.png"
+   ],
+   "endShift": 0.0
+  }
+ ],
+ "fx": []
+}

@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**58 xong · 3 làm một phần · 5 còn lại** (tổng 66)
+**59 xong · 3 làm một phần · 5 còn lại** (tổng 67)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -29,7 +29,7 @@
 | 5. Enemy ✅ | 5 | — | — |
 | 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
-| 8. Enemy roster & boss ✅ | 8 | — | — |
+| 8. Enemy roster & boss ✅ | 9 | — | — |
 
 ---
 
@@ -197,6 +197,12 @@ Art: 5 sprite sheet AI-gen của user trong `Art/EnemyConcepts` (không commit) 
   - Đã kiểm: Import Enemy Art không lỗi (72 clip); EditMode 27/27; Play mode (Step) BossArena: Demon run→swing→shield, Unmaker move→beam→wingBurst→slash; Axeman tellCharge→charge→tellSmash→smash→spin; Stalker aim→triple/quick/charged; Knight stance→cleave — đòn trúng player, console 0 lỗi.
   - Chưa: FX rời (tên, beam, thiên thạch, lửa, Imp) vẫn art cũ; Unmaker muzzle ở 1.6u còn quả cầu phép vẽ ở ~3.2u (giữ thấp để tia trúng player); Unmaker `phase` kết thúc to hơn `rageIdle` chút; Axeman `hit`, Unmaker `taunt` chuyển động nhẹ.
 
+- [x] **EN-14** 🖥️ Remake art cũ lệch style (sau EN-13):
+  - 8 FX vẽ lại bằng sprite-gen cùng nét với art mới, giữ tên file (GUID) + kích thước thế giới bbox cũ, PPU 128 (`SpriteGenRuns/install_fx.py`): Stalker tên thường / tụ lực / xuyên / tia xuyên / mưa tên, Unmaker tia / thiên thạch, Knight lửa cột 4 frame (bùng → cột → đỉnh → tàn).
+  - Imp (minion Unmaker) + MeleeEnemy (lính thường, art "Grunt") thiết kế mới có animation (Imp 6, Grunt 7 clip; cao 1.3u / 1.9u); prefab thêm `Animator` + `EnemyAnimator` (bỏ `SpriteSequence` của Imp), MeleeEnemy đổi pivot về chân ⇒ capsule (0.75×1.75, off 0.9), hitbox (0.85, 0.85) r 0.65; Imp collider / hitbox ×1.3. `ImpBite` → tellBite / bite, hit 0.12 · 0.25; `MeleeEnemySwing` → tellSwing / swing, hit 0.12.
+  - Sửa kèm: state `death_Knight` (EN-13) chỉ nằm trong bộ nhớ Editor, file controller commit thiếu — import lại đã ghi. Controller mới của Imp / Grunt cũng bị lệch bộ nhớ ↔ đĩa sau 1 lần import bị MCP timeout, chạy lại importer thì đúng (nguyên nhân gốc chưa xác định).
+  - Đã kiểm: EditMode 27/27; Play mode (Step): Grunt tellSwing→swing trúng player, Imp idle→bay→tellBite→bite, Stalker bắn tên tụ lực sprite mới 1.79×0.59u; prefab đạn / hazard đủ sprite mới. Console 0 lỗi.
+
 ---
 
 ## Cần play-test (FIX-07)
@@ -231,6 +237,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Knight (x=14.5) | — | Không bị ngắt khi đang vung; Overhead/Cleave tầm ~2u, Slash/Combo ~1.8u; dưới 50% thêm Cinder Wave (cháy). Cần soi: tầm hitbox có khớp vệt chém không, nhịp báo hiệu có né kịp không |
 | Stalker (x=23) | — | Giữ khoảng cách, bắn 5 kiểu (tên thường / tụ lực xuyên / 3 tên / tia xuyên / mưa tên rơi từ trên), áp sát < 2.2u thì lướt lùi. Cần soi: tốc độ tên có né / nhảy qua kịp không, mưa tên rơi có đủ thời gian chạy khỏi |
 | Boss — scene `BossArena` | — | Đi sang phải: x=4.5 vào trận Demon (tường chặn 2 bên, thanh máu trên giữa màn), x=16 vào trận Unmaker. Chết giữa trận → boss về chỗ cũ đầy máu. Cần soi: độ khó / máu boss, Shield Guard có quá lì không, mưa thiên thạch + Imp có quá dồn không, tường đấu trường có làm player bám tường (layer Wall) gây khó chịu không |
+| Art FX + Imp + lính thường (EN-14) | FX mờ, Imp sprite tĩnh, MeleeEnemy hình tạm | FX / Imp / Grunt mới có animation. Cần soi: đạn có khớp collider không (sprite đổi tỉ lệ cao/rộng), lửa cột có báo hiệu rõ không, Grunt / Imp đọc được ở cỡ nhỏ không |
 | Art enemy / boss mới (EN-13) | Art sheet cũ, boss 1.5–1.9× player | Thiết kế mới, Demon 2×, Unmaker 2.5× player; collider / hitbox phóng theo. Cần soi: chuyển clip có nhảy cỡ / giật không, hitbox có khớp vệt chém mới không, boss to có che tầm nhìn / chật đấu trường không, mốc trúng (`hitTimes`) có khớp frame va chạm không |
 
 ---

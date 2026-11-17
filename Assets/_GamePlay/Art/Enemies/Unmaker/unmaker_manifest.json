@@ -179,7 +179,7 @@
    ],
    "pivotX": 0.5,
    "pivotY": 0.5,
-   "pixelsPerUnit": 35
+   "pixelsPerUnit": 128
   },
   {
    "name": "unmaker_imp",
@@ -202,7 +202,7 @@
    ],
    "pivotX": 0.5,
    "pivotY": 0.5,
-   "pixelsPerUnit": 35
+   "pixelsPerUnit": 128
   }
  ]
 }

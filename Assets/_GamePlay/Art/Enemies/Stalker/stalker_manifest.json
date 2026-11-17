@@ -203,7 +203,7 @@
    ],
    "pivotX": 0.5,
    "pivotY": 0.5,
-   "pixelsPerUnit": 90
+   "pixelsPerUnit": 128
   },
   {
    "name": "stalker_arrowCharged",
@@ -214,7 +214,7 @@
    ],
    "pivotX": 0.5,
    "pivotY": 0.5,
-   "pixelsPerUnit": 90
+   "pixelsPerUnit": 128
   },
   {
    "name": "stalker_pierceBeam",
@@ -225,7 +225,7 @@
    ],
    "pivotX": 0.5,
    "pivotY": 0.5,
-   "pixelsPerUnit": 90
+   "pixelsPerUnit": 128
   },
   {
    "name": "stalker_arrowPierce",
@@ -236,7 +236,7 @@
    ],
    "pivotX": 0.5,
    "pivotY": 0.5,
-   "pixelsPerUnit": 90
+   "pixelsPerUnit": 128
   },
   {
    "name": "stalker_arrowRain",
@@ -247,7 +247,7 @@
    ],
    "pivotX": 0.5,
    "pivotY": 0.5,
-   "pixelsPerUnit": 90
+   "pixelsPerUnit": 128
   }
  ]
 }

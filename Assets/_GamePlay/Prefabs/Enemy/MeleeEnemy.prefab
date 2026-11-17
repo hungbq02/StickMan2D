@@ -21,6 +21,8 @@ GameObject:
   - component: {fileID: 5673590893877054171}
   - component: {fileID: 6127912363306345587}
   - component: {fileID: 7397333257697672571}
+  - component: {fileID: 299317643433088254}
+  - component: {fileID: 4746837732279503536}
   m_Layer: 7
   m_Name: MeleeEnemy
   m_TagString: Untagged
@@ -85,7 +87,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d8c0c414681b624458a67be90917e2a0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8b6377db73273bb458d3dc16c4b6d165, type: 3}
   m_Color: {r: 1, g: 0.6, b: 0.6, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -128,8 +130,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.029313564, y: -0.41561377}
-  m_Size: {x: 1.0239849, y: 1.735718}
+  m_Offset: {x: 0, y: 0.9}
+  m_Size: {x: 0.75, y: 1.75}
   m_Direction: 0
 --- !u!50 &7238738071561755633
 Rigidbody2D:
@@ -185,6 +187,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   deactivateOnDeath: 1
   destroyDelay: -1
+  despawnDelay: 0
 --- !u!114 &3126819557791776344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: a0e56d52e8da43744a9bc037285c8541, type: 2}
   attackHitbox: {fileID: 3954372306085318267}
+  namedHitboxes: []
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 1280
@@ -280,6 +284,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0, z: 0}
+--- !u!95 &299317643433088254
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390279800019522145}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4e22942b150792540808c9bf114af1de, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4746837732279503536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 390279800019522145}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4047315ef30f0b247bd73803ca3ffd04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animSet: Grunt
+  endShifts: []
+  shiftAtProgress: 0.85
 --- !u!1 &3923814292025536526
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,7 +346,7 @@ Transform:
   m_GameObject: {fileID: 3923814292025536526}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.75, y: -0.3, z: 0}
+  m_LocalPosition: {x: 0.85, y: 0.85, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -325,7 +365,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hitboxType: 0
-  radius: 0.6
+  radius: 0.65
   targetLayer:
     serializedVersion: 2
     m_Bits: 64

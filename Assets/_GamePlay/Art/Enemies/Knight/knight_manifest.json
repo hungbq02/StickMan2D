@@ -237,8 +237,8 @@
     "knight_ruptureFlame_03.png"
    ],
    "pivotX": 0.5,
-   "pivotY": 0.0072992700729927005,
-   "pixelsPerUnit": 88
+   "pivotY": 0.0,
+   "pixelsPerUnit": 128
   }
  ]
 }

@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e17a0b7d32f3c468eca48f60d71d21, type: 3}
   m_Name: MeleeEnemySwing
   m_EditorClassIdentifier: 
-  telegraphAnim: 
-  attackAnim: 
+  telegraphAnim: tellSwing
+  attackAnim: swing
   telegraphTime: 0.45
   tintTelegraph: 1
   hitTimes:
-  - 0
+  - 0.12
   activeDuration: 0
   recoveryTime: 0.35
   cooldown: 1.2

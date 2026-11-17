@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86e17a0b7d32f3c468eca48f60d71d21, type: 3}
   m_Name: ImpBite
   m_EditorClassIdentifier: 
-  telegraphAnim: 
-  attackAnim: 
+  telegraphAnim: tellBite
+  attackAnim: bite
   telegraphTime: 0.35
   tintTelegraph: 1
   hitTimes:
-  - 0.1
+  - 0.12
   - 0.25
   activeDuration: 0.35
   recoveryTime: 0.5

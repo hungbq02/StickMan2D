@@ -1,0 +1,82 @@
+{
+ "id": "imp",
+ "cellWidth": 386,
+ "cellHeight": 334,
+ "pivotX": 0.5,
+ "pivotY": 0.017964071856287425,
+ "pixelsPerUnit": 205,
+ "anims": [
+  {
+   "name": "idle",
+   "fps": 8,
+   "loop": true,
+   "frames": [
+    "imp_idle_00.png",
+    "imp_idle_01.png",
+    "imp_idle_02.png",
+    "imp_idle_03.png"
+   ],
+   "endShift": 0.0
+  },
+  {
+   "name": "walk",
+   "fps": 10,
+   "loop": true,
+   "frames": [
+    "imp_walk_00.png",
+    "imp_walk_01.png",
+    "imp_walk_02.png",
+    "imp_walk_03.png"
+   ],
+   "endShift": 0.0
+  },
+  {
+   "name": "hit",
+   "fps": 12,
+   "loop": false,
+   "frames": [
+    "imp_hit_00.png",
+    "imp_hit_01.png",
+    "imp_hit_02.png"
+   ],
+   "endShift": 0.0
+  },
+  {
+   "name": "tellBite",
+   "fps": 9,
+   "loop": false,
+   "frames": [
+    "imp_tellBite_00.png",
+    "imp_tellBite_01.png",
+    "imp_tellBite_02.png"
+   ],
+   "endShift": 0.0
+  },
+  {
+   "name": "bite",
+   "fps": 10,
+   "loop": false,
+   "frames": [
+    "imp_bite_00.png",
+    "imp_bite_01.png",
+    "imp_bite_02.png",
+    "imp_bite_03.png"
+   ],
+   "endShift": 0.0
+  },
+  {
+   "name": "death",
+   "fps": 8,
+   "loop": false,
+   "frames": [
+    "imp_death_00.png",
+    "imp_death_01.png",
+    "imp_death_02.png",
+    "imp_death_03.png",
+    "imp_death_04.png"
+   ],
+   "endShift": 0.0
+  }
+ ],
+ "fx": []
+}
