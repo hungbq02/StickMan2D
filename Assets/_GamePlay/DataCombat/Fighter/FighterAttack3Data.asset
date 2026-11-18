@@ -19,3 +19,5 @@ MonoBehaviour:
   range: 0
   effectDuration: 0.01
   attackEffect: 0
+  hitFx: {fileID: 5196109145416205173, guid: 16131ea0aaa73174e851473287a4d6ef, type: 3}
+  hitFxScale: 1.35

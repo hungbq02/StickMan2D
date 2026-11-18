@@ -13,6 +13,11 @@ MonoBehaviour:
   m_Name: SwordAirAttackData
   m_EditorClassIdentifier: 
   damage: 20
-  effect: 0
-  isCritical: 0
   knockbackForce: 2
+  criticalChance: 0
+  criticalMultiplier: 0
+  range: 0
+  effectDuration: 0
+  attackEffect: 0
+  hitFx: {fileID: 5196109145416205173, guid: e0b1a5eb6eff3e3438c212f3151799c2, type: 3}
+  hitFxScale: 1.1

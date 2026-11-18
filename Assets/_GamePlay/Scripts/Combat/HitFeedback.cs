@@ -40,7 +40,10 @@ public class HitFeedback : MonoBehaviour
     private void HandleDamaged(int damage, AttackData data)
     {
         var reg = Service.Get<PrefabRegistrySO>();
-        Spawn(data.isCritical ? reg.critFx : reg.hitFx, data, data.isCritical ? 1.25f : 1f);
+        float scale = data.hitFxScale > 0f ? data.hitFxScale : 1f;
+        // hiệu ứng của vũ khí / đòn; chí mạng = to hơn + phủ thêm lớp loé chí mạng
+        Spawn(data.hitFx != null ? data.hitFx : reg.hitFx, data, data.isCritical ? scale * 1.25f : scale);
+        if (data.isCritical) Spawn(reg.critFx, data, scale);
         HitStop.Request(data.isCritical ? critHitStop : hitStop);
     }
 

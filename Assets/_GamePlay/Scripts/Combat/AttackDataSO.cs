@@ -10,4 +10,9 @@ public class AttackDataSO : ScriptableObject
     public float range; // Khoảng cách tấn công
     public float effectDuration; // Thời gian hiệu ứng (nếu có)
     public AttackEffect attackEffect; // Loại hiệu ứng
+
+    [Tooltip("Hiệu ứng trúng đòn riêng của đòn này (trống = PrefabRegistrySO.hitFx)")]
+    public HitFx hitFx;
+    [Tooltip("Cỡ hiệu ứng trúng đòn (đòn kết combo to hơn)")]
+    public float hitFxScale = 1f;
 }

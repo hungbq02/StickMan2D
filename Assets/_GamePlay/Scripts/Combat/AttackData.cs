@@ -14,6 +14,9 @@ public struct AttackData
     public Team sourceTeam;
     // Roll 1 lần lúc tạo đòn đánh (phía người tấn công) => mọi mục tiêu trúng cùng kết quả, UI/VFX biết là crit
     public bool isCritical;
+    // Hiệu ứng trúng đòn theo vũ khí / đòn (null = hiệu ứng mặc định trong PrefabRegistrySO)
+    public HitFx hitFx;
+    public float hitFxScale;
 
     public int FinalDamage => isCritical ? Mathf.RoundToInt(damage * criticalMultiplier) : damage;
 
@@ -29,6 +32,8 @@ public struct AttackData
         this.attackerPosition = attackerPosition;
         this.sourceTeam = Team.Neutral;
         this.isCritical = RollCritical(criticalChance);
+        this.hitFx = null;
+        this.hitFxScale = 1f;
     }
 
     public AttackData(AttackDataSO dataSO, Vector2 attackerPosition)
@@ -41,6 +46,8 @@ public struct AttackData
                dataSO.attackEffect,
                attackerPosition)
     {
+        hitFx = dataSO.hitFx;
+        hitFxScale = dataSO.hitFxScale > 0f ? dataSO.hitFxScale : 1f;
     }
 
     private static bool RollCritical(float chance)

@@ -103,7 +103,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 69bb3ae6733f7c84eba8e042ce4ea49c, type: 3}
   - {fileID: 21300000, guid: 61ae984bd1961f84d8955ac923322cf9, type: 3}
   - {fileID: 21300000, guid: 606ef5c69f3f618489917ae2d84fcb36, type: 3}
-  fps: 24
+  - {fileID: 21300000, guid: dafe40c7644019344b16d82a0e0c2802, type: 3}
+  - {fileID: 21300000, guid: c94e8f4a83f3034498a45f497a3e2e25, type: 3}
+  - {fileID: 21300000, guid: cbe25bbc3cf2e544e81087b98732a1c5, type: 3}
+  - {fileID: 21300000, guid: f6eb508e86cc8f14a8ef31d7fdfcd250, type: 3}
+  fps: 30
   loop: 0
   playOnEnable: 1
 --- !u!114 &6326058698837693271
@@ -118,4 +122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c63791445fbfd449a1bfb588afeff19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomRotation: 25
+  randomRotation: 10
+  randomFlipY: 0
+  randomScale: 0.1
