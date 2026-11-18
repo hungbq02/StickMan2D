@@ -1,9 +1,9 @@
 {
  "id": "axeman",
- "cellWidth": 466,
- "cellHeight": 448,
+ "cellWidth": 482,
+ "cellHeight": 426,
  "pivotX": 0.5,
- "pivotY": 0.013392857142857142,
+ "pivotY": 0.014084507042253521,
  "pixelsPerUnit": 140,
  "anims": [
   {
