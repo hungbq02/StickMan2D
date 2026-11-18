@@ -1,9 +1,9 @@
 {
  "id": "unmaker",
- "cellWidth": 588,
- "cellHeight": 558,
+ "cellWidth": 596,
+ "cellHeight": 512,
  "pivotX": 0.5,
- "pivotY": 0.010752688172043012,
+ "pivotY": 0.01171875,
  "pixelsPerUnit": 77,
  "anims": [
   {
