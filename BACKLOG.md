@@ -283,6 +283,12 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
   - `Props` (10): torch_holder, banner, chains, skull_pile, broken_pillar, barrel_crate, spike_trap, brazier (checkpoint), dead_tree, gravestone.
   - `Equipment/{Iron,Ember,Void}` (18): {set}_{head,body,cape,gauntlet,sword,gun} — sprite trang bị cho EQ-02 (lớp hiển thị) + icon kho đồ; ember_gun lấy ảnh gốc có alpha (bản tách chroma mất thân súng).
   - Chưa làm: logo / tên game (chưa có tên), đổi ngoại hình player (cần quyết).
+- [ ] **AS-06** 🟡 Remake toàn bộ art theo style "bóng đen + 1 màu nhấn" (`Docs/ART_STYLE.md`) — ART XONG + push, CẦN EDITOR:
+  - Lý do: art cũ lộ AI (chi tiết đều khắp, glow, trang trí quá tay), nền bão hoà làm chìm nhân vật. Giờ: nền 3 màn ít màu, phẳng, nhạt dần theo chiều sâu; đất/tường gần đen + viền sáng; nhân vật mang màu (player trắng, enemy đen than + trắng xương + đỏ cam `#e5482b`); đỏ cam = nguy hiểm.
+  - Đã thay (giữ tên file + kích thước canvas): Environment (trời / đất / tường / thang / bục vẽ bằng code), Props, UI (HUD bar + panel / button / slot vẽ code; icon, nút, emblem gen), FX (35 clip + particle), Equipment 18, đạn / tia enemy, 7 enemy × mọi clip (399 frame, cùng số frame như cũ).
+  - **Việc trong Editor (chưa làm)**: mở Unity → refresh → **Tools/Enemies/Import Enemy Art** (PPU mới: Axeman 140, Demon 97, Grunt 135, Imp 171, Knight 141, Stalker 123, Unmaker 77 — chưa import thì cỡ enemy sai) → soi collider / hitbox + `hitTimes` (tư thế đòn đổi) → screenshot 3 màn.
+  - Pipeline (ngoài git): `SpriteGenRuns/as06/` (style.py, enemies.py, fx.py, misc.py, env.py, proc.py, proc_ui.py, install.py, install_anim.py). RAM 16GB: ≤ 5 codex cùng lúc.
+  - Chưa remake: `Enemies/Unmaker/FX/unmaker_imp_00/01` (chờ Q6 xoá), player (Q2).
 
 ## Câu hỏi chờ user trả lời (ghi 2026-11-17)
 
