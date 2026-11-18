@@ -1,10 +1,10 @@
 {
  "id": "knight",
- "cellWidth": 618,
- "cellHeight": 460,
+ "cellWidth": 666,
+ "cellHeight": 484,
  "pivotX": 0.5,
- "pivotY": 0.013043478260869565,
- "pixelsPerUnit": 134,
+ "pivotY": 0.012396694214876033,
+ "pixelsPerUnit": 141,
  "anims": [
   {
    "name": "idle",
@@ -64,7 +64,7 @@
     "knight_cleave_01.png",
     "knight_cleave_02.png"
    ],
-   "endShift": 0.261
+   "endShift": 0.0
   },
   {
    "name": "tellSlash",
