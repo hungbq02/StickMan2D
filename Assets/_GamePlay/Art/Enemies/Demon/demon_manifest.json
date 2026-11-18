@@ -1,10 +1,10 @@
 {
  "id": "demon",
- "cellWidth": 578,
- "cellHeight": 460,
+ "cellWidth": 552,
+ "cellHeight": 504,
  "pivotX": 0.5,
- "pivotY": 0.013043478260869565,
- "pixelsPerUnit": 90,
+ "pivotY": 0.011904761904761904,
+ "pixelsPerUnit": 97,
  "anims": [
   {
    "name": "idle",
