@@ -240,6 +240,26 @@ def arrow_impact(n=7):
     return out
 
 
+def unmaker_beam():
+    """Tia Unmaker (1 frame, PPU 128, 702x232): dải đỏ cam lõi trắng xương, đuôi nhọn ở trái (= đầu trượng, pivot),
+    đầu tròn sáng ở phải; mép gợn nhẹ cho có năng lượng. Gốc toạ độ = tâm canvas."""
+    f = Frame(702, 232)
+    x0, x1, r = -340, 280, 50          # đuôi -> tâm đầu tia
+    top, bot = [], []
+    n = 40
+    for i in range(n + 1):
+        t = i / n
+        x = x0 + (x1 - x0) * t
+        w = r * (0.25 + 0.75 * t ** 0.6) + 5 * math.sin(t * 19)   # nở dần + gợn
+        top.append((x, w)); bot.append((x, -w))
+    f.poly(top + bot[::-1], ACC, 10)
+    f.disc(x1, 0, r * 1.15, ACC, outline=10)
+    core = [(x0 + 40 + (x1 - x0 - 40) * i / n, r * 0.42 * (0.2 + 0.8 * (i / n) ** 0.7)) for i in range(n + 1)]
+    f.poly(core + [(x, -y) for x, y in core[::-1]], BONE, 0)
+    f.disc(x1, 0, r * 0.62, BONE, outline=0)
+    return [f.image()]
+
+
 KINDS = {
     'Warm/sword_slash1': lambda: sword(150, -30),
     'Warm/sword_slash2': lambda: sword(-150, 30),

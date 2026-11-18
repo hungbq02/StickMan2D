@@ -13,6 +13,9 @@ public class Bootstrap : MonoBehaviour
     [Tooltip("Đăng ký vào Service: Service.Get<PrefabRegistrySO>()")]
     [SerializeField] private PrefabRegistrySO prefabRegistry;
 
+    [Tooltip("FPS mục tiêu (Android mặc định chỉ 30). Tắt vSync để giá trị này có hiệu lực cả trên PC / Editor")]
+    [SerializeField] private int targetFrameRate = 60;
+
 /*    [Space(20)]
     [Header("Popup")]
     public PopupWinGame popupWinGame;
@@ -42,6 +45,8 @@ public class Bootstrap : MonoBehaviour
 
         Service.Set<Bootstrap>(this);
         Service.Set<PrefabRegistrySO>(prefabRegistry);
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = targetFrameRate;
         if (Screen.currentResolution.width > 720)
             Screen.SetResolution(720, Mathf.RoundToInt(720f * Screen.currentResolution.height / Screen.currentResolution.width), true);
         

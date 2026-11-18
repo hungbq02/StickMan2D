@@ -322,6 +322,12 @@ Thứ tự: IN-01 → AS-07 → CB-11 làm ngay (không cần quyết) · EQ-02 
   - Clip chết Demon 5 → 9 fps, Unmaker 7 → 10 fps (manifest + `SpriteGenRuns/runs/v2_*/sprite-request.json`) + Import Enemy Art.
   - Đã kiểm Play mode BossArena: Demon timeScale 0.02 → 0.41 → 0.93 → 1, xác trượt 0.45u rồi dừng, chết ở độ cao +2u rơi đúng mặt đất (−2.27), chuỗi khói + loé, tường mở ở ~2.6s sau đòn (lúc boss inactive); Unmaker + 2 Imp: Imp chết theo, chạy clip chết, ra khói. EditMode 31/31.
   - Chưa: xác boss vẫn mang màu enrage (tint phase) lúc chết; tường đấu trường vẫn dải đỏ mờ (art `rune_gate_tile` có, chưa gắn); cảm giác cần play-test.
+- [x] **EN-16** Tia Unmaker khớp art (user: "vẽ lại cho chuẩn"; đóng Q9):
+  - Trước: muzzle (1.86, 1.60) thấp hơn quả cầu trượng ở frame bắn ~0.85u; clip `beam` tự vẽ luồng lửa ngang tầm 2.4u khác hẳn tia bay ra; sprite tia pivot giữa ⇒ nửa tia (2.7u) + vùng sát thương đè ra sau lưng boss.
+  - Gen lại row `beam` (`SpriteGenRuns/runs/v2_unmaker`, prompt mới: trượng cầm ngang hông chĩa thẳng, KHÔNG vẽ tia / lửa; bản cũ `prompts/beam.orig.txt`, frame cũ `as06/keep_beam_old/`) → `install_anim.py Unmaker` (cell 596 → 588, PPU 77 giữ nguyên).
+  - Tia vẽ bằng code (`motionfx.unmaker_beam`: dải đỏ cam lõi trắng xương, đuôi nhọn, đầu tròn) — pivot đầu đuôi (0.0085, 0.5), cả trong manifest fx để Import Enemy Art không ghi đè; collider 5×1 offset x 2.6. Muzzle → (2.8, 2.03) = mũi quả cầu ở frame bắn (frame 2, t = 0.27). Tia ngang ở 2.03u chạm đầu player đứng (cao 1.74u), slide thấp người né được.
+  - Chưa kiểm trong Unity (MCP mất kết nối): cần refresh + Import Enemy Art + Play mode screenshot.
+- [x] **GS-07** 60 FPS: `Bootstrap.Awake` đặt `QualitySettings.vSyncCount = 0` + `Application.targetFrameRate = 60` (`[SerializeField] targetFrameRate`; Android mặc định 30). Vật lý giữ 50Hz — nhân vật / enemy đã Interpolate, đạn đi bằng Update ⇒ không giật. Chưa compile / chưa đo trên máy (MCP mất kết nối).
 - [ ] **EQ-02** `P2` `L` 🖥️ ⏸ chờ Q2 (đề xuất A) — Lớp hiển thị trang bị lên player que trắng: head / body / cape / gauntlet / sword / gun theo bộ Iron / Ember / Void (art `Equipment/*` có sẵn), bám xương theo từng frame animation player; giáp thân phóng to hơn bản mô phỏng.
 - [ ] **GS-02** (đã có ở Phase 6) ⏸ chờ user chốt: thắng màn = tới cổng ra hay hạ boss · có giới hạn mạng / màn thua không · checkpoint = brazier (art có).
 - [ ] **GS-04** (đã có ở Phase 6) ⏸ chờ user: nguồn âm thanh (user có sẵn / CC0). Ưu tiên SFX trúng đòn theo vũ khí (khớp hit FX mới), nhảy / dash, enemy đánh, BGM 3 màn.
@@ -340,7 +346,7 @@ Thứ tự: IN-01 → AS-07 → CB-11 làm ngay (không cần quyết) · EQ-02 
 | Q6 | Xoá asset cũ không dùng? | FX `unmaker_imp_00/01` + entry trong `unmaker_manifest.json` (Imp đã có art riêng) |
 | Q7 | Thư mục `SpriteGenRuns/` (ngoài git) sao lưu ở đâu? | Chứa base, request, ảnh gốc — cần khi gen lại 1 clip / FX |
 | Q8 | Scene test cũ (SampleScene, BossArena, bia tập "Enemy") | Giữ làm scene thử hay xoá khi có 3 màn mới? |
-| Q9 | Tia Unmaker bắn thấp hơn quả cầu trượng | Giữ (để trúng player) / dời muzzle lên quả cầu + tia chéo / gen lại clip beam |
+| ~~Q9~~ | (ĐÃ XỬ LÝ EN-16) Tia Unmaker bắn thấp hơn quả cầu trượng | Giữ (để trúng player) / dời muzzle lên quả cầu + tia chéo / gen lại clip beam |
 | Q10 | Hit-stop cho mọi đòn trúng (kể cả đạn, mưa thiên thạch) | Sau play-test: thấy khựng nhiều thì giảm riêng cho đạn / vùng nguy hiểm |
 
 ## Việc còn mở sau EN-13 / EN-14 (chờ user test + feedback)

@@ -1,6 +1,6 @@
 {
  "id": "unmaker",
- "cellWidth": 596,
+ "cellWidth": 588,
  "cellHeight": 512,
  "pivotX": 0.5,
  "pivotY": 0.01171875,
@@ -177,7 +177,7 @@
    "frames": [
     "unmaker_beam_00.png"
    ],
-   "pivotX": 0.5,
+   "pivotX": 0.0085,
    "pivotY": 0.5,
    "pixelsPerUnit": 128
   },
