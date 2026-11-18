@@ -33,6 +33,15 @@ public class EnemySummoner : MonoBehaviour, IEnemyAttackHandler
     }
 
     // Boss chết / encounter reset => dọn minion
+    // Boss chết: minion chết theo (phát animation / khói chết của chính nó) thay vì biến mất
+    public void KillAll()
+    {
+        foreach (EnemyController m in alive)
+            if (m != null && m.gameObject.activeInHierarchy && m.Health.IsAlive)
+                m.Health.TakeDamage(m.Health.Current);
+        alive.Clear();
+    }
+
     public void DespawnAll()
     {
         foreach (EnemyController m in alive)

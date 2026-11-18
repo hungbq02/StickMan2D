@@ -64,6 +64,10 @@ public class EnemyDataSO : ScriptableObject
     public float hurtDuration = 0.25f;
     [Tooltip("Xác nằm lại sau khi animation chết xong (mờ dần) rồi mới về pool / tắt")]
     public float corpseLinger = 0.6f;
+    [Tooltip("Xác bị hất lùi (unit) theo hướng đòn kết liễu")]
+    public float deathSlide = 0.35f;
+    [Tooltip("Số cụm khói khi xác tan (boss > 1 = chuỗi nổ, cụm cuối to nhất)")]
+    [Min(1)] public int deathBursts = 1;
 
     [Header("Phases (theo % máu, xếp giảm dần)")]
     public List<EnemyPhase> phases = new List<EnemyPhase>();

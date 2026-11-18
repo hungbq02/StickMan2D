@@ -26,7 +26,9 @@ MonoBehaviour:
   attackInterval: 0.3
   flinch: 0
   hurtDuration: 0.2
-  corpseLinger: 0
+  corpseLinger: 0.2
+  deathSlide: 0.35
+  deathBursts: 1
   phases: []
   animIdle: idle
   animWalk: walk

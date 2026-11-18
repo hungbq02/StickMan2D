@@ -4,7 +4,8 @@ using UnityEngine;
 
 // Trận boss: boss "ngủ" (EnemyController tắt, đứng idle) tới khi player bước vào trigger của object này
 // -> bật boss, dựng tường đấu trường, BossHealthBar hiện (event Started).
-// Boss chết -> mở tường, ẩn thanh máu (Ended). Player chết giữa trận -> sau resetDelay boss về chỗ cũ, đầy máu, ngủ lại.
+// Boss chết -> đòn kết liễu khựng + chậm thời gian + rung, minion chết theo; đợi xác boss tan hết (chuỗi khói của EnemyDeadState)
+// rồi mới mở tường, ẩn thanh máu (Ended). Player chết giữa trận -> sau resetDelay boss về chỗ cũ, đầy máu, ngủ lại.
 [RequireComponent(typeof(Collider2D))]
 public class BossEncounter : MonoBehaviour
 {
@@ -17,9 +18,18 @@ public class BossEncounter : MonoBehaviour
     [SerializeField] private GameObject[] arenaWalls;
     [SerializeField] private float resetDelay = 1f;
 
+    [Header("Boss bị hạ")]
+    [Tooltip("Khựng ở đòn kết liễu (giây thật)")]
+    [SerializeField] private float killHitStop = 0.3f;
+    [Tooltip("Sau khựng: chậm thời gian từ mức này về 1 trong slowMoDuration giây thật")]
+    [SerializeField, Range(0.05f, 1f)] private float slowMoScale = 0.3f;
+    [SerializeField] private float slowMoDuration = 0.8f;
+    [SerializeField, Range(0f, 1f)] private float killShake = 0.9f;
+
     private Vector3 bossHome;
     private Health playerHealth;
     private EnemySummoner summoner;
+    private bool defeating;
 
     public EnemyController Boss => boss;
     public string DisplayName => displayName;
@@ -45,6 +55,11 @@ public class BossEncounter : MonoBehaviour
     private void OnDisable()
     {
         if (InProgress) Finish();
+        if (defeating)
+        {
+            defeating = false; // coroutine bị ngắt giữa lúc chậm thời gian => trả tốc độ thường
+            if (!HitStop.IsActive) Time.timeScale = 1f;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -69,7 +84,36 @@ public class BossEncounter : MonoBehaviour
 
     private void HandleBossDeath()
     {
-        Finish();
+        InProgress = false;
+        Unsubscribe();
+        if (summoner != null) summoner.KillAll();
+        StartCoroutine(Defeat());
+    }
+
+    private IEnumerator Defeat()
+    {
+        defeating = true;
+        HitStop.Request(killHitStop, 0.02f); // đè khựng thường của HitFeedback (giữ mốc xa nhất)
+        CameraShake.Add(killShake);
+        while (HitStop.IsActive) yield return null;
+
+        // chậm thời gian rồi nhả dần về 1 (theo thời gian thật)
+        for (float t = 0f; t < slowMoDuration; t += Time.unscaledDeltaTime)
+        {
+            if (!HitStop.IsActive) Time.timeScale = Mathf.Lerp(slowMoScale, 1f, t / slowMoDuration);
+            yield return null;
+        }
+        if (!HitStop.IsActive) Time.timeScale = 1f;
+        defeating = false;
+
+        // thanh máu (đã về 0) + tường giữ tới khi xác boss tan xong
+        var death = boss.GetComponent<Death>();
+        float timeout = (death != null ? death.DespawnDelay : 2f) + 1f;
+        for (float t = 0f; t < timeout && boss.gameObject.activeInHierarchy; t += Time.deltaTime)
+            yield return null;
+
+        SetWalls(false);
+        Ended?.Invoke(this);
     }
 
     private void HandlePlayerDeath()
@@ -78,11 +122,16 @@ public class BossEncounter : MonoBehaviour
         StartCoroutine(ResetBoss());
     }
 
+    private void Unsubscribe()
+    {
+        if (playerHealth != null) playerHealth.OnDeath -= HandlePlayerDeath;
+        if (boss != null) boss.Health.OnDeath -= HandleBossDeath;
+    }
+
     private void Finish()
     {
         InProgress = false;
-        if (playerHealth != null) playerHealth.OnDeath -= HandlePlayerDeath;
-        if (boss != null) boss.Health.OnDeath -= HandleBossDeath;
+        Unsubscribe();
         SetWalls(false);
         if (summoner != null) summoner.DespawnAll();
         Ended?.Invoke(this);

@@ -46,6 +46,9 @@ public class EnemyController : MonoBehaviour
     public Rigidbody2D Rigidbody { get; private set; }
     public Damageable Damageable { get; private set; }
     public Health Health { get; private set; }
+    public LayerMask ObstacleLayer => obstacleLayer;
+    // x của người ra đòn trúng gần nhất (cả đòn kết liễu: OnDeath chạy trước OnDamaged)
+    public float LastHitFromX { get; private set; }
     public Transform Target { get; private set; }
     public int FacingDirection { get; private set; } = 1;
     public float HomeX { get; private set; }
@@ -136,8 +139,9 @@ public class EnemyController : MonoBehaviour
         Rigidbody.bodyType = baseBodyType;
 
         // Death chờ hết animation chết + thời gian nằm xác rồi mới trả về pool / tắt
-        if (death != null && Anim != null && Anim.Has(data.animDeath))
-            death.DespawnDelay = Anim.GetLength(data.animDeath) + data.corpseLinger;
+        // (enemy không có clip chết vẫn chờ corpseLinger => kịp vào EnemyDeadState, phát khói)
+        if (death != null)
+            death.DespawnDelay = (Anim != null && Anim.Has(data.animDeath) ? Anim.GetLength(data.animDeath) : 0f) + data.corpseLinger;
 
         if (Target == null)
         {
@@ -175,6 +179,7 @@ public class EnemyController : MonoBehaviour
 
     private void HandleDamaged(int damage, AttackData attackData)
     {
+        LastHitFromX = attackData.attackerPosition.x;
         if (!isActiveAndEnabled || !Health.IsAlive) return;
         EnemyState current = machine.CurrentState;
         if (current == Dead || current == PhaseChange) return;

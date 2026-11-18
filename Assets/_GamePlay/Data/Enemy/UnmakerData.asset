@@ -32,6 +32,8 @@ MonoBehaviour:
   flinch: 2
   hurtDuration: 0.2
   corpseLinger: 1.5
+  deathSlide: 0.5
+  deathBursts: 6
   phases:
   - healthFraction: 0.66
     transitionAnim: phase

@@ -188,7 +188,7 @@
   },
   {
    "name": "death",
-   "fps": 5,
+   "fps": 9,
    "loop": false,
    "frames": [
     "demon_death_00.png",

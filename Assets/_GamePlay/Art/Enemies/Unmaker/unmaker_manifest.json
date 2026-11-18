@@ -156,7 +156,7 @@
   },
   {
    "name": "death",
-   "fps": 7,
+   "fps": 10,
    "loop": false,
    "frames": [
     "unmaker_death_00.png",
