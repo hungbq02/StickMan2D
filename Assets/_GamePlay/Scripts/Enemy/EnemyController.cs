@@ -386,6 +386,9 @@ public class EnemyController : MonoBehaviour
         transform.position = new Vector3(x, transform.position.y, transform.position.z);
     }
 
+    // Khung thân (đọc trước SetCorpse: collider tắt thì bounds rỗng)
+    public Bounds BodyBounds => bodyCollider != null ? bodyCollider.bounds : new Bounds(transform.position, Vector3.one);
+
     // Chết: không va chạm / không rơi nữa, nằm yên tại chỗ
     public void SetCorpse(bool corpse)
     {

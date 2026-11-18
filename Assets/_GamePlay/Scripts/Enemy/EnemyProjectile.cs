@@ -15,6 +15,8 @@ public class EnemyProjectile : MonoBehaviour
     [SerializeField] private bool pierce;
     [Tooltip("Xoay sprite theo hướng bay (sprite vẽ hướng sang phải)")]
     [SerializeField] private bool rotateToDirection = true;
+    [Tooltip("Hiệu ứng khi chạm mục tiêu / tường / đất (không phát khi hết lifetime)")]
+    [SerializeField] private HitFx impactFx;
 
     private Vector2 direction = Vector2.right;
     private AttackData attackData;
@@ -66,13 +68,25 @@ public class EnemyProjectile : MonoBehaviour
                 AttackData hit = attackData;
                 hit.attackerPosition = (Vector2)transform.position - direction * 0.5f;
                 target.TakeDamage(hit);
+                PlayImpact(transform.position);
                 if (!pierce) Despawn();
             }
             return;
         }
 
         if ((bit & obstacleLayer) != 0)
+        {
+            // điểm trên mặt vật cản (thiên thạch nổ sát đất, tên găm đúng mặt tường)
+            PlayImpact(other.ClosestPoint(transform.position));
             Despawn();
+        }
+    }
+
+    private void PlayImpact(Vector2 point)
+    {
+        if (impactFx == null) return;
+        var fx = ObjectPool.Spawn(impactFx, point, Quaternion.identity);
+        fx.Init(direction.x < 0f ? -1f : 1f, 1f);
     }
 
     private void Despawn()

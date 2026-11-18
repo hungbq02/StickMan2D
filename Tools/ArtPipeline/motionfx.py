@@ -11,7 +11,7 @@ import numpy as np
 from PIL import Image
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from hitfx import Frame, crescent, streak, star, ease_out, ease_in, WHITE  # noqa: E402
+from hitfx import Frame, crescent, streak, star, ease_out, ease_in, WHITE, BONE, ACC  # noqa: E402
 
 ART = os.path.normpath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', 'Assets', '_GamePlay', 'Art', 'FX'))
 DUST = (176, 183, 191)
@@ -219,6 +219,27 @@ def wall_sparks(n=6):
     return out
 
 
+def arrow_impact(n=7):
+    """Tên Stalker găm (đòn enemy = đỏ cam): sao nhỏ lõi trắng xương + mảnh văng ngược (-x, tên bay theo +x)."""
+    rng = np.random.default_rng(31)
+    sh = [(180 + rng.uniform(-60, 60), rng.uniform(0.7, 1.2)) for _ in range(5)]
+    out = []
+    for i in range(n):
+        t = i / (n - 1)
+        f = Frame(384, 384, 0, 0, 1.2)
+        for a, sp in sh:
+            d = 10 + 70 * sp * ease_out(t, 2.4)
+            L = 26 * (1 - ease_in(t, 1.2)) * sp
+            streak(f, a, d - L, d, 7 * (1 - t) + 1, ACC, outline=6)
+        if t < 0.5:
+            r = 46 * math.sin(math.pi * min(1, 0.35 + t / 0.5 * 0.65))
+            star(f, 6, r, r * 0.42, ACC, rot=15)
+            star(f, 6, r * 0.5, r * 0.22, BONE, rot=15, outline=0)
+        f.ring(10 + 40 * ease_out(t), 7 * (1 - t), ACC, outline=6)
+        out.append(f.image(fade(t, 0.5)))
+    return out
+
+
 KINDS = {
     'Warm/sword_slash1': lambda: sword(150, -30),
     'Warm/sword_slash2': lambda: sword(-150, 30),
@@ -232,6 +253,7 @@ KINDS = {
     'Dust/dash_burst': dash_burst,
     'Dust/slide_dust': slide_dust,
     'Dust/wall_sparks': wall_sparks,
+    'Cold/arrow_impact': arrow_impact,
 }
 
 

@@ -18,3 +18,4 @@ MonoBehaviour:
   hitFx: {fileID: 5196109145416205173, guid: 17bb9c091d110f6499269aa8b5b20d8a, type: 3}
   critFx: {fileID: 3459455290784099902, guid: 01a1fafd6170c6441baea16783518306, type: 3}
   blockFx: {fileID: 6326058698837693271, guid: f065da204b964064d9aa3bbb816b6123, type: 3}
+  enemyDeathFx: {fileID: 5196109145416205173, guid: 07e7c04456f8f4f45bfb371b310f33cf, type: 3}

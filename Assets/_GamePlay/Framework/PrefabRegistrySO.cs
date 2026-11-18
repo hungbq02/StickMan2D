@@ -11,4 +11,7 @@ public class PrefabRegistrySO : ScriptableObject
     public HitFx hitFx;
     public HitFx critFx;
     public HitFx blockFx;
+    [Header("Hiệu ứng khác")]
+    [Tooltip("Xác enemy tan thành khói (EnemyDeadState, lúc bắt đầu mờ)")]
+    public HitFx enemyDeathFx;
 }

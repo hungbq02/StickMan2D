@@ -31,7 +31,7 @@
 | 7. Tổ chức project | 6 | 05 | 08 |
 | 8. Enemy roster & boss ✅ | 9 | — | — |
 | 9. Asset & visual | 3 | 04, 05, 06 | — |
-| 10. Cảm giác chơi (mới) | IN-01 | — | AS-07, CB-11, EQ-02, MAP-02, AS-08 |
+| 10. Cảm giác chơi (mới) | IN-01, AS-07 | — |, CB-11, EQ-02, MAP-02, AS-08 |
 
 ---
 
@@ -303,11 +303,12 @@ Thứ tự: IN-01 → AS-07 → CB-11 làm ngay (không cần quyết) · EQ-02 
   - `TouchControls`: chỉ hiện khi `Application.isMobilePlatform` (bật `showOnDesktop` để thử bằng chuột trên PC).
   - Đã kiểm Play mode (giả lập pointer qua EventSystem): 4 nút → đúng buffer, Swap xoay vòng Sword → Gun → Fighter, kéo joystick → MoveInput (−0.99, 0.13), thả → (0,0); chạm lệch tâm 120px vẫn bắt joystick. EditMode 27/27.
   - Chưa: nút Pause (chưa có hệ pause — làm cùng GS-02 / setting); chưa thử trên điện thoại thật (đa chạm, cỡ nút theo DPI).
-- [ ] **AS-07** `P1` `M` 🖥️ Gắn FX chuyển động đã có art (AS-04) vào code:
-  - Đòn: vệt chém `sword_slash1/2/3`, `sword_air` (event `SwordAttack(n)`), `fist_swoosh` (`FighterAttack`), `muzzle_flash` (`FireProjectile`, đầu nòng).
-  - Di chuyển: `jump_dust` / `land_dust` / `run_dust` / `dash_burst` / `slide_dust` / `wall_sparks` theo state Jump / Land / Run / Dash / Slide / WallSlide.
-  - Enemy: `enemy_death` (EnemyDeadState), `beam_impact` / `meteor_impact` (đạn Unmaker chạm), `arrow_impact` (tên Stalker).
-  - Prefab kiểu `HitFx` (pool, SpriteSequence, tự Recycle). Frame AI rời rạc thì vẽ lại bằng code như `hitfx.py` nếu thô.
+- [x] **AS-07** 🖥️ FX chuyển động:
+  - Player (`PlayerFx` trên Player ở SampleScene + BossArena): theo dõi state (không sửa state) → bụi `Fx_jump_dust` (chỉ khi còn trên đất; nhảy tường = `Fx_wall_sparks`), `Fx_land_dust`, `Fx_dash_burst`, `Fx_slide_dust`, `Fx_run_dust` mỗi 0.28s khi chạy, `Fx_wall_sparks` mỗi 0.12s khi trượt tường. `PlayerAnimationAttack` gọi lúc ra đòn: kiếm `Fx_sword_slash1/2/3` theo bước combo + `Fx_sword_air`, đấm `Fx_fist_swoosh`, đòn cuối combo ×1.25; súng `Fx_muzzle_flash` ở đầu nòng. Vị trí thân tính theo hình capsule (dash tắt collider ⇒ bounds rỗng).
+  - Enemy: `EnemyProjectile.impactFx` (tên Stalker → `Fx_arrow_impact`, tia Unmaker → `Fx_beam_impact`, thiên thạch → `Fx_meteor_impact`) ở điểm trên mặt vật cản (`ClosestPoint`); `EnemyDeadState` phát `PrefabRegistrySO.enemyDeathFx` lúc xác bắt đầu mờ, cỡ theo chiều cao thân.
+  - Art: `Tools/ArtPipeline/motionfx.py` vẽ lại bằng code (vệt kiếm / đấm / loé nòng / bụi / tia tường / tên găm, cùng nét hitfx.py, trắng cho player, xám nhạt cho bụi, đỏ cam cho đòn enemy); giữ art AI liền mạch: `enemy_death`, `beam_impact`, `meteor_impact` (pivot đáy cho thiên thạch / tia).
+  - Đã kiểm Play mode: vệt đòn đúng vị trí, slash3 ×1.29; bụi land / dash / slide / jump ở y = mặt đất (−2.27) kể cả lúc dash; xác Melee → `Fx_enemy_death` sau 0.78s; thiên thạch nổ ở −2.26 (đất −2.27). EditMode 27/27.
+  - Chưa: bụi chạy / tia trượt tường chưa thử trong game (logic lặp giống nhau, chưa chạy input thật); FX boss_explosion / phase_burst / enemy_spawn / telegraph / hazard / exit_portal / rune_pulse / burn / stun / freeze chưa gắn (làm cùng GS-02 / MAP).
 - [ ] **CB-11** `P2` `S` Rung màn hình (screen shake) theo đòn: thêm `shake` vào `AttackDataSO` (Fighter ngắn, đòn kết combo / chí mạng mạnh, đạn ≈ 0, đòn boss mạnh), nghe `OnDamaged` như `HitFeedback`; có giới hạn cộng dồn + tắt được trong setting sau này.
 - [ ] **EQ-02** `P2` `L` 🖥️ ⏸ chờ Q2 (đề xuất A) — Lớp hiển thị trang bị lên player que trắng: head / body / cape / gauntlet / sword / gun theo bộ Iron / Ember / Void (art `Equipment/*` có sẵn), bám xương theo từng frame animation player; giáp thân phóng to hơn bản mô phỏng.
 - [ ] **GS-02** (đã có ở Phase 6) ⏸ chờ user chốt: thắng màn = tới cổng ra hay hạ boss · có giới hạn mạng / màn thua không · checkpoint = brazier (art có).
@@ -354,7 +355,7 @@ Chưa làm hoặc chưa kiểm chứng — user play-test rồi feedback, Claude
 ## Thứ tự đề xuất (phần còn lại)
 
 ```
-~~IN-01~~ → AS-07 FX chuyển động → CB-11 rung màn hình   (Phase 10, làm ngay)
+~~IN-01~~ → ~~AS-07~~ → CB-11 rung màn hình   (Phase 10, làm ngay)
   → FIX-07 (play-test thủ công — xem bảng "Cần play-test", gồm Phase 8: enemy mới + BossArena)
   → EQ-02 (chờ Q2) → GS-02 phần còn lại (cần chốt: điều kiện thắng màn, giới hạn mạng / màn thua, checkpoint)
   → GS-01 scene flow (cần chốt: có Menu scene không)
