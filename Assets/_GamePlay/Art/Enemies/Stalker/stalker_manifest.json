@@ -1,10 +1,10 @@
 {
  "id": "stalker",
- "cellWidth": 464,
- "cellHeight": 344,
+ "cellWidth": 422,
+ "cellHeight": 396,
  "pivotX": 0.5,
- "pivotY": 0.01744186046511628,
- "pixelsPerUnit": 132,
+ "pivotY": 0.015151515151515152,
+ "pixelsPerUnit": 123,
  "anims": [
   {
    "name": "idle",
