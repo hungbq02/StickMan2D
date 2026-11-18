@@ -1,10 +1,10 @@
 {
  "id": "unmaker",
- "cellWidth": 636,
- "cellHeight": 570,
+ "cellWidth": 588,
+ "cellHeight": 558,
  "pivotX": 0.5,
- "pivotY": 0.010526315789473684,
- "pixelsPerUnit": 90,
+ "pivotY": 0.010752688172043012,
+ "pixelsPerUnit": 77,
  "anims": [
   {
    "name": "idle",
