@@ -15,4 +15,12 @@ public class WeaponManager : MonoBehaviour
         CurrentType = type;
         OnWeaponChanged?.Invoke(type);
     }
+
+    // Nút đổi vũ khí (cảm ứng / Q / RB): xoay vòng Fighter -> Sword -> Gun -> Fighter
+    public void CycleWeapon()
+    {
+        var types = (WeaponType[])Enum.GetValues(typeof(WeaponType));
+        int i = Array.IndexOf(types, CurrentType);
+        SetWeaponType(types[(i + 1) % types.Length]);
+    }
 }

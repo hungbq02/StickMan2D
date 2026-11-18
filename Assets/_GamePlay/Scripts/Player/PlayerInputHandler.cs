@@ -20,6 +20,15 @@ public class PlayerInputHandler : MonoBehaviour
     private float dashPressedTime = float.NegativeInfinity;
     private float slidePressedTime = float.NegativeInfinity;
 
+    private WeaponManager weaponManager;
+    private Health health;
+
+    private void Awake()
+    {
+        weaponManager = GetComponent<WeaponManager>();
+        health = GetComponent<Health>();
+    }
+
     public void OnMove(InputValue value)
     {
         MoveInput = value.Get<Vector2>();
@@ -47,6 +56,14 @@ public class PlayerInputHandler : MonoBehaviour
     {
         if (value.isPressed)
             slidePressedTime = Time.time;
+    }
+
+    // Đổi vũ khí ngay (không buffer); bỏ qua khi đã chết
+    public void OnSwapWeapon(InputValue value)
+    {
+        if (!value.isPressed || weaponManager == null) return;
+        if (health != null && !health.IsAlive) return;
+        weaponManager.CycleWeapon();
     }
 
     public void ConsumeJump() => jumpPressedTime = float.NegativeInfinity;

@@ -31,7 +31,7 @@
 | 7. Tổ chức project | 6 | 05 | 08 |
 | 8. Enemy roster & boss ✅ | 9 | — | — |
 | 9. Asset & visual | 3 | 04, 05, 06 | — |
-| 10. Cảm giác chơi (mới) | — | — | IN-01, AS-07, CB-11, EQ-02, MAP-02, AS-08 |
+| 10. Cảm giác chơi (mới) | IN-01 | — | AS-07, CB-11, EQ-02, MAP-02, AS-08 |
 
 ---
 
@@ -297,7 +297,12 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 
 Thứ tự: IN-01 → AS-07 → CB-11 làm ngay (không cần quyết) · EQ-02 / GS-02 / GS-04 chờ user chốt · MAP-02 + logo để sau.
 
-- [ ] **IN-01** `P1` `M` 🖥️ Điều khiển cảm ứng Android: joystick ảo + nút attack / jump / dash / slide / swap / pause (On-Screen Controls của Input System 1.14, art `UI/Controls` đã có). Nối vào `PlayerInputHandler` (buffer 0.1s giữ nguyên), SafeArea, ẩn trên PC/Editor (tuỳ chọn bật để test). Hiện game chỉ chơi được bằng bàn phím → chặn test trên điện thoại.
+- [x] **IN-01** 🖥️ Điều khiển cảm ứng Android — `HUD.prefab/SafeAreaPanel/TouchControls`:
+  - Joystick trái dưới (`OnScreenStick` → `<Gamepad>/leftStick`, tầm 95px, vùng bắt chạm trong suốt 380px quanh núm); nút phải dưới `OnScreenButton`: Attack → buttonWest, Jump → buttonSouth, Dash → buttonEast, Slide → buttonNorth, Swap → rightShoulder. Ảnh `UI/Controls` cắt về vuông 512px (giữ GUID), alpha 0.8.
+  - Sửa binding gamepad trong `PlayerInputs.inputactions` (trước: Jump / Attack / Dash / Slide cùng buttonSouth). Action mới `SwapWeapon` (Q / RB) → `PlayerInputHandler.OnSwapWeapon` → `WeaponManager.CycleWeapon` (Fighter → Sword → Gun, bỏ qua khi chết).
+  - `TouchControls`: chỉ hiện khi `Application.isMobilePlatform` (bật `showOnDesktop` để thử bằng chuột trên PC).
+  - Đã kiểm Play mode (giả lập pointer qua EventSystem): 4 nút → đúng buffer, Swap xoay vòng Sword → Gun → Fighter, kéo joystick → MoveInput (−0.99, 0.13), thả → (0,0); chạm lệch tâm 120px vẫn bắt joystick. EditMode 27/27.
+  - Chưa: nút Pause (chưa có hệ pause — làm cùng GS-02 / setting); chưa thử trên điện thoại thật (đa chạm, cỡ nút theo DPI).
 - [ ] **AS-07** `P1` `M` 🖥️ Gắn FX chuyển động đã có art (AS-04) vào code:
   - Đòn: vệt chém `sword_slash1/2/3`, `sword_air` (event `SwordAttack(n)`), `fist_swoosh` (`FighterAttack`), `muzzle_flash` (`FireProjectile`, đầu nòng).
   - Di chuyển: `jump_dust` / `land_dust` / `run_dust` / `dash_burst` / `slide_dust` / `wall_sparks` theo state Jump / Land / Run / Dash / Slide / WallSlide.
@@ -349,7 +354,7 @@ Chưa làm hoặc chưa kiểm chứng — user play-test rồi feedback, Claude
 ## Thứ tự đề xuất (phần còn lại)
 
 ```
-IN-01 cảm ứng → AS-07 FX chuyển động → CB-11 rung màn hình   (Phase 10, làm ngay)
+~~IN-01~~ → AS-07 FX chuyển động → CB-11 rung màn hình   (Phase 10, làm ngay)
   → FIX-07 (play-test thủ công — xem bảng "Cần play-test", gồm Phase 8: enemy mới + BossArena)
   → EQ-02 (chờ Q2) → GS-02 phần còn lại (cần chốt: điều kiện thắng màn, giới hạn mạng / màn thua, checkpoint)
   → GS-01 scene flow (cần chốt: có Menu scene không)
