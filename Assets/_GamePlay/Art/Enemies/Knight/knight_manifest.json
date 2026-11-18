@@ -1,9 +1,9 @@
 {
  "id": "knight",
- "cellWidth": 666,
- "cellHeight": 484,
+ "cellWidth": 714,
+ "cellHeight": 450,
  "pivotX": 0.5,
- "pivotY": 0.012396694214876033,
+ "pivotY": 0.013333333333333334,
  "pixelsPerUnit": 141,
  "anims": [
   {
