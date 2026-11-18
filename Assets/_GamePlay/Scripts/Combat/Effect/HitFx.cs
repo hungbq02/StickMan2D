@@ -1,7 +1,7 @@
 using Kore.Utils.Core;
 using UnityEngine;
 
-// Hiệu ứng trúng đòn (pool): phát SpriteSequence 1 lần rồi tự Recycle. Xoay / lật ngẫu nhiên cho đỡ lặp.
+// Hiệu ứng phát 1 lần (pool): trúng đòn, vệt đòn, bụi... phát SpriteSequence rồi tự Recycle. Xoay / lật ngẫu nhiên cho đỡ lặp.
 [RequireComponent(typeof(SpriteSequence))]
 public class HitFx : MonoBehaviour
 {

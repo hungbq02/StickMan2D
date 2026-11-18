@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerAnimationAttack : MonoBehaviour
 {
     private PlayerController player;
+    private PlayerFx fx;
     [Tooltip("Đầu nòng ở frame bắn của attack_Gun (đuôi viên đạn trùng đầu nòng)")]
     public Transform bulletSpawnPoint;
     [Tooltip("Đầu nòng ở frame bắn của airAttack_Gun — để trống => dùng bulletSpawnPoint")]
@@ -20,6 +21,7 @@ public class PlayerAnimationAttack : MonoBehaviour
     private void Awake()
     {
         player = GetComponentInParent<PlayerController>();
+        fx = GetComponentInParent<PlayerFx>();
     }
 
     // Gọi từ code (GunAttackHandler / AirAttackState) ngay lúc phát animation bắn, KHÔNG qua animation event:
@@ -39,6 +41,7 @@ public class PlayerAnimationAttack : MonoBehaviour
         // hướng bay tính theo world, không phụ thuộc rotation
         Bullet bullet = ObjectPool.Spawn(prefab, muzzle.position, muzzle.rotation);
         bullet.Launch(Vector2.right * player.FacingDirection, attackInfo);
+        if (fx != null) fx.PlayMuzzle(muzzle.position);
     }
 
     public void FighterAttack(int attackStep) => CheckHit(fighterHitbox, WeaponType.Fighter, attackStep);
@@ -53,6 +56,7 @@ public class PlayerAnimationAttack : MonoBehaviour
         if (!TryCreateAttackData(weaponType, attackStep, out AttackData attackInfo)) return;
 
         hitbox.CheckHit(attackInfo, player.FacingDirection);
+        if (fx != null) fx.PlayAttack(weaponType, attackStep, player.WeaponAttackManager.GetComboStepCount(weaponType));
     }
 
     private bool TryCreateAttackData(WeaponType weaponType, int attackStep, out AttackData attackInfo)

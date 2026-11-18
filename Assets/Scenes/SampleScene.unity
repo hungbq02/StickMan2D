@@ -3007,6 +3007,7 @@ GameObject:
   - component: {fileID: 1276027052}
   - component: {fileID: 1276027053}
   - component: {fileID: 1276027054}
+  - component: {fileID: 1276027055}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -3341,6 +3342,35 @@ MonoBehaviour:
   fxScale: 1
   towardAttacker: 0.6
   heightRatio: 0.55
+--- !u!114 &1276027055
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276027034}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1e7181bd0a41dc4c92a1dd6d941d378, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpDust: {fileID: 5196109145416205173, guid: f528c2ceedbcd9f428d7e994f95251fc, type: 3}
+  landDust: {fileID: 5196109145416205173, guid: 360cf23e5a05a784b940e0f6ab55ce29, type: 3}
+  runDust: {fileID: 5196109145416205173, guid: 6b4336608b8779d499c8e5635b6d4670, type: 3}
+  dashBurst: {fileID: 5196109145416205173, guid: e3579225b8794f04ebdc28875ee51348, type: 3}
+  slideDust: {fileID: 5196109145416205173, guid: 7c01ddb60264deb4ea91bd9f922dc21f, type: 3}
+  wallSparks: {fileID: 5196109145416205173, guid: 53d83aef18ba7d64cabdc1ae4a9b327e, type: 3}
+  fistSwoosh: {fileID: 5196109145416205173, guid: 08592e7e775c89b45aa6b97cb12855ad, type: 3}
+  swordSlashes:
+  - {fileID: 5196109145416205173, guid: a44947a980fcaf74280cb89c5e30d141, type: 3}
+  - {fileID: 5196109145416205173, guid: d1dbe97028c6496458a144b25497fc41, type: 3}
+  - {fileID: 5196109145416205173, guid: 54c0a0bba85a56844ab2f536e71a6ce1, type: 3}
+  swordAir: {fileID: 5196109145416205173, guid: 209f93cfa5592fb43beb9c2edef254e2, type: 3}
+  muzzleFlash: {fileID: 5196109145416205173, guid: 8fa1be7de1cb4c740bea8f29dc68167d, type: 3}
+  attackOffset: {x: 0.55, y: 0.1}
+  finisherScale: 1.25
+  runDustInterval: 0.28
+  wallSparkInterval: 0.12
 --- !u!1 &1290880096
 GameObject:
   m_ObjectHideFlags: 0

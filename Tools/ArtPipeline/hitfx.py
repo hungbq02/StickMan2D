@@ -13,7 +13,6 @@ from PIL import Image, ImageDraw
 HERE = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.normpath(os.path.join(HERE, '..', '..', 'Assets', '_GamePlay', 'Art', 'FX', 'Hit'))
 SIZE, SS = 320, 4
-C = SIZE * SS / 2
 INK = (27, 27, 32)
 WHITE = (250, 248, 242)
 BONE = (232, 228, 218)
@@ -32,40 +31,45 @@ def ease_in(t, p=2):
 class Frame:
     """Hai lớp: viền mực (vẽ dày hơn) + lớp màu; ghép lại rồi thu nhỏ 4x để khử răng cưa."""
 
-    def __init__(self):
-        self.ink = Image.new('L', (SIZE * SS,) * 2, 0)
-        self.col = Image.new('RGBA', (SIZE * SS,) * 2, (0, 0, 0, 0))
+    def __init__(self, w=SIZE, h=SIZE, ox=0.0, oy=0.0, k=1.0):
+        """Canvas w x h px; gốc toạ độ lệch (ox, oy) px so với tâm canvas (y lên trên)."""
+        self.w, self.h, self.k = w, h, k  # k: phóng mọi toạ độ / bán kính (viền giữ nguyên px)
+        self.cx, self.cy = (w / 2 + ox) * SS, (h / 2 - oy) * SS
+        self.ink = Image.new('L', (w * SS, h * SS), 0)
+        self.col = Image.new('RGBA', (w * SS, h * SS), (0, 0, 0, 0))
         self.di, self.dc = ImageDraw.Draw(self.ink), ImageDraw.Draw(self.col)
 
     def poly(self, pts, color, outline=10):
-        pts = [(C + x * SS, C - y * SS) for x, y in pts]  # toạ độ px canvas gốc, y lên trên
+        pts = [(self.cx + x * self.k * SS, self.cy - y * self.k * SS) for x, y in pts]  # toạ độ px canvas gốc, y lên trên
         if outline >= 1:
             self.di.polygon(pts, fill=255)
             self.di.line(pts + [pts[0]], fill=255, width=outline * 2, joint='curve')
         self.dc.polygon(pts, fill=color + (255,))
 
     def ring(self, r, w, color, sx=1.0, sy=1.0, outline=8):
+        r, w = r * self.k, w * self.k
         if r <= 0 or w <= 0.3:
             return
-        box = lambda rr: (C - rr * sx * SS, C - rr * sy * SS, C + rr * sx * SS, C + rr * sy * SS)
+        box = lambda rr: (self.cx - rr * sx * SS, self.cy - rr * sy * SS, self.cx + rr * sx * SS, self.cy + rr * sy * SS)
         o = min(outline / SS, w * 0.3)
         if outline and o > 0.2:
             self.di.ellipse(box(r + w / 2 + o), outline=255, width=int((w + 2 * o) * SS))
         self.dc.ellipse(box(r + w / 2), outline=color + (255,), width=max(1, int(w * SS)))
 
     def disc(self, x, y, r, color, outline=8):
+        x, y, r = x * self.k, y * self.k, r * self.k
         if r <= 0.2:
             return
         if outline:
             o = outline / SS
-            self.di.ellipse((C + (x - r - o) * SS, C - (y + r + o) * SS, C + (x + r + o) * SS, C - (y - r - o) * SS), fill=255)
-        self.dc.ellipse((C + (x - r) * SS, C - (y + r) * SS, C + (x + r) * SS, C - (y - r) * SS), fill=color + (255,))
+            self.di.ellipse((self.cx + (x - r - o) * SS, self.cy - (y + r + o) * SS, self.cx + (x + r + o) * SS, self.cy - (y - r - o) * SS), fill=255)
+        self.dc.ellipse((self.cx + (x - r) * SS, self.cy - (y + r) * SS, self.cx + (x + r) * SS, self.cy - (y - r) * SS), fill=color + (255,))
 
     def image(self, alpha=1.0):
         ink = Image.new('RGBA', self.ink.size, INK + (0,))
         ink.putalpha(self.ink)
         ink.alpha_composite(self.col)
-        im = ink.resize((SIZE, SIZE), Image.LANCZOS)
+        im = ink.resize((self.w, self.h), Image.LANCZOS)
         if alpha < 1:
             a = np.array(im)
             a[..., 3] = (a[..., 3] * alpha).astype(np.uint8)
