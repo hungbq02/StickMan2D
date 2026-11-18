@@ -15,4 +15,6 @@ public class AttackDataSO : ScriptableObject
     public HitFx hitFx;
     [Tooltip("Cỡ hiệu ứng trúng đòn (đòn kết combo to hơn)")]
     public float hitFxScale = 1f;
+    [Tooltip("Rung màn hình khi trúng (trauma 0..1, CameraShake) — 0 = dùng mức tối thiểu của bên bị đánh")]
+    [Range(0f, 1f)] public float shake;
 }

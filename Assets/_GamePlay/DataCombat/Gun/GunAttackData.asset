@@ -21,3 +21,4 @@ MonoBehaviour:
   attackEffect: 0
   hitFx: {fileID: 5196109145416205173, guid: b99edaa3f9dfb674c811a20450576301, type: 3}
   hitFxScale: 1
+  shake: 0.08

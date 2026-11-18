@@ -2972,6 +2972,8 @@ MonoBehaviour:
   hitStop: 0.08
   critHitStop: 0.12
   blockHitStop: 0.04
+  minShake: 0.4
+  critShakeMultiplier: 1.5
   fxScale: 1
   towardAttacker: 0.6
   heightRatio: 0.55

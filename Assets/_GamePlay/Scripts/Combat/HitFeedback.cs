@@ -11,6 +11,11 @@ public class HitFeedback : MonoBehaviour
     [SerializeField] private float critHitStop = 0.11f;
     [SerializeField] private float blockHitStop = 0.04f;
 
+    [Header("Rung màn hình (CameraShake trauma 0..1)")]
+    [Tooltip("Mức rung tối thiểu khi object này bị trúng (player bị đánh nên rung rõ; enemy để 0 = theo đòn)")]
+    [SerializeField, Range(0f, 1f)] private float minShake;
+    [SerializeField] private float critShakeMultiplier = 1.5f;
+
     [Header("Hiệu ứng")]
     [Tooltip("Cỡ hiệu ứng (theo thân to / nhỏ)")]
     [SerializeField] private float fxScale = 1f;
@@ -45,6 +50,8 @@ public class HitFeedback : MonoBehaviour
         Spawn(data.hitFx != null ? data.hitFx : reg.hitFx, data, data.isCritical ? scale * 1.25f : scale);
         if (data.isCritical) Spawn(reg.critFx, data, scale);
         HitStop.Request(data.isCritical ? critHitStop : hitStop);
+        float shake = Mathf.Max(data.shake, minShake);
+        CameraShake.Add(data.isCritical ? shake * critShakeMultiplier : shake);
     }
 
     private void HandleBlocked(AttackData data)

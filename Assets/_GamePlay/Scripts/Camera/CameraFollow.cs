@@ -44,10 +44,12 @@ public class CameraFollow : MonoBehaviour
     private float velocityX, velocityY;
     private float lookAheadY, lookAheadVelocity;
     private Vector3 lastTargetPosition;
+    private Vector3 basePosition; // vị trí bám theo (chưa cộng rung) — smoothing đọc từ đây, không từ transform
 
     private void Awake()
     {
         cam = GetComponent<Camera>();
+        basePosition = transform.position;
     }
 
     private void OnEnable()
@@ -63,7 +65,8 @@ public class CameraFollow : MonoBehaviour
         focus = target.position + offset;
         lastTargetPosition = target.position;
         velocityX = velocityY = lookAheadY = lookAheadVelocity = 0f;
-        transform.position = WithZ(Clamp(focus));
+        basePosition = WithZ(Clamp(focus));
+        transform.position = basePosition;
     }
 
     private void LateUpdate()
@@ -86,7 +89,7 @@ public class CameraFollow : MonoBehaviour
         lookAheadY = Mathf.SmoothDamp(lookAheadY, -fallLookAhead * fall, ref lookAheadVelocity, lookAheadSmoothTime);
 
         Vector3 goal = Clamp(focus + new Vector3(0f, lookAheadY, 0f));
-        Vector3 pos = transform.position;
+        Vector3 pos = basePosition;
         if (smoothTime > 0f)
         {
             pos.x = Mathf.SmoothDamp(pos.x, goal.x, ref velocityX, smoothTime);
@@ -98,7 +101,9 @@ public class CameraFollow : MonoBehaviour
             pos.y = goal.y;
         }
 
-        transform.position = WithZ(Clamp(KeepTargetInFrame(pos)));
+        basePosition = WithZ(Clamp(KeepTargetInFrame(pos)));
+        // rung cộng sau cùng, theo thời gian thật (vẫn rung trong lúc hit-stop)
+        transform.position = basePosition + CameraShake.Sample(Time.unscaledDeltaTime);
     }
 
     // Player vượt vùng an toàn của khung hình => kéo camera theo ngay (không chờ smoothing)

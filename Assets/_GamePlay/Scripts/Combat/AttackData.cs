@@ -17,6 +17,7 @@ public struct AttackData
     // Hiệu ứng trúng đòn theo vũ khí / đòn (null = hiệu ứng mặc định trong PrefabRegistrySO)
     public HitFx hitFx;
     public float hitFxScale;
+    public float shake; // rung màn hình khi trúng (CameraShake trauma)
 
     public int FinalDamage => isCritical ? Mathf.RoundToInt(damage * criticalMultiplier) : damage;
 
@@ -34,6 +35,7 @@ public struct AttackData
         this.isCritical = RollCritical(criticalChance);
         this.hitFx = null;
         this.hitFxScale = 1f;
+        this.shake = 0f;
     }
 
     public AttackData(AttackDataSO dataSO, Vector2 attackerPosition)
@@ -48,6 +50,7 @@ public struct AttackData
     {
         hitFx = dataSO.hitFx;
         hitFxScale = dataSO.hitFxScale > 0f ? dataSO.hitFxScale : 1f;
+        shake = dataSO.shake;
     }
 
     private static bool RollCritical(float chance)

@@ -31,7 +31,7 @@
 | 7. Tổ chức project | 6 | 05 | 08 |
 | 8. Enemy roster & boss ✅ | 9 | — | — |
 | 9. Asset & visual | 3 | 04, 05, 06 | — |
-| 10. Cảm giác chơi (mới) | IN-01, AS-07 | — |, CB-11, EQ-02, MAP-02, AS-08 |
+| 10. Cảm giác chơi (mới) | IN-01, AS-07, CB-11 | — | EQ-02, MAP-02, AS-08 |
 
 ---
 
@@ -309,7 +309,11 @@ Thứ tự: IN-01 → AS-07 → CB-11 làm ngay (không cần quyết) · EQ-02 
   - Art: `Tools/ArtPipeline/motionfx.py` vẽ lại bằng code (vệt kiếm / đấm / loé nòng / bụi / tia tường / tên găm, cùng nét hitfx.py, trắng cho player, xám nhạt cho bụi, đỏ cam cho đòn enemy); giữ art AI liền mạch: `enemy_death`, `beam_impact`, `meteor_impact` (pivot đáy cho thiên thạch / tia).
   - Đã kiểm Play mode: vệt đòn đúng vị trí, slash3 ×1.29; bụi land / dash / slide / jump ở y = mặt đất (−2.27) kể cả lúc dash; xác Melee → `Fx_enemy_death` sau 0.78s; thiên thạch nổ ở −2.26 (đất −2.27). EditMode 27/27.
   - Chưa: bụi chạy / tia trượt tường chưa thử trong game (logic lặp giống nhau, chưa chạy input thật); FX boss_explosion / phase_burst / enemy_spawn / telegraph / hazard / exit_portal / rune_pulse / burn / stun / freeze chưa gắn (làm cùng GS-02 / MAP).
-- [ ] **CB-11** `P2` `S` Rung màn hình (screen shake) theo đòn: thêm `shake` vào `AttackDataSO` (Fighter ngắn, đòn kết combo / chí mạng mạnh, đạn ≈ 0, đòn boss mạnh), nghe `OnDamaged` như `HitFeedback`; có giới hạn cộng dồn + tắt được trong setting sau này.
+- [x] **CB-11** Rung màn hình theo đòn:
+  - `Scripts/Camera/CameraShake.cs` (tĩnh như HitStop): trauma 0..1 cộng dồn có trần, giảm 1.6/s theo thời gian thật (vẫn rung lúc hit-stop), lệch = 0.35u × trauma² × Perlin. `CameraFollow` giữ `basePosition` riêng và cộng rung sau cùng ⇒ smoothing không bị kéo lệch.
+  - `AttackDataSO.shake` → `AttackData.shake`; `HitFeedback` cộng `max(shake, minShake)` khi trúng (chí mạng ×1.5). Giá trị: đấm 0.22 / cuối 0.45 / trên không 0.3, kiếm 0.28 / cuối 0.5 / trên không 0.35, súng 0.08, 11 đòn Demon + Unmaker 0.6; player `minShake` 0.4 (bị đánh luôn rung rõ), enemy 0.
+  - Đã kiểm: 4 EditMode test mới (trần, bỏ giá trị ≤ 0, giảm về 0, không vượt MaxOffset) → 31/31; Play mode: kiếm 3 → trauma 0.50, súng 0.08, camera lệch (−0.09, −0.09) lúc rung và về đúng vị trí cũ (0.0000) khi hết.
+  - Chưa: cảm giác thật cần play-test (có thể giảm nếu chóng mặt); chưa có tuỳ chọn tắt rung trong setting (làm cùng setting popup). Lần đo đầu ra trauma 1.00 (không tái hiện được ở phiên Play sau: 0.50) — để ý khi play-test.
 - [ ] **EQ-02** `P2` `L` 🖥️ ⏸ chờ Q2 (đề xuất A) — Lớp hiển thị trang bị lên player que trắng: head / body / cape / gauntlet / sword / gun theo bộ Iron / Ember / Void (art `Equipment/*` có sẵn), bám xương theo từng frame animation player; giáp thân phóng to hơn bản mô phỏng.
 - [ ] **GS-02** (đã có ở Phase 6) ⏸ chờ user chốt: thắng màn = tới cổng ra hay hạ boss · có giới hạn mạng / màn thua không · checkpoint = brazier (art có).
 - [ ] **GS-04** (đã có ở Phase 6) ⏸ chờ user: nguồn âm thanh (user có sẵn / CC0). Ưu tiên SFX trúng đòn theo vũ khí (khớp hit FX mới), nhảy / dash, enemy đánh, BGM 3 màn.
@@ -355,7 +359,7 @@ Chưa làm hoặc chưa kiểm chứng — user play-test rồi feedback, Claude
 ## Thứ tự đề xuất (phần còn lại)
 
 ```
-~~IN-01~~ → ~~AS-07~~ → CB-11 rung màn hình   (Phase 10, làm ngay)
+~~IN-01~~ → ~~AS-07~~ → ~~CB-11~~   (Phase 10, làm ngay)
   → FIX-07 (play-test thủ công — xem bảng "Cần play-test", gồm Phase 8: enemy mới + BossArena)
   → EQ-02 (chờ Q2) → GS-02 phần còn lại (cần chốt: điều kiện thắng màn, giới hạn mạng / màn thua, checkpoint)
   → GS-01 scene flow (cần chốt: có Menu scene không)

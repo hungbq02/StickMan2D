@@ -19,3 +19,6 @@ MonoBehaviour:
   range: 0
   effectDuration: 0.3
   attackEffect: 1
+  hitFx: {fileID: 0}
+  hitFxScale: 1
+  shake: 0.6
