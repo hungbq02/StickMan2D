@@ -1,10 +1,10 @@
 {
  "id": "imp",
- "cellWidth": 386,
- "cellHeight": 334,
+ "cellWidth": 330,
+ "cellHeight": 280,
  "pivotX": 0.5,
- "pivotY": 0.017964071856287425,
- "pixelsPerUnit": 205,
+ "pivotY": 0.02142857142857143,
+ "pixelsPerUnit": 171,
  "anims": [
   {
    "name": "idle",
