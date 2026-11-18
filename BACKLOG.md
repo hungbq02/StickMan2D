@@ -30,7 +30,8 @@
 | 6. Game structure | 2 | 02 | 01, 04, 05 |
 | 7. Tổ chức project | 6 | 05 | 08 |
 | 8. Enemy roster & boss ✅ | 9 | — | — |
-| 9. Asset & visual | 3 | — | — |
+| 9. Asset & visual | 3 | 04, 05, 06 | — |
+| 10. Cảm giác chơi (mới) | — | — | IN-01, AS-07, CB-11, EQ-02, MAP-02, AS-08 |
 
 ---
 
@@ -292,6 +293,23 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
   - Pipeline (ngoài git): `SpriteGenRuns/as06/` (style.py, enemies.py, fx.py, misc.py, env.py, proc.py, proc_ui.py, install.py, install_anim.py). RAM 16GB: ≤ 5 codex cùng lúc.
   - Chưa remake: `Enemies/Unmaker/FX/unmaker_imp_00/01` (chờ Q6 xoá), player (Q2).
 
+## Phase 10 — Cảm giác chơi & vòng chơi (đề xuất 2026-11-18, user đồng ý)
+
+Thứ tự: IN-01 → AS-07 → CB-11 làm ngay (không cần quyết) · EQ-02 / GS-02 / GS-04 chờ user chốt · MAP-02 + logo để sau.
+
+- [ ] **IN-01** `P1` `M` 🖥️ Điều khiển cảm ứng Android: joystick ảo + nút attack / jump / dash / slide / swap / pause (On-Screen Controls của Input System 1.14, art `UI/Controls` đã có). Nối vào `PlayerInputHandler` (buffer 0.1s giữ nguyên), SafeArea, ẩn trên PC/Editor (tuỳ chọn bật để test). Hiện game chỉ chơi được bằng bàn phím → chặn test trên điện thoại.
+- [ ] **AS-07** `P1` `M` 🖥️ Gắn FX chuyển động đã có art (AS-04) vào code:
+  - Đòn: vệt chém `sword_slash1/2/3`, `sword_air` (event `SwordAttack(n)`), `fist_swoosh` (`FighterAttack`), `muzzle_flash` (`FireProjectile`, đầu nòng).
+  - Di chuyển: `jump_dust` / `land_dust` / `run_dust` / `dash_burst` / `slide_dust` / `wall_sparks` theo state Jump / Land / Run / Dash / Slide / WallSlide.
+  - Enemy: `enemy_death` (EnemyDeadState), `beam_impact` / `meteor_impact` (đạn Unmaker chạm), `arrow_impact` (tên Stalker).
+  - Prefab kiểu `HitFx` (pool, SpriteSequence, tự Recycle). Frame AI rời rạc thì vẽ lại bằng code như `hitfx.py` nếu thô.
+- [ ] **CB-11** `P2` `S` Rung màn hình (screen shake) theo đòn: thêm `shake` vào `AttackDataSO` (Fighter ngắn, đòn kết combo / chí mạng mạnh, đạn ≈ 0, đòn boss mạnh), nghe `OnDamaged` như `HitFeedback`; có giới hạn cộng dồn + tắt được trong setting sau này.
+- [ ] **EQ-02** `P2` `L` 🖥️ ⏸ chờ Q2 (đề xuất A) — Lớp hiển thị trang bị lên player que trắng: head / body / cape / gauntlet / sword / gun theo bộ Iron / Ember / Void (art `Equipment/*` có sẵn), bám xương theo từng frame animation player; giáp thân phóng to hơn bản mô phỏng.
+- [ ] **GS-02** (đã có ở Phase 6) ⏸ chờ user chốt: thắng màn = tới cổng ra hay hạ boss · có giới hạn mạng / màn thua không · checkpoint = brazier (art có).
+- [ ] **GS-04** (đã có ở Phase 6) ⏸ chờ user: nguồn âm thanh (user có sẵn / CC0). Ưu tiên SFX trúng đòn theo vũ khí (khớp hit FX mới), nhảy / dash, enemy đánh, BGM 3 màn.
+- [ ] **MAP-02** `P3` `L` 🖥️ Dựng màn 2 + 3 (nền `Environment/L2`, `L3` đã có) — sau khi vòng chơi 1 màn (GS-02) xong.
+- [ ] **AS-08** `P3` `S` ⏸ chờ Q1 — Logo / tên game (sprite-gen `logo`).
+
 ## Câu hỏi chờ user trả lời (ghi 2026-11-17)
 
 | # | Câu hỏi | Bối cảnh / lựa chọn |
@@ -331,8 +349,9 @@ Chưa làm hoặc chưa kiểm chứng — user play-test rồi feedback, Claude
 ## Thứ tự đề xuất (phần còn lại)
 
 ```
-FIX-07 (play-test thủ công — xem bảng "Cần play-test", gồm Phase 8: enemy mới + BossArena)
-  → GS-02 phần còn lại (cần chốt: điều kiện thắng màn, giới hạn mạng / màn thua, checkpoint)
+IN-01 cảm ứng → AS-07 FX chuyển động → CB-11 rung màn hình   (Phase 10, làm ngay)
+  → FIX-07 (play-test thủ công — xem bảng "Cần play-test", gồm Phase 8: enemy mới + BossArena)
+  → EQ-02 (chờ Q2) → GS-02 phần còn lại (cần chốt: điều kiện thắng màn, giới hạn mạng / màn thua, checkpoint)
   → GS-01 scene flow (cần chốt: có Menu scene không)
   → GS-04 audio (cần file âm thanh) → GS-05 save (khi có nhiều level)
   → AN-04 (khi thêm vũ khí thứ 4), OR-08 CI (cần Unity license secret trên GitHub)
