@@ -1,9 +1,9 @@
 {
  "id": "imp",
- "cellWidth": 330,
- "cellHeight": 280,
+ "cellWidth": 308,
+ "cellHeight": 240,
  "pivotX": 0.5,
- "pivotY": 0.02142857142857143,
+ "pivotY": 0.025,
  "pixelsPerUnit": 171,
  "anims": [
   {

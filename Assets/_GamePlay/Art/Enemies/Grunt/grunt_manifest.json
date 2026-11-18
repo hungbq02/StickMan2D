@@ -1,9 +1,9 @@
 {
  "id": "grunt",
- "cellWidth": 376,
- "cellHeight": 328,
+ "cellWidth": 390,
+ "cellHeight": 298,
  "pivotX": 0.5,
- "pivotY": 0.018292682926829267,
+ "pivotY": 0.020134228187919462,
  "pixelsPerUnit": 135,
  "anims": [
   {

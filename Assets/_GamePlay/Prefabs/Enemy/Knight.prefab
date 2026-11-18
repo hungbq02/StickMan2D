@@ -326,9 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animSet: Knight
-  endShifts:
-  - anim: cleave
-    shift: 0.261
+  endShifts: []
   shiftAtProgress: 0.85
 --- !u!114 &6279615343110171167
 MonoBehaviour:

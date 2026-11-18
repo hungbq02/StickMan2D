@@ -23,10 +23,11 @@ def load_run(run_dir):
     req = json.load(open(os.path.join(run_dir, 'sprite-request.json'), encoding='utf-8'))
     fm = json.load(open(os.path.join(run_dir, 'frames', 'frames-manifest.json'), encoding='utf-8'))
     rows = {r['state']: r for r in fm['rows']} if isinstance(fm.get('rows'), list) else fm['rows']
-    return req, rows
+    # sprite-gen đặt chân trên đường cách đáy ô safe_margin_y px (không phải đáy ô)
+    return req, rows, int((fm.get('cell') or {}).get('safe_margin_y', 0))
 
 
-def frames_of(run_dir, row):
+def frames_of(run_dir, row, margin=0):
     out = []
     for rel in row['files']:
         p = rel if os.path.isabs(rel) else os.path.join(run_dir, rel)
@@ -36,11 +37,11 @@ def frames_of(run_dir, row):
         ys, xs = np.nonzero(im[..., 3] > 8)
         if len(ys) == 0:  # frame trống (vd teleport biến mất): giữ 1 pixel trong suốt ở giữa đáy
             h, w = im.shape[:2]
-            out.append(dict(rgba=np.zeros((1, 1, 4), np.uint8), x0=w // 2, y0=h - 1, ax=w / 2, ground=h))
+            out.append(dict(rgba=np.zeros((1, 1, 4), np.uint8), x0=w // 2, y0=h - 1, ax=w / 2, ground=h - margin))
             continue
         y0, y1, x0, x1 = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1
-        # ground = đáy ô (sprite-gen đặt chân trên cùng 1 đường) -> giữ nguyên chuyển động dọc trong clip
-        out.append(dict(rgba=im[y0:y1, x0:x1].copy(), x0=int(x0), y0=int(y0), ax=None, ground=im.shape[0]))
+        # ground = đường chân chung của run (đáy ô - lề an toàn) -> giữ nguyên chuyển động dọc trong clip
+        out.append(dict(rgba=im[y0:y1, x0:x1].copy(), x0=int(x0), y0=int(y0), ax=None, ground=im.shape[0] - margin))
     return out
 
 
@@ -100,7 +101,7 @@ def main():
             i = args.index(k); opt[k] = args[i + 1]; del args[i:i + 2]
     name, run_dir = args
     cid = opt.get('--id', name.lower())
-    req, rows = load_run(run_dir)
+    req, rows, margin = load_run(run_dir)
     anims = []
     frames_all = {}
     for state, st in req['states'].items():
@@ -109,7 +110,7 @@ def main():
             print('  BỎ QUA %s: chưa extract được' % state)
             continue
         an = dict(name=state, fps=st['fps'], loop=st['loop'])
-        frames_all[state] = frames_of(run_dir, row)
+        frames_all[state] = frames_of(run_dir, row, margin)
         anims.append(an)
     # sprite-gen fit từng row vào ô riêng (tư thế vươn rộng bị thu nhỏ) -> đưa mọi row về cùng cỡ idle
     forced = dict(kv.split('=') for kv in opt['--scale'].split(',')) if opt.get('--scale') else {}
