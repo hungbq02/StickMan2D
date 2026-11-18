@@ -1,10 +1,10 @@
 {
  "id": "grunt",
- "cellWidth": 358,
- "cellHeight": 324,
+ "cellWidth": 376,
+ "cellHeight": 328,
  "pivotX": 0.5,
- "pivotY": 0.018518518518518517,
- "pixelsPerUnit": 128,
+ "pivotY": 0.018292682926829267,
+ "pixelsPerUnit": 135,
  "anims": [
   {
    "name": "idle",
