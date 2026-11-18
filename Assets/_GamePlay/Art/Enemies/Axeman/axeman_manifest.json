@@ -1,10 +1,10 @@
 {
  "id": "axeman",
- "cellWidth": 414,
- "cellHeight": 396,
+ "cellWidth": 466,
+ "cellHeight": 448,
  "pivotX": 0.5,
- "pivotY": 0.015151515151515152,
- "pixelsPerUnit": 128,
+ "pivotY": 0.013392857142857142,
+ "pixelsPerUnit": 140,
  "anims": [
   {
    "name": "idle",
