@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**64 xong · 3 làm một phần · 5 còn lại** (tổng 72)
+**65 xong · 3 làm một phần · 5 còn lại** (tổng 73)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -31,7 +31,7 @@
 | 7. Tổ chức project | 6 | 05 | 08 |
 | 8. Enemy roster & boss ✅ | 9 | — | — |
 | 9. Asset & visual | 3 | 04, 05, 06 | — |
-| 10. Cảm giác chơi (mới) | IN-01, AS-07, CB-11, CB-12, IN-02 | — | EQ-02, MAP-02, AS-08 |
+| 10. Cảm giác chơi (mới) | IN-01, AS-07, CB-11, CB-12, IN-02, AS-09 | — | EQ-02, MAP-02, AS-08 |
 
 ---
 
@@ -240,6 +240,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Stalker (x=23) | — | Giữ khoảng cách, bắn 5 kiểu (tên thường / tụ lực xuyên / 3 tên / tia xuyên / mưa tên rơi từ trên), áp sát < 2.2u thì lướt lùi. Cần soi: tốc độ tên có né / nhảy qua kịp không, mưa tên rơi có đủ thời gian chạy khỏi |
 | Boss — `SampleScene` (BossArena đã gộp vào, 2026-11-19) | — | Đi sang phải qua 4 enemy thường: x=32.5 vào trận Demon (tường chặn 2 bên, thanh máu trên giữa màn), x=44 vào trận Unmaker; hết map x=57 có tường. Chết giữa trận → boss về chỗ cũ đầy máu. Cần soi: độ khó / máu boss, Shield Guard có quá lì không, mưa thiên thạch + Imp có quá dồn không, tường đấu trường có làm player bám tường (layer Wall) gây khó chịu không |
 | Đánh + di chuyển (CB-12) | Đánh là đứng khựng, hết clip còn đứng chờ | Đang chạy bấm đánh: chậm hẳn lại (≤ 35% tốc độ chạy), mỗi đòn bước tới ngắn; giữ hướng khi đánh bước xa hơn chút, giữ ngược thì quay người giữa combo; đánh xong giữ hướng là chạy ngay; Jump / Dash / Slide ngắt được sau frame trúng; spam đánh vẫn đủ 3 đòn; đứng mép vực đánh không lao xuống. Chỉnh: `lungeDistance` từng đòn, `PlayerStats` attackMoveSpeedRatio / attackLungeHoldMultiplier / attackDeceleration / attackMoveCancelDelay / comboChainDelay |
+| Art trên Android (AS-09) | ETC2 làm vỡ nét | Người que, enemy, boss, FX, UI không còn lấm tấm / răng cưa so với Editor |
 | Camera + màn ngang (IN-02) | Player sát đáy màn, ngón tay che | Trên điện thoại: chỉ xoay ngang; player đứng ~ giữa màn, không bị joystick / nút che; nhảy lên thang cao vẫn theo kịp. Chỉnh `CameraFollow.targetScreenY` |
 | Art FX + Imp + lính thường (EN-14) | FX mờ, Imp sprite tĩnh, MeleeEnemy hình tạm | FX / Imp / Grunt mới có animation. Cần soi: đạn có khớp collider không (sprite đổi tỉ lệ cao/rộng), lửa cột có báo hiệu rõ không, Grunt / Imp đọc được ở cỡ nhỏ không |
 | Art enemy / boss mới (EN-13) | Art sheet cũ, boss 1.5–1.9× player | Thiết kế mới, Demon 2×, Unmaker 2.5× player; collider / hitbox phóng theo. Cần soi: chuyển clip có nhảy cỡ / giật không, hitbox có khớp vệt chém mới không, boss to có che tầm nhìn / chật đấu trường không, mốc trúng (`hitTimes`) có khớp frame va chạm không |
@@ -342,6 +343,10 @@ Thứ tự: IN-01 → AS-07 → CB-11 làm ngay (không cần quyết) · EQ-02 
   - Player Settings: tự xoay chỉ 2 chiều ngang (tắt Portrait / PortraitUpsideDown), mặc định AutoRotation.
   - Nguyên nhân camera: `CameraFollow.bounds.yMin` −2.7 sát mặt đất (−2.27), ortho 5 ⇒ tâm camera không xuống dưới y 2.3 ⇒ player trên đất chỉ ở ~13–17% đáy màn, đúng chỗ joystick / nút. Sửa: `bounds` y −6.2 (cao 31.5, đỉnh giữ 25.3) ⇒ camera hạ được theo player (thấy nền Underground bên dưới); thêm `CameraFollow.targetScreenY` (0..1, scene 0.5 ⇒ chân player ~37% chiều cao màn) để chỉnh trong Inspector.
   - Chưa thử trên máy.
+- [x] **AS-09** Art vỡ trên Android (user: "build ra thì art bị vỡ khá nhiều"):
+  - Nguyên nhân: 965 texture trong `Art/` không override Android ⇒ Unity 2022.3 nén ETC2 (Editor dùng DXT/BC7 nên không thấy). Đo trên 1 frame: ETC2 lệch màu tối đa 50 (player) / 174 (Unmaker), ASTC 4×4 còn 7 / 64; ảnh phóng to thấy ETC2 lấm tấm mặt, răng cưa viền kiếm.
+  - `Editor/AndroidTextureCompression.cs` (AssetPostprocessor): mọi texture dưới `Art/` (trừ `EnemyConcepts/`, trừ texture đã override Android bằng tay) ⇒ Android ASTC 4×4 (cùng 8 bit/pixel như ETC2 RGBA8), ghi vào `.meta`; art sinh mới cũng tự theo.
+  - Kết quả build: textures 178 MB, APK 81 MB (bản ETC2 109 MB). Chưa xem trên máy — nếu vẫn vỡ cần ảnh chụp để soi tiếp (nguyên nhân khác: 15 texture > 2048 px bị thu ~6%, giống nhau trên Editor).
 - [ ] **EQ-02** `P2` `L` 🖥️ ⏸ chờ Q2 (đề xuất A) — Lớp hiển thị trang bị lên player que trắng: head / body / cape / gauntlet / sword / gun theo bộ Iron / Ember / Void (art `Equipment/*` có sẵn), bám xương theo từng frame animation player; giáp thân phóng to hơn bản mô phỏng.
 - [ ] **GS-02** (đã có ở Phase 6) ⏸ chờ user chốt: thắng màn = tới cổng ra hay hạ boss · có giới hạn mạng / màn thua không · checkpoint = brazier (art có).
 - [ ] **GS-04** (đã có ở Phase 6) ⏸ chờ user: nguồn âm thanh (user có sẵn / CC0). Ưu tiên SFX trúng đòn theo vũ khí (khớp hit FX mới), nhảy / dash, enemy đánh, BGM 3 màn.
