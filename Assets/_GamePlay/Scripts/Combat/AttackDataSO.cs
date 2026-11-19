@@ -17,4 +17,10 @@ public class AttackDataSO : ScriptableObject
     public float hitFxScale = 1f;
     [Tooltip("Rung màn hình khi trúng (trauma 0..1, CameraShake) — 0 = dùng mức tối thiểu của bên bị đánh")]
     [Range(0f, 1f)] public float shake;
+
+    [Header("Player: lao tới khi ra đòn (enemy bỏ qua)")]
+    [Tooltip("Quãng lao tới theo hướng mặt khi bắt đầu đòn (unit). 0 = không lao")]
+    public float lungeDistance;
+    [Tooltip("Thời gian lao (giây)")]
+    public float lungeDuration = 0.08f;
 }

@@ -39,6 +39,13 @@ public class GroundCheck : MonoBehaviour
             LastGroundedTime = Time.time;
     }
 
+    // Còn mặt đất phía trước chân (ahead unit theo hướng facing) không — chặn lao / trượt ra khỏi mép vực
+    public bool HasGroundAhead(int facing, float ahead = 0.4f)
+    {
+        Vector2 origin = (Vector2)groundCheckPoint.position + new Vector2(facing * ahead, 0.2f);
+        return Physics2D.Raycast(origin, Vector2.down, 0.2f + checkRadiusGround + 0.3f, groundLayer);
+    }
+
     void OnDrawGizmosSelected()
     {
         if (groundCheckPoint != null)

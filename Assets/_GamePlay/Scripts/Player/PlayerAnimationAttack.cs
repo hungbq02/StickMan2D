@@ -56,6 +56,8 @@ public class PlayerAnimationAttack : MonoBehaviour
         if (!TryCreateAttackData(weaponType, attackStep, out AttackData attackInfo)) return;
 
         hitbox.CheckHit(attackInfo, player.FacingDirection);
+        // Mốc trúng của bước combo => từ đây được ngắt phần thu đòn / ra đòn kế (đòn trên không không thuộc handler)
+        if (attackStep != WeaponAttackManager.AirAttackStep) player.MeleeHandler.OnHitFrame();
         if (fx != null) fx.PlayAttack(weaponType, attackStep, player.WeaponAttackManager.GetComboStepCount(weaponType));
     }
 
