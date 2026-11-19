@@ -1,11 +1,12 @@
 """Đưa frame do sprite-gen sinh (run dir GPT image rows) vào Assets/_GamePlay/Art/Enemies/<Name>/.
 
-    python -I -B Tools/ArtPipeline/from_run.py <Name> <run-dir> --height <u> [--chains tellA:a,tellB:b] [--preview DIR] [--out DIR] [--scale state=s,...]
+    python -I -B Tools/ArtPipeline/from_run.py <Name> <run-dir> --height <u> [--chains tellA:a,tellB:b] [--preview DIR] [--out DIR] [--scale state=s,...] [--upscale N]
 
 Mỗi ô của sprite-gen = 1 frame (đã tách nền, chân trên đáy ô). Neo ngang: register (khớp hình frame trước),
 căn chỗ nối giữa các clip + root shift cuối đòn dùng chung slice.compose_cells (như build.py).
 --height: chiều cao thế giới (u) của thân ở idle frame 0 -> pixelsPerUnit.
 Giữ thư mục FX/ và danh sách fx trong manifest cũ (hiệu ứng rời không sinh lại ở đây).
+--upscale N: sau cùng phóng frame ×N bằng Real-ESRGAN (upscale.py, PPU × N) — boss vẽ to (Demon / Unmaker dùng 2).
 """
 import json, os, sys
 import numpy as np
@@ -96,7 +97,7 @@ def rescale(frames, s, cell_w):
 def main():
     args = sys.argv[1:]
     opt = {}
-    for k in ('--height', '--chains', '--preview', '--id', '--out', '--scale'):
+    for k in ('--height', '--chains', '--preview', '--id', '--out', '--scale', '--upscale'):
         if k in args:
             i = args.index(k); opt[k] = args[i + 1]; del args[i:i + 2]
     name, run_dir = args
@@ -155,6 +156,9 @@ def main():
         if f.endswith('.png.meta') and not os.path.exists(os.path.join(out, f[:-5])):
             os.remove(os.path.join(out, f))
     print('  thân idle %d px / %.2f u -> PPU %d' % (body_h, float(opt['--height']), ppu))
+    if opt.get('--upscale'):
+        import upscale
+        upscale.run(out, int(opt['--upscale']))
 
 
 if __name__ == '__main__':

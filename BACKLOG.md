@@ -17,7 +17,7 @@
 
 ## 📊 Tiến độ
 
-**65 xong · 3 làm một phần · 5 còn lại** (tổng 73)
+**66 xong · 3 làm một phần · 5 còn lại** (tổng 74)
 
 | Phase | Xong | Một phần 🟡 | Còn lại |
 |---|---|---|---|
@@ -31,7 +31,7 @@
 | 7. Tổ chức project | 6 | 05 | 08 |
 | 8. Enemy roster & boss ✅ | 9 | — | — |
 | 9. Asset & visual | 3 | 04, 05, 06 | — |
-| 10. Cảm giác chơi (mới) | IN-01, AS-07, CB-11, CB-12, IN-02, AS-09 | — | EQ-02, MAP-02, AS-08 |
+| 10. Cảm giác chơi (mới) | IN-01, AS-07, CB-11, CB-12, IN-02, AS-09, AS-10 | — | EQ-02, MAP-02, AS-08 |
 
 ---
 
@@ -347,6 +347,11 @@ Thứ tự: IN-01 → AS-07 → CB-11 làm ngay (không cần quyết) · EQ-02 
   - Nguyên nhân: 965 texture trong `Art/` không override Android ⇒ Unity 2022.3 nén ETC2 (Editor dùng DXT/BC7 nên không thấy). Đo trên 1 frame: ETC2 lệch màu tối đa 50 (player) / 174 (Unmaker), ASTC 4×4 còn 7 / 64; ảnh phóng to thấy ETC2 lấm tấm mặt, răng cưa viền kiếm.
   - `Editor/AndroidTextureCompression.cs` (AssetPostprocessor): mọi texture dưới `Art/` (trừ `EnemyConcepts/`, trừ texture đã override Android bằng tay) ⇒ Android ASTC 4×4 (cùng 8 bit/pixel như ETC2 RGBA8), ghi vào `.meta`; art sinh mới cũng tự theo.
   - Kết quả build: textures 178 MB, APK 81 MB (bản ETC2 109 MB). Chưa xem trên máy — nếu vẫn vỡ cần ảnh chụp để soi tiếp (nguyên nhân khác: 15 texture > 2048 px bị thu ~6%, giống nhau trên Editor).
+- [x] **AS-10** Art boss vẫn vỡ trên máy sau AS-09 (user: "visual boss vẫn bị vỡ"):
+  - Nguyên nhân: boss to nhờ hạ PPU chứ không vẽ to — Unmaker 77, Demon 97 px/u (enemy thường 140) ⇒ màn ngang 1080p (108 px/u) phóng 1.1–1.4×, 1440p tới 1.9× ⇒ nhoè + khối nén to ra. Art gốc sprite-gen chỉ ~576 px / ô, không có bản lớn hơn.
+  - User chọn phóng AI: `Tools/ArtPipeline/upscale.py` (Real-ESRGAN ncnn-vulkan `realesrgan-x4plus-anime` ×4 rồi Lanczos về ×2, giữ alpha, kiểm hết output trước khi ghi đè; manifest cell / PPU ×2 + `"upscale": 2` chống phóng lặp). `from_run.py --upscale N` gọi luôn bước này. Exe ở `~/Tools/realesrgan` (ngoài repo). Model `realesr-animevideov3` lỗi GPU (vkQueueSubmit -4, ra ảnh rỗng) — không dùng.
+  - Demon 74 frame → 1116×944, PPU 194; Unmaker 58 frame → 1176×1024, PPU 154 ⇒ cỡ trong game không đổi, clip / prefab / hitbox không đổi (Import Enemy Art chỉ đổi PPU trong .meta).
+  - Giá: texture trong build 178 → 284 MB (APK 81 → 111 MB). Chưa xem trên máy.
 - [ ] **EQ-02** `P2` `L` 🖥️ ⏸ chờ Q2 (đề xuất A) — Lớp hiển thị trang bị lên player que trắng: head / body / cape / gauntlet / sword / gun theo bộ Iron / Ember / Void (art `Equipment/*` có sẵn), bám xương theo từng frame animation player; giáp thân phóng to hơn bản mô phỏng.
 - [ ] **GS-02** (đã có ở Phase 6) ⏸ chờ user chốt: thắng màn = tới cổng ra hay hạ boss · có giới hạn mạng / màn thua không · checkpoint = brazier (art có).
 - [ ] **GS-04** (đã có ở Phase 6) ⏸ chờ user: nguồn âm thanh (user có sẵn / CC0). Ưu tiên SFX trúng đòn theo vũ khí (khớp hit FX mới), nhảy / dash, enemy đánh, BGM 3 màn.
