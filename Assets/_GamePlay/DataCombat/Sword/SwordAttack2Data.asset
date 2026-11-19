@@ -22,5 +22,5 @@ MonoBehaviour:
   hitFx: {fileID: 5196109145416205173, guid: e0b1a5eb6eff3e3438c212f3151799c2, type: 3}
   hitFxScale: 1
   shake: 0.28
-  lungeDistance: 0.4
-  lungeDuration: 0.08
+  lungeDistance: 0.18
+  lungeDuration: 0.1

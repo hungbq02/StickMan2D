@@ -46,9 +46,11 @@ public class PlayerStatsSO : ScriptableObject
     public float attackComboCooldown = 0.4f;
     [Tooltip("Đã bấm đòn kế: ra đòn kế sau frame trúng của đòn hiện tại bao lâu (giây) — đủ thấy tư thế trúng")]
     public float comboChainDelay = 0.06f;
-    [Tooltip("Giữ hướng tiến khi ra đòn => quãng lao (AttackDataSO.lungeDistance) nhân hệ số này")]
-    public float attackLungeHoldMultiplier = 1.6f;
-    [Tooltip("Gia tốc hãm ngang (unit/s²) sau khi hết lao — giữ đà chạy một chút thay vì khựng")]
+    [Tooltip("Giữ hướng tiến khi ra đòn => quãng bước (AttackDataSO.lungeDistance) nhân hệ số này")]
+    public float attackLungeHoldMultiplier = 1.25f;
+    [Tooltip("Trần tốc độ ngang trong lúc đánh = tỉ lệ này × moveSpeed (đang chạy vào đòn => tụt ngay về trần)")]
+    [Range(0f, 1f)] public float attackMoveSpeedRatio = 0.35f;
+    [Tooltip("Gia tốc hãm ngang (unit/s²) sau khi hết bước tới")]
     public float attackDeceleration = 30f;
     [Tooltip("Sau frame trúng đòn bao lâu (giây) thì giữ hướng di chuyển được ngắt phần thu đòn để chạy")]
     public float attackMoveCancelDelay = 0.08f;

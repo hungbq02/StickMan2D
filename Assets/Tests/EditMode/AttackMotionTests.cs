@@ -1,55 +1,57 @@
 using NUnit.Framework;
 
-// Lao tới / giữ đà / hãm khi ra đòn (AttackMotion) + nối combo sau khi rời đòn (MeleeAttackHandler.NextComboStep)
+// Bước tới / trần tốc độ / hãm khi ra đòn (AttackMotion) + nối combo sau khi rời đòn (MeleeAttackHandler.NextComboStep)
 public class AttackMotionTests
 {
     private const float Dt = 0.02f;
+    private const float Decel = 30f;
+    private const float Cap = 1.75f; // 0.35 × moveSpeed 5
 
     [Test]
     public void Lunge_MovesForwardAtDistanceOverDuration_ThenBrakes()
     {
         var m = new AttackMotion();
-        m.Begin(0.4f, 0.08f);
+        m.Begin(0.12f, 0.08f); // 1.5 u/s < trần
         float vx = 0f, travelled = 0f;
-        for (int i = 0; i < 4; i++) { vx = m.Step(vx, 1, Dt, 30f); travelled += vx * Dt; }
-        Assert.AreEqual(0.4f, travelled, 1e-4f);
+        for (int i = 0; i < 4; i++) { vx = m.Step(vx, 1, Dt, Decel, Cap); travelled += vx * Dt; }
+        Assert.AreEqual(0.12f, travelled, 1e-4f);
         Assert.IsFalse(m.IsLunging);
-        float after = m.Step(vx, 1, Dt, 30f);
-        Assert.AreEqual(5f - 30f * Dt, after, 1e-4f);
+        Assert.AreEqual(1.5f - Decel * Dt, m.Step(vx, 1, Dt, Decel, Cap), 1e-4f);
     }
 
     [Test]
     public void Lunge_FacingLeft_GoesNegative()
     {
         var m = new AttackMotion();
-        m.Begin(0.4f, 0.08f);
-        Assert.AreEqual(-5f, m.Step(0f, -1, Dt, 30f), 1e-4f);
+        m.Begin(0.12f, 0.08f);
+        Assert.AreEqual(-1.5f, m.Step(0f, -1, Dt, Decel, Cap), 1e-4f);
     }
 
     [Test]
-    public void Lunge_KeepsFasterRunMomentum()
+    public void Lunge_FasterThanCap_IsCapped()
     {
         var m = new AttackMotion();
-        m.Begin(0.3f, 0.1f); // 3 u/s
-        Assert.AreEqual(5f, m.Step(5f, 1, Dt, 30f), 1e-4f);
+        m.Begin(1f, 0.1f); // 10 u/s
+        Assert.AreEqual(Cap, m.Step(0f, 1, Dt, Decel, Cap), 1e-4f);
     }
 
     [Test]
-    public void Lunge_IgnoresMomentumAgainstFacing()
+    public void Lunge_DoesNotCarryRunSpeed()
     {
         var m = new AttackMotion();
-        m.Begin(0.3f, 0.1f);
-        Assert.AreEqual(3f, m.Step(-5f, 1, Dt, 30f), 1e-4f);
+        m.Begin(0.12f, 0.08f);
+        Assert.AreEqual(1.5f, m.Step(5f, 1, Dt, Decel, Cap), 1e-4f);
     }
 
     [Test]
-    public void NoLunge_BrakesRunToZeroWithoutOvershoot()
+    public void NoLunge_EnteringFromRun_DropsToCapThenBrakesToZero()
     {
         var m = new AttackMotion();
         m.Begin(0f, 0.08f);
         Assert.IsFalse(m.IsLunging);
-        float vx = 5f;
-        for (int i = 0; i < 20; i++) vx = m.Step(vx, 1, Dt, 30f);
+        float vx = m.Step(5f, 1, Dt, Decel, Cap);
+        Assert.AreEqual(Cap - Decel * Dt, vx, 1e-4f);
+        for (int i = 0; i < 20; i++) vx = m.Step(vx, 1, Dt, Decel, Cap);
         Assert.AreEqual(0f, vx);
     }
 
@@ -60,7 +62,7 @@ public class AttackMotionTests
         m.Begin(1f, 0.2f);
         m.Stop();
         Assert.IsFalse(m.IsLunging);
-        Assert.AreEqual(0f, m.Step(0f, 1, Dt, 30f));
+        Assert.AreEqual(0f, m.Step(0f, 1, Dt, Decel, Cap));
     }
 
     [TestCase(0, 0.1f, 1)] // chưa đánh

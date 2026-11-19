@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
-// Đánh trên mặt đất. Mỗi bước đòn: quay theo hướng đang giữ, lao tới (AttackDataSO.lunge*, giữ hướng => xa hơn),
-// giữ đà chạy rồi hãm dần (AttackMotion). Qua frame trúng: Jump / Dash / Slide ngắt được phần thu đòn,
+// Đánh trên mặt đất. Mỗi bước đòn: quay theo hướng đang giữ, bước tới (AttackDataSO.lunge*, giữ hướng => xa hơn),
+// tốc độ trong lúc đánh ≤ attackMoveSpeedRatio × moveSpeed rồi hãm dần (AttackMotion). Qua frame trúng: Jump / Dash / Slide ngắt được phần thu đòn,
 // giữ hướng di chuyển thêm stats.attackMoveCancelDelay thì chạy luôn. Rời đòn chủ động / hết clip => giữ bước combo
 // (bấm lại trong cửa sổ combo đánh tiếp bước sau); bị đánh / đổi vũ khí => Cancel, combo về 1.
 public class AttackState : State
@@ -68,7 +68,9 @@ public class AttackState : State
     {
         base.FixedUpdate();
         int facing = player.FacingDirection;
-        float vx = motion.Step(player.Rigidbody.velocity.x, facing, Time.fixedDeltaTime, player.stats.attackDeceleration);
+        var stats = player.stats;
+        float vx = motion.Step(player.Rigidbody.velocity.x, facing, Time.fixedDeltaTime, stats.attackDeceleration,
+            stats.moveSpeed * stats.attackMoveSpeedRatio);
         // Không lao / trượt ra khỏi mép vực
         if (vx * facing > 0f && !player.GroundCheck.HasGroundAhead(facing))
         {
