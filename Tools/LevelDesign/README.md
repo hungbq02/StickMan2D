@@ -13,7 +13,7 @@ Toạ độ: đơn vị world, +x phải, +y lên, mặt trên đất chính = 0
 | Nguồn | Giá trị |
 |---|---|
 | `Data/PlayerStats.asset` | `moveSpeed` 5, `jumpForce` 13, `wallJumpForceX/Y` 14/14, `wallJumpDuration` 0.2, `dashSpeed` 20, `dashDuration` 0.15, `climbSpeed` 5, `coyoteTime` 0.1 |
-| Rigidbody2D Player (SampleScene / BossArena) | `gravityScale` 4, CapsuleCollider2D 0.72 × 1.75 |
+| Rigidbody2D Player (SampleScene) | `gravityScale` 4, CapsuleCollider2D 0.72 × 1.75 |
 | `ProjectSettings/Physics2DSettings.asset` | gravity y = -9.81 |
 
 - g = 9.81 × 4 = **39.24 u/s²**. Nhảy đặt `velocity.y = jumpForce` (JumpState), không có cắt nhảy khi thả nút → độ cao cố định.

@@ -61,7 +61,7 @@ Tools/ArtPipeline/ build.py: sprite sheet AI-gen -> frame PNG sạch (Python, ng
 - Chết: `EnemyDeadState` phát `death` + mờ dần `corpseLinger`; `Death.DespawnDelay` (EnemyController tự gán) chờ xong mới `Recycle` về pool. `Health`, `Damageable`, effect, `Shield` tự reset khi Spawn lại.
 - Chase lên kế hoạch 1 đòn (hết cooldown, tầm tối thiểu ≤ khoảng cách) rồi tiến tới tầm của nó; bị tường / vực chặn thì dùng đòn đang trong tầm. Đánh xa: `keepAwayDistance` (lùi khi bị áp sát) + đòn `Retreat`.
 - Mốc trúng của đòn còn kích hoạt: `EnemyShooter` (`projectile`: từ muzzle hoặc rơi trên đầu mục tiêu), `EnemyHazardCaster` (`hazard`: `GroundHazard` báo trước → gây damage), `EnemySummoner` (`summon`, giới hạn `maxSummons`). `EnemyGuard` + `guardFront`: chặn đòn phía trước lúc ra đòn đỡ.
-- Boss: `BossEncounter` (object có trigger trong scene, tham chiếu boss) cho boss ngủ tới khi player vào → bật `arenaWalls`, event `Started` → `BossHealthBar` (HUD) hiện. Boss chết → `Ended`; player chết → boss reset về chỗ cũ đầy máu. Scene thử: `Scenes/BossArena`.
+- Boss: `BossEncounter` (object có trigger trong scene, tham chiếu boss) cho boss ngủ tới khi player vào → bật `arenaWalls`, event `Started` → `BossHealthBar` (HUD) hiện. Boss chết → `Ended`; player chết → boss reset về chỗ cũ đầy máu. Scene: `Scenes/SampleScene` (enemy thường x 9–23 → Demon x≈30.5–41.5 → Unmaker x≈42.5–52.3, tường `WallEnd` cuối map x=57).
 
 ### Service & prefab
 - `Bootstrap` (prefab trong scene) đăng ký `Service.Set<Bootstrap>` và `Service.Set<PrefabRegistrySO>`. Lấy prefab runtime: `Service.Get<PrefabRegistrySO>().bullet`.

@@ -238,7 +238,7 @@ Các thay đổi hành vi có chủ đích — kiểm tra cảm giác chơi, ch�
 | Axeman (x=9) | — | Đòn báo hiệu bằng tư thế + tô đỏ; Charge lao từ 2.5–4.2u; dưới 40% máu enrage (ửng đỏ, đánh dồn hơn). Chỉnh trong `Data/Enemy/AxemanData` + `Attacks/Axeman/*`, hitbox trên prefab |
 | Knight (x=14.5) | — | Không bị ngắt khi đang vung; Overhead/Cleave tầm ~2u, Slash/Combo ~1.8u; dưới 50% thêm Cinder Wave (cháy). Cần soi: tầm hitbox có khớp vệt chém không, nhịp báo hiệu có né kịp không |
 | Stalker (x=23) | — | Giữ khoảng cách, bắn 5 kiểu (tên thường / tụ lực xuyên / 3 tên / tia xuyên / mưa tên rơi từ trên), áp sát < 2.2u thì lướt lùi. Cần soi: tốc độ tên có né / nhảy qua kịp không, mưa tên rơi có đủ thời gian chạy khỏi |
-| Boss — scene `BossArena` | — | Đi sang phải: x=4.5 vào trận Demon (tường chặn 2 bên, thanh máu trên giữa màn), x=16 vào trận Unmaker. Chết giữa trận → boss về chỗ cũ đầy máu. Cần soi: độ khó / máu boss, Shield Guard có quá lì không, mưa thiên thạch + Imp có quá dồn không, tường đấu trường có làm player bám tường (layer Wall) gây khó chịu không |
+| Boss — `SampleScene` (BossArena đã gộp vào, 2026-11-19) | — | Đi sang phải qua 4 enemy thường: x=32.5 vào trận Demon (tường chặn 2 bên, thanh máu trên giữa màn), x=44 vào trận Unmaker; hết map x=57 có tường. Chết giữa trận → boss về chỗ cũ đầy máu. Cần soi: độ khó / máu boss, Shield Guard có quá lì không, mưa thiên thạch + Imp có quá dồn không, tường đấu trường có làm player bám tường (layer Wall) gây khó chịu không |
 | Art FX + Imp + lính thường (EN-14) | FX mờ, Imp sprite tĩnh, MeleeEnemy hình tạm | FX / Imp / Grunt mới có animation. Cần soi: đạn có khớp collider không (sprite đổi tỉ lệ cao/rộng), lửa cột có báo hiệu rõ không, Grunt / Imp đọc được ở cỡ nhỏ không |
 | Art enemy / boss mới (EN-13) | Art sheet cũ, boss 1.5–1.9× player | Thiết kế mới, Demon 2×, Unmaker 2.5× player; collider / hitbox phóng theo. Cần soi: chuyển clip có nhảy cỡ / giật không, hitbox có khớp vệt chém mới không, boss to có che tầm nhìn / chật đấu trường không, mốc trúng (`hitTimes`) có khớp frame va chạm không |
 
@@ -345,7 +345,7 @@ Thứ tự: IN-01 → AS-07 → CB-11 làm ngay (không cần quyết) · EQ-02 
 | Q5 | Xác nhận thiết kế EQ-01 | Giáp trừ phẳng (damage − armor, tối thiểu 1); tốc độ chạy % áp cả khi trên không; PlayerEquipment tự gắn bằng code; tăng máu tối đa chỉ cộng phần chênh (không hồi đầy) |
 | Q6 | Xoá asset cũ không dùng? | FX `unmaker_imp_00/01` + entry trong `unmaker_manifest.json` (Imp đã có art riêng) |
 | Q7 | Thư mục `SpriteGenRuns/` (ngoài git) sao lưu ở đâu? | Chứa base, request, ảnh gốc — cần khi gen lại 1 clip / FX |
-| Q8 | Scene test cũ (SampleScene, BossArena, bia tập "Enemy") | Giữ làm scene thử hay xoá khi có 3 màn mới? |
+| Q8 | Scene test cũ (SampleScene — 2026-11-19 đã gộp BossArena vào, xoá bia tập "Enemy") | Giữ làm scene thử hay xoá khi có 3 màn mới? |
 | ~~Q9~~ | (ĐÃ XỬ LÝ EN-16) Tia Unmaker bắn thấp hơn quả cầu trượng | Giữ (để trúng player) / dời muzzle lên quả cầu + tia chéo / gen lại clip beam |
 | Q10 | Hit-stop cho mọi đòn trúng (kể cả đạn, mưa thiên thạch) | Sau play-test: thấy khựng nhiều thì giảm riêng cho đạn / vùng nguy hiểm |
 
@@ -365,7 +365,7 @@ Chưa làm hoặc chưa kiểm chứng — user play-test rồi feedback, Claude
 | 8 | Cân bằng chỉ số | Chưa đổi (vd Knight cleave trúng ~48 máu) | Sau play-test |
 | 9 | AnimatorController lệch bộ nhớ ↔ đĩa | 2 lần: `death_Knight` (EN-13) + controller Imp/Grunt sau import bị MCP timeout; nguyên nhân gốc chưa rõ | Sau mỗi lần import kiểm số state trong file `.controller`; nếu lặp lại thì sửa importer |
 | 10 | `BossArena.unity` bị ghi ngoài ý muốn 1 lần (object "Enemy" bị tắt) | Đã khôi phục, nguyên nhân chưa rõ | Theo dõi `git status` sau khi test qua MCP |
-| 11 | Asset không còn dùng / tạm | FX `unmaker_imp_00/01` + entry trong `unmaker_manifest.json` không còn dùng (Imp có art riêng). `Art/fighter_Idle_0002.png` **vẫn dùng** cho 3 bia tập "Enemy" ở SampleScene + BossArena (hình tạm, lệch style) | Chờ user quyết xoá FX Imp cũ; bia tập nên có art riêng |
+| 11 | Asset không còn dùng / tạm | FX `unmaker_imp_00/01` + entry trong `unmaker_manifest.json` không còn dùng (Imp có art riêng). `Art/fighter_Idle_0002.png` + `Enemy.cs` (bia tập) không còn object nào dùng từ 2026-11-19 (đã xoá 3 bia tập) | Chờ user quyết xoá FX Imp cũ, sprite + script bia tập |
 | 12 | Hiệu ứng trúng đòn / hit-stop | Chưa có (có thể dùng skill `beanfx` hoặc Epic Toon FX) | Nếu muốn đòn "đã tay" hơn |
 | 13 | Còn từ EN-12 | Trượt chân (tốc độ đi vs nhịp bước) chưa đo; Stalker bị dồn góc tường đứng chờ | Đo / sửa sau play-test |
 | 14 | Nguồn gen art (`SpriteGenRuns/`) nằm ngoài git | Base, request, raw cần khi gen lại một clip | Muốn giữ lâu dài thì sao lưu / đưa vào repo (khá nặng) |
