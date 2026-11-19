@@ -11,6 +11,10 @@ public class CameraFollow : MonoBehaviour
     [Tooltip("Khoảng cách offset giữa camera và nhân vật (theo X, Y)")]
     public Vector3 offset;
 
+    [Tooltip("Player đứng ở độ cao này của màn hình (0 = đáy, 0.5 = giữa, 1 = đỉnh). Mobile: nút cảm ứng chiếm phần dưới màn " +
+             "=> để player cao hơn vùng ngón tay. Bị biên level (bounds) chặn thì không đạt được — hạ bounds.yMin")]
+    [SerializeField, Range(0.2f, 0.8f)] private float targetScreenY = 0.5f;
+
     [Tooltip("Thời gian (giây) để camera bắt kịp — 0 = bám cứng")]
     [SerializeField] private float smoothTime = 0.12f;
 
@@ -62,7 +66,7 @@ public class CameraFollow : MonoBehaviour
     {
         if (target == null) return;
         targetBody = target.GetComponent<Rigidbody2D>();
-        focus = target.position + offset;
+        focus = AimPoint();
         lastTargetPosition = target.position;
         velocityX = velocityY = lookAheadY = lookAheadVelocity = 0f;
         basePosition = WithZ(Clamp(focus));
@@ -76,7 +80,7 @@ public class CameraFollow : MonoBehaviour
         if (dt <= 0f) return;
 
         // Dead zone: chỉ dời điểm nhắm khi player ra khỏi vùng chết
-        Vector3 desired = target.position + offset;
+        Vector3 desired = AimPoint();
         Vector3 delta = desired - focus;
         if (Mathf.Abs(delta.x) > deadZone.x) focus.x = desired.x - Mathf.Sign(delta.x) * deadZone.x;
         if (Mathf.Abs(delta.y) > deadZone.y) focus.y = desired.y - Mathf.Sign(delta.y) * deadZone.y;
@@ -115,7 +119,7 @@ public class CameraFollow : MonoBehaviour
         float halfWidth = halfHeight * cam.aspect;
         float limitX = halfWidth * (1f - safeMargin.x);
         float limitY = halfHeight * (1f - safeMargin.y);
-        Vector3 t = target.position + offset;
+        Vector3 t = AimPoint();
 
         float clampedX = Mathf.Clamp(position.x, t.x - limitX, t.x + limitX);
         float clampedY = Mathf.Clamp(position.y, t.y - limitY, t.y + limitY);
@@ -124,6 +128,13 @@ public class CameraFollow : MonoBehaviour
         position.x = clampedX;
         position.y = clampedY;
         return position;
+    }
+
+    // Tâm camera mong muốn: player + offset, dời lên / xuống để player nằm ở targetScreenY của khung hình
+    private Vector3 AimPoint()
+    {
+        float halfHeight = cam != null && cam.orthographic ? cam.orthographicSize : 0f;
+        return target.position + offset + new Vector3(0f, (0.5f - targetScreenY) * 2f * halfHeight, 0f);
     }
 
     private Vector3 Clamp(Vector3 position)

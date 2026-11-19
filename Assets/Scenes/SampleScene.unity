@@ -1991,6 +1991,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1276027035}
   offset: {x: 0, y: 0, z: 0}
+  targetScreenY: 0.5
   smoothTime: 0.12
   deadZone: {x: 0.5, y: 0.75}
   fallSmoothTime: 0.04
@@ -2003,9 +2004,9 @@ MonoBehaviour:
   bounds:
     serializedVersion: 2
     x: -7.7
-    y: -2.7
+    y: -6.2
     width: 64.7
-    height: 28
+    height: 31.5
 --- !u!1001 &524329539
 PrefabInstance:
   m_ObjectHideFlags: 0
